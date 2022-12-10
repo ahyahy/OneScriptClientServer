@@ -1,0 +1,86 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Hierarchy</TITLE>
+<META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
+<LINK rel="stylesheet" type="text/css" href="mainstyle.css"></HEAD>
+<BODY id=bodyID class=dtBODY topMargin=0>
+<OBJECT id=obj_cook style="DISPLAY: none"
+classid=clsid:59CC0C20-679B-11D2-88BD-0800361A1803></OBJECT>
+<DIV id=nsbanner>
+	<DIV id=bannerrow1>
+		<TABLE class=bannerparthead cellSpacing=0>
+		<TBODY>
+		<TR id=hdr>
+		<TD class=runninghead></TD>
+		<TD class=product></TD></TR></TBODY></TABLE>
+	</DIV>
+	<DIV id=TitleRow>
+		<H1 class=dtH1>Иерархия&nbsp;пространства&nbsp;имен</H1>
+	</DIV>
+</DIV>
+<DIV id=nstext valign="bottom">
+<H4 class=dtH4>Иерархия&nbsp;пространства&nbsp;имен</H4>
+<P></P>
+<P><a href="javascript: expandTree();">развернуть все</a> | <a href="javascript: collapseTree();">свернуть все</a></P>
+<P></P>
+<DIV><A href="#no_scroll">System.Object</A>
+	<ul class="treeline"><li><A href="#no_scroll">System.Enum</A>
+		<div class="drop">+</div>
+		<ul>
+			<li><A href="OSClientServer.CommunicationStates.html">СостояниеСоединения (CommunicationStates)</A></li>
+		</ul>
+		<li><A href="OSClientServer.EventArgs.html">АргументыСобытия (EventArgs)</A>
+			<ul>
+				<li><A href="OSClientServer.ServerClientEventArgs.html">СерверКлиентАрг (ServerClientEventArgs)</A></li>
+				<li><A href="OSClientServer.MessageEventArgs.html">СообщениеАрг (MessageEventArgs)</A></li>
+			</ul>
+		</li>
+		<li><A href="OSClientServer.TcpClient.html">TCPКлиент (TcpClient)</A></li>
+		<li><A href="OSClientServer.TcpEndPoint.html">TCPКонечнаяТочка (TcpEndPoint)</A></li>
+		<li><A href="OSClientServer.TcpServer.html">TCPСервер (TcpServer)</A></li>
+		<li><A href="OSClientServer.OneScriptClientServer.html">КлиентСерверДляОдноСкрипта (OneScriptClientServer)</A></li>
+		<li><A href="OSClientServer.ServerClient.html">СерверКлиент (ServerClient)</A></li>
+		<li><A href="OSClientServer.ByteMessage.html">СообщениеБайты (ByteMessage)</A></li>
+		<li><A href="OSClientServer.TextMessage.html">СообщениеТекст (TextMessage)</A></li>
+	</ul>
+</DIV>
+<H4 class=dtH4>Смотрите также</H4>
+<P><A href="OSClientServer.html">Библиотека&nbsp;OneScriptClientServer</A></P>
+</DIV>
+<script type="text/javascript">
+collapseTree = function() 
+{
+	var ul = document.querySelectorAll('.treeline > li:not(:only-child) ul, .treeline ul ul');
+	for (var i = 0; i < ul.length; i++) 
+	{
+		var div = document.createElement('div');
+		div.className = 'drop';
+		div.innerHTML = '+';
+		ul[i].parentNode.insertBefore(div, ul[i].previousSibling);
+		div.onclick = function() 
+		{
+			this.innerHTML = (this.innerHTML == '+' ? '−' : '+');
+			this.className = (this.className == 'drop' ? 'drop dropM' : 'drop');
+		}
+	}
+}
+
+expandTree = function() 
+{
+	var ul = document.querySelectorAll('.treeline > li:not(:only-child) ul, .treeline ul ul');
+	for (var i = 0; i < ul.length; i++) 
+	{
+		var div = document.createElement('div');
+		div.className = 'drop dropM';
+		div.innerHTML = '-';
+		ul[i].parentNode.insertBefore(div, ul[i].previousSibling);
+		div.onclick = function() 
+		{
+			this.innerHTML = (this.innerHTML == '+' ? '−' : '+');
+			this.className = (this.className == 'drop' ? 'drop dropM' : 'drop');
+		}
+	}
+}
+
+expandTree();
+</script>
+</BODY></HTML>
