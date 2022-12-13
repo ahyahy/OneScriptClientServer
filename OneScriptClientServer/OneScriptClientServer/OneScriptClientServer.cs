@@ -13,6 +13,8 @@ namespace oscs
         public static ScriptEngine.HostedScript.Library.DelegateAction EventAction = null;
         public static System.Collections.ArrayList EventQueue = new System.Collections.ArrayList();
         public static bool goOn = true;
+        public static ScriptEngine.HostedScript.Library.DelegateAction ServerMessageReceived;
+        public static ScriptEngine.HostedScript.Library.DelegateAction ServerMessageSent;
 
         [ScriptConstructor]
         public static IRuntimeContextInstance Constructor()
@@ -94,6 +96,12 @@ namespace oscs
         public CsTextMessage TextMessage(string p1)
         {
             return new CsTextMessage(p1);
+        }
+
+        [ContextMethod("СообщениеЧисло", "NumberMessage")]
+        public CsNumberMessage NumberMessage(IValue p1 = null)
+        {
+            return new CsNumberMessage(p1);
         }
 
         [ContextMethod("СообщениеАрг", "MessageEventArgs")]

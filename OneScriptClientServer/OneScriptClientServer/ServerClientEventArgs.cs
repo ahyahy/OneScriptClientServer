@@ -36,10 +36,7 @@ namespace oscs
             client = args.Client;
         }
 
-        public Hik.Communication.Scs.Server.IScsServerClient Client
-        {
-            get { return client; }
-        }
+        public CsServerClient Client { get; set; }
     }
 
     [ContextClass("КсСерверКлиентАрг", "CsServerClientEventArgs")]
@@ -65,7 +62,7 @@ namespace oscs
         [ContextProperty("Клиент", "Client")]
         public CsServerClient Client
         {
-            get { return new CsServerClient(Base_obj.Client); }
+            get { return Base_obj.Client; }
         }
         
         [ContextProperty("Отправитель", "Sender")]

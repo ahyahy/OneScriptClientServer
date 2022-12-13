@@ -56,6 +56,7 @@ namespace oscs
                 oscs.ServerClientEventArgs ServerClientEventArgs1 = new ServerClientEventArgs(e);
                 ServerClientEventArgs1.EventAction = dll_obj.ClientDisconnected;
                 ServerClientEventArgs1.Sender = this;
+                ServerClientEventArgs1.Client = new CsServerClient(e.Client);
                 CsServerClientEventArgs CsServerClientEventArgs1 = new CsServerClientEventArgs(ServerClientEventArgs1);
                 OneScriptClientServer.EventQueue.Add(ServerClientEventArgs1);
             }
@@ -68,6 +69,10 @@ namespace oscs
                 oscs.ServerClientEventArgs ServerClientEventArgs1 = new oscs.ServerClientEventArgs(e);
                 ServerClientEventArgs1.EventAction = dll_obj.ClientConnected;
                 ServerClientEventArgs1.Sender = this;
+                oscs.CsServerClient CsServerClient1 = new CsServerClient(e.Client);
+                CsServerClient1.MessageReceived = OneScriptClientServer.ServerMessageReceived;
+                CsServerClient1.MessageSent = OneScriptClientServer.ServerMessageSent;
+                ServerClientEventArgs1.Client = CsServerClient1;
                 CsServerClientEventArgs CsServerClientEventArgs1 = new CsServerClientEventArgs(ServerClientEventArgs1);
                 OneScriptClientServer.EventQueue.Add(ServerClientEventArgs1);
             }
@@ -125,8 +130,22 @@ namespace oscs
         [ContextProperty("ПриОтключенииКлиента", "ClientDisconnected")]
         public ScriptEngine.HostedScript.Library.DelegateAction ClientDisconnected { get; set; }
         
+        [ContextProperty("ПриОтправкеСообщения", "MessageSent")]
+        public ScriptEngine.HostedScript.Library.DelegateAction MessageSent
+        {
+            get { return OneScriptClientServer.ServerMessageSent; }
+            set { OneScriptClientServer.ServerMessageSent = value; }
+        }
+        
         [ContextProperty("ПриПодключенииКлиента", "ClientConnected")]
         public ScriptEngine.HostedScript.Library.DelegateAction ClientConnected { get; set; }
+        
+        [ContextProperty("ПриПолученииСообщения", "MessageReceived")]
+        public ScriptEngine.HostedScript.Library.DelegateAction MessageReceived
+        {
+            get { return OneScriptClientServer.ServerMessageReceived; }
+            set { OneScriptClientServer.ServerMessageReceived = value; }
+        }
         
         
         [ContextMethod("Начать", "Start")]

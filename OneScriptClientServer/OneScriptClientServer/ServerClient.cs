@@ -85,7 +85,6 @@ namespace oscs
         public void SendMessage(Hik.Communication.Scs.Communication.Messages.IScsMessage p1)
         {
             M_ServerClient.SendMessage(p1);
-            M_ServerClient.SendMessage(new Hik.Communication.Scs.Communication.Messages.ScsPingMessage());
         }
     }
 
@@ -98,6 +97,10 @@ namespace oscs
             ServerClient1.dll_obj = this;
             Base_obj = ServerClient1;
         }
+		
+        public ScriptEngine.HostedScript.Library.DelegateAction MessageSent { get; set; }
+
+        public ScriptEngine.HostedScript.Library.DelegateAction MessageReceived { get; set; }
 
         public oscs.ServerClient Base_obj;
         
@@ -109,12 +112,6 @@ namespace oscs
         
         [ContextProperty("ПриОтключении", "Disconnected")]
         public ScriptEngine.HostedScript.Library.DelegateAction Disconnected { get; set; }
-        
-        [ContextProperty("ПриОтправкеСообщения", "MessageSent")]
-        public ScriptEngine.HostedScript.Library.DelegateAction MessageSent { get; set; }
-        
-        [ContextProperty("ПриПолученииСообщения", "MessageReceived")]
-        public ScriptEngine.HostedScript.Library.DelegateAction MessageReceived { get; set; }
         
         [ContextProperty("СостояниеСоединения", "CommunicationState")]
         public int CommunicationState

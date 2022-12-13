@@ -1524,14 +1524,13 @@ namespace Hik.Communication.Scs.Communication.Messages
 
         // Создает новый объект ответа PingMessage.
         // "repliedMessageId" - Идентификатор ответившего сообщения, если это ответ на сообщение.
-        public ScsPingMessage(string repliedMessageId)
-            : this()
+        public ScsPingMessage(string repliedMessageId) : this()
         {
             RepliedMessageId = repliedMessageId;
         }
 
         // Создает строку, представляющую этот объект.
-        // Возврат - Строка to представляет этот объект
+        // Возврат - Строка представляющая этот объект
         public override string ToString()
         {
             return string.IsNullOrEmpty(RepliedMessageId)
@@ -1562,14 +1561,13 @@ namespace Hik.Communication.Scs.Communication.Messages
 
         // Создает новый ответ ScsMessage.
         // "repliedMessageId" - Идентификатор ответившего сообщения, если это ответ на сообщение.
-        public ScsMessage(string repliedMessageId)
-            : this()
+        public ScsMessage(string repliedMessageId) : this()
         {
             RepliedMessageId = repliedMessageId;
         }
 
         // Создает строку, представляющую этот объект.
-        // Возврат - Строка to представляет этот объект
+        // Возврат - Строка представляющая этот объект
         public override string ToString()
         {
             return string.IsNullOrEmpty(RepliedMessageId)
@@ -1602,14 +1600,13 @@ namespace Hik.Communication.Scs.Communication.Messages
         // Создает новый объект копию ScsRawDataMessage со свойством MessageData.
         // "messageData" - Данные сообщения, которые передаются.
         // "repliedMessageId" - Идентификатор ответившего сообщения, если это ответ на сообщение.
-        public ScsRawDataMessage(byte[] messageData, string repliedMessageId)
-            : this(messageData)
+        public ScsRawDataMessage(byte[] messageData, string repliedMessageId) : this(messageData)
         {
             RepliedMessageId = repliedMessageId;
         }
 
         // Создает строку, представляющую этот объект.
-        // Возврат - Строка to представляет этот объект
+        // Возврат - Строка представляющая этот объект
         public override string ToString()
         {
             var messageLength = MessageData == null ? 0 : MessageData.Length;
@@ -1643,14 +1640,13 @@ namespace Hik.Communication.Scs.Communication.Messages
         // Создает новый объект ScsTextMessage со свойством Text.
         // "text" - Текст сообщения, который передается.
         // "repliedMessageId" - Идентификатор ответившего сообщения, если это ответ на сообщение.
-        public ScsTextMessage(string text, string repliedMessageId)
-            : this(text)
+        public ScsTextMessage(string text, string repliedMessageId) : this(text)
         {
             RepliedMessageId = repliedMessageId;
         }
 
         // Создает строку, представляющую этот объект.
-        // Возврат - Строка to представляет этот объект
+        // Возврат - Строка представляющая этот объект
         public override string ToString()
         {
             return string.IsNullOrEmpty(RepliedMessageId)
@@ -1660,6 +1656,44 @@ namespace Hik.Communication.Scs.Communication.Messages
     }
     //=========================================================================================================================================
 
+    // Это сообщение используется для отправки/получения числа в качестве данных сообщения.
+    [Serializable]
+    public class ScsNumberMessage : ScsMessage
+    {
+        // Число сообщения, который передается.
+        public decimal Number { get; set; }
+
+        // Создает новый объект ScsNumberMessage.
+        public ScsNumberMessage()
+        {
+
+        }
+
+        // Создает новый объект ScsNumberMessage со свойством Number.
+        // "number" - Число, которое передается.
+        public ScsNumberMessage(decimal number)
+        {
+            Number = number;
+        }
+
+        // Создает новый объект ScsNumberMessage со свойством Number.
+        // "number" - Число, которое передается.
+        // "repliedMessageId" - Идентификатор ответившего сообщения, если это ответ на сообщение.
+        public ScsNumberMessage(decimal number, string repliedMessageId) : this(number)
+        {
+            RepliedMessageId = repliedMessageId;
+        }
+
+        // Создает строку, представляющую этот объект.
+        // Возврат - Строка представляющая этот объект
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(RepliedMessageId)
+                       ? string.Format("ScsNumberMessage [{0}]: {1}", MessageId, Number)
+                       : string.Format("ScsNumberMessage [{0}] Replied To [{1}]: {2}", MessageId, RepliedMessageId, Number);
+        }
+    }
+    //=========================================================================================================================================
 }
 
 namespace Hik.Communication.Scs.Communication.Messengers

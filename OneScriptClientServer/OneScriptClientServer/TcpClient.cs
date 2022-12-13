@@ -95,7 +95,6 @@ namespace oscs
         public void SendMessage(Hik.Communication.Scs.Communication.Messages.IScsMessage p1)
         {
             M_TcpClient.SendMessage(p1);
-            M_TcpClient.SendMessage(new Hik.Communication.Scs.Communication.Messages.ScsPingMessage());
         }
     }
 
