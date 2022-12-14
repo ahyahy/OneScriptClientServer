@@ -57,9 +57,9 @@ namespace oscs
 
         public CsNumberMessage()
         {
-            NumberMessage ByteMessage1 = new NumberMessage();
-            ByteMessage1.dll_obj = this;
-            Base_obj = ByteMessage1;
+            NumberMessage NumberMessage1 = new NumberMessage();
+            NumberMessage1.dll_obj = this;
+            Base_obj = NumberMessage1;
         }
 
         public CsNumberMessage(oscs.NumberMessage p1)

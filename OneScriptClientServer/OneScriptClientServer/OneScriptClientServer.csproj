@@ -49,8 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoolMessage.cs" />
     <Compile Include="ByteMessage.cs" />
     <Compile Include="CommunicationStates.cs" />
+    <Compile Include="DateTimeMessage.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="MessageEventArgs.cs" />
     <Compile Include="NumberMessage.cs" />

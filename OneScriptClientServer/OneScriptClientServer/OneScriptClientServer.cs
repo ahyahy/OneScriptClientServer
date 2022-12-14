@@ -92,6 +92,26 @@ namespace oscs
             return new CsByteMessage(p1);
         }
 
+        [ContextMethod("СообщениеБулево", "BoolMessage")]
+        public CsBoolMessage BoolMessage(IValue p1 = null)
+        {
+            if (p1 != null)
+            {
+                return new CsBoolMessage(p1.AsBoolean());
+            }
+            return new CsBoolMessage();
+        }
+
+        [ContextMethod("СообщениеДата", "DateTimeMessage")]
+        public CsDateTimeMessage DateTimeMessage(IValue p1 = null)
+        {
+            if (p1 != null)
+            {
+                return new CsDateTimeMessage(p1.AsDate());
+            }
+            return new CsDateTimeMessage();
+        }
+
         [ContextMethod("СообщениеТекст", "TextMessage")]
         public CsTextMessage TextMessage(string p1)
         {

@@ -1694,6 +1694,84 @@ namespace Hik.Communication.Scs.Communication.Messages
         }
     }
     //=========================================================================================================================================
+
+    // Это сообщение используется для отправки/получения даты в качестве данных сообщения.
+    [Serializable]
+    public class ScsDateTimeMessage : ScsMessage
+    {
+        // Дата, которая передается.
+        public DateTime DateVal { get; set; }
+
+        // Создает новый объект ScsDateTimeMessage.
+        public ScsDateTimeMessage()
+        {
+
+        }
+
+        // Создает новый объект ScsDateTimeMessage со свойством DateVal.
+        // "dateVal" - Дата, которая передается.
+        public ScsDateTimeMessage(DateTime dateVal)
+        {
+            DateVal = dateVal;
+        }
+
+        // Создает новый объект ScsDateTimeMessage со свойством DateVal.
+        // "dateVal" - Дата, которая передается.
+        // "repliedMessageId" - Идентификатор ответившего сообщения, если это ответ на сообщение.
+        public ScsDateTimeMessage(DateTime dateVal, string repliedMessageId) : this(dateVal)
+        {
+            RepliedMessageId = repliedMessageId;
+        }
+
+        // Создает строку, представляющую этот объект.
+        // Возврат - Строка представляющая этот объект
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(RepliedMessageId)
+                       ? string.Format("ScsNumberMessage [{0}]: {1}", MessageId, DateVal)
+                       : string.Format("ScsNumberMessage [{0}] Replied To [{1}]: {2}", MessageId, RepliedMessageId, DateVal);
+        }
+    }
+    //=========================================================================================================================================
+
+    // Это сообщение используется для отправки/получения числа в качестве данных сообщения.
+    [Serializable]
+    public class ScsBoolMessage : ScsMessage
+    {
+        // Булево, которое передается.
+        public System.Boolean BoolVal { get; set; }
+
+        // Создает новый объект ScsBoolMessage.
+        public ScsBoolMessage()
+        {
+
+        }
+
+        // Создает новый объект ScsBoolMessage со свойством BoolVal.
+        // "boolVal" - Булево, которое передается.
+        public ScsBoolMessage(System.Boolean boolVal)
+        {
+            BoolVal = boolVal;
+        }
+
+        // Создает новый объект ScsBoolMessage со свойством BoolVal.
+        // "boolVal" - Булево, которое передается.
+        // "repliedMessageId" - Идентификатор ответившего сообщения, если это ответ на сообщение.
+        public ScsBoolMessage(System.Boolean boolVal, string repliedMessageId) : this(boolVal)
+        {
+            RepliedMessageId = repliedMessageId;
+        }
+
+        // Создает строку, представляющую этот объект.
+        // Возврат - Строка представляющая этот объект
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(RepliedMessageId)
+                       ? string.Format("ScsNumberMessage [{0}]: {1}", MessageId, BoolVal)
+                       : string.Format("ScsNumberMessage [{0}] Replied To [{1}]: {2}", MessageId, RepliedMessageId, BoolVal);
+        }
+    }
+    //=========================================================================================================================================
 }
 
 namespace Hik.Communication.Scs.Communication.Messengers
