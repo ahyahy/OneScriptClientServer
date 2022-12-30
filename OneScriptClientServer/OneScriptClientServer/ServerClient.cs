@@ -54,7 +54,7 @@ namespace oscs
                 EventArgs1.EventAction = dll_obj.Disconnected;
                 EventArgs1.Sender = this;
                 CsEventArgs CsEventArgs1 = new CsEventArgs(EventArgs1);
-                OneScriptClientServer.EventQueue.Add(EventArgs1);
+                OneScriptClientServer.EventQueue.Enqueue(EventArgs1);
             }
         }
 
@@ -66,7 +66,7 @@ namespace oscs
                 MessageEventArgs1.EventAction = dll_obj.MessageReceived;
                 MessageEventArgs1.Sender = this;
                 CsMessageEventArgs CsMessageEventArgs1 = new CsMessageEventArgs(MessageEventArgs1);
-                OneScriptClientServer.EventQueue.Add(MessageEventArgs1);
+                OneScriptClientServer.EventQueue.Enqueue(MessageEventArgs1);
             }
         }
 
@@ -78,7 +78,7 @@ namespace oscs
                 MessageEventArgs1.EventAction = dll_obj.MessageSent;
                 MessageEventArgs1.Sender = this;
                 CsMessageEventArgs CsMessageEventArgs1 = new CsMessageEventArgs(MessageEventArgs1);
-                OneScriptClientServer.EventQueue.Add(MessageEventArgs1);
+                OneScriptClientServer.EventQueue.Enqueue(MessageEventArgs1);
             }
         }
 

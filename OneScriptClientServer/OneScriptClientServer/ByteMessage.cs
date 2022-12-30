@@ -49,6 +49,7 @@ namespace oscs
             Base_obj = ByteMessage1;
             ByteMessage1.MessageData = p1.Buffer;
         }
+		
         public CsByteMessage()
         {
             ByteMessage ByteMessage1 = new ByteMessage();

@@ -28,6 +28,7 @@ using Hik.Communication.Scs.Communication.Channels.Tcp;
 using Hik.Communication.Scs.Client;
 using Hik.Communication.Scs.Client.Tcp;
 using Hik.Collections;
+using System.Text;
 
 #region Server
 
@@ -815,10 +816,7 @@ namespace Hik.Communication.Scs.Client
 
                 _communicationChannel.SendMessage(new ScsPingMessage());
             }
-            catch
-            {
-
-            }
+            catch { }
         }
 
         #endregion
@@ -919,7 +917,7 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
         #region Private fields
 
         // Размер буфера, который используется для приема байтов из TCP сокета.
-        private const int ReceiveBufferSize = 4 * 1024; //4KB
+        private const int ReceiveBufferSize = 2 * 4 * 1024; //8KB
 
         // Этот буфер используется для приема байтов 
         private readonly byte[] _buffer;
@@ -932,6 +930,32 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
 
         // Этот объект просто используется для синхронизации потоков (блокировки).
         private readonly object _syncLock;
+		
+        // Для определения типа переданных сторонним клиентом данных (строка / файл в виде двоичных данных).
+        private static string magicSignature = ",89 50 4E 47 0D 0A 1A 0A,52 61 72 21 1A 07 01 00,52 61 72 21 1A 07 00,21 3C 61 72 63 68 3E,7B 5C 72 74 66 31,3C 3F 78 6D 6C 20,25 50 44 46 2D,52 49 46 46,50 4B 03 04,FF D8 FF E0,FF D8 FF E1,00 00 01 00,53 50 30 31,ED AB EE DB,EF BB BF,49 44 33,FF F2,FF F3,FF FB,42 4D,4D 5A,";
+
+        // magicSignature.Add("4D 5A"); // exe - DOS MZ executable file format and its descendants(including NE and PE).
+        // magicSignature.Add("42 4D"); // bmp - BMP file, a bitmap format used mostly in the Windows world.
+        // magicSignature.Add("FF FB"); // mp3 - MPEG-1 Layer 3 file without an ID3 tag or with an ID3v1 tag(which’s appended at the end of the file).
+        // magicSignature.Add("FF F3"); // mp3.
+        // magicSignature.Add("FF F2"); // mp3.
+        // magicSignature.Add("49 44 33"); // mp3.
+        // magicSignature.Add("EF BB BF"); // UTF-8 encoded Unicode byte order mark, commonly seen in text files.
+        // magicSignature.Add("ED AB EE DB"); // rpm - RedHat Package Manager (RPM)package[1].
+        // magicSignature.Add("53 50 30 31"); // bin - Amazon Kindle Update Package[2].
+        // magicSignature.Add("00 00 01 00"); // ico - Computer icon encoded in ICO file format[3].
+        // magicSignature.Add("FF D8 FF E1"); // jpg - JPEG raw or in the JFIF or Exif file format.
+        // magicSignature.Add("FF D8 FF E0"); // jpg - JPEG raw or in the JFIF or Exif file format.
+        // magicSignature.Add("50 4B 03 04"); // zip - zip file format and formats based on it, such as JAR, ODF, OOXML.
+        // magicSignature.Add("52 49 46 46"); // wav - Waveform Audio File Format.
+        // magicSignature.Add("52 49 46 46"); // avi - Audio Video Interleave video format.
+        // magicSignature.Add("25 50 44 46 2D"); // pdf - PDF document.
+        // magicSignature.Add("3C 3F 78 6D 6C 20"); // XML - eXtensible Markup Language when using the ASCII character encoding.
+        // magicSignature.Add("7B 5C 72 74 66 31"); // rtf - Rich Text Format.
+        // magicSignature.Add("21 3C 61 72 63 68 3E"); // - deb linux deb file.
+        // magicSignature.Add("52 61 72 21 1A 07 00"); // rar - RAR archive.
+        // magicSignature.Add("52 61 72 21 1A 07 01 00"); // rar - RAR archive.
+        // magicSignature.Add("89 50 4E 47 0D 0A 1A 0A"); // png - Image encoded in the Portable Network Graphics format[10].
 
         #endregion
 
@@ -973,10 +997,7 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
 
                 _clientSocket.Dispose();
             }
-            catch
-            {
-
-            }
+            catch { }
 
             CommunicationState = CommunicationStates.Disconnected;
             OnDisconnected();
@@ -1001,31 +1022,71 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
             var totalSent = 0;
             lock (_syncLock)
             {
-                // Создайте массив байтов из сообщения в соответствии с текущим протоколом
-                var messageBytes = WireProtocol.GetBytes(message);
-                // Отправьте все байты в удаленное приложение
-                while (totalSent < messageBytes.Length)
+                if (oscs.OneScriptClientServer.thirdPartyClientMode)
                 {
-                    var sent = _clientSocket.Send(messageBytes, totalSent, messageBytes.Length - totalSent, SocketFlags.None);
-                    if (sent <= 0)
+                    byte[] sendBytes = new byte[0];
+                    if (message.GetType() == typeof(Hik.Communication.Scs.Communication.Messages.ScsRawDataMessage))
                     {
-                        throw new CommunicationException("Message could not be sent via TCP socket. Only " + totalSent + " bytes of " + messageBytes.Length + " bytes are sent.");
+                        sendBytes = ((ScsRawDataMessage)message).MessageData;
+                    }
+                    else if (message.GetType() == typeof(Hik.Communication.Scs.Communication.Messages.ScsTextMessage))
+                    {
+                        sendBytes = Encoding.UTF8.GetBytes(((ScsTextMessage)message).Text);
                     }
 
-                    totalSent += sent;
-                }
+                    // Отправьте все байты в удаленное приложение
+                    SocketAsyncEventArgs SocketAsyncEventArgs1 = new SocketAsyncEventArgs();
+                    SocketAsyncEventArgs1.AcceptSocket = _clientSocket;
+                    SocketAsyncEventArgs1.SetBuffer(sendBytes, 0, sendBytes.Length);
+                    var sent = _clientSocket.SendAsync(SocketAsyncEventArgs1);
 
-                LastSentMessageTime = DateTime.Now;
-                OnMessageSent(message);
+                    LastSentMessageTime = DateTime.Now;
+                    OnMessageSent(message);
+                }
+                else
+                {
+                    // Создайте массив байтов из сообщения в соответствии с текущим протоколом
+                    var messageBytes = WireProtocol.GetBytes(message);
+
+                    // Отправьте все байты в удаленное приложение
+                    while (totalSent < messageBytes.Length)
+                    {
+                        var sent = _clientSocket.Send(messageBytes, totalSent, messageBytes.Length - totalSent, SocketFlags.None);
+                        if (sent <= 0)
+                        {
+                            throw new CommunicationException("Message could not be sent via TCP socket. Only " + totalSent + " bytes of " + messageBytes.Length + " bytes are sent.");
+                        }
+
+                        totalSent += sent;
+                    }
+
+                    LastSentMessageTime = DateTime.Now;
+                    OnMessageSent(message);
+                }
             }
         }
 
         #endregion
 
         #region Private methods
+		
+        private byte[] Combine(params byte[][] arrays)
+        {
+            byte[] rv = new byte[arrays.Sum(a => a.Length)];
+            int offset = 0;
+            foreach (byte[] array in arrays)
+            {
+                System.Buffer.BlockCopy(array, 0, rv, offset, array.Length);
+                offset += array.Length;
+            }
+            return rv;
+        }
+
+        bool out1 = false;
+        byte[] rv = new byte[0];
 
         // Этот метод используется в качестве метода обратного вызова в методе BeginReceive _clientSocket.
-        // Он извлекает байты из сокера.
+        // Он извлекает байты из сокета.
         // "ar" - Асинхронный результат вызова.
         private void ReceiveCallback(IAsyncResult ar)
         {
@@ -1034,41 +1095,103 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
                 return;
             }
 
-            try
+            if (oscs.OneScriptClientServer.thirdPartyClientMode)
             {
-                // Получить количество полученных байтов
-                var bytesRead = _clientSocket.EndReceive(ar);
-                if (bytesRead > 0)
+                try
                 {
-                    LastReceivedMessageTime = DateTime.Now;
+                    System.Threading.Thread.Sleep(5); // без этого данные от разных отправок сторонних клиентов могут оказаться соединенными.
+                    //Получить количество полученных байтов
+                    var bytesRead = _clientSocket.EndReceive(ar);
 
-                    // Скопируйте полученные байты в новый массив байтов
-                    var receivedBytes = new byte[bytesRead];
-                    Array.Copy(_buffer, 0, receivedBytes, 0, bytesRead);
-
-                    // Считывать сообщения в соответствии с текущим проводным протоколом
-                    var messages = WireProtocol.CreateMessages(receivedBytes);
-
-                    // Вызвать событие MessageReceived для всех полученных сообщений
-                    foreach (var message in messages)
+                    if (_clientSocket.Available == 0)
                     {
-                        OnMessageReceived(message);
+                        out1 = true;
+                    }
+
+                    if (bytesRead > 0)
+                    {
+                        LastReceivedMessageTime = DateTime.Now;
+
+                        // Скопируйте полученные байты в новый массив байтов
+                        var receivedBytes = new byte[bytesRead];
+                        Array.Copy(_buffer, 0, receivedBytes, 0, bytesRead);
+
+                        rv = Combine(rv, receivedBytes); // Накопим данные из потока для одного клиента, если их больше 4096 байт.
+
+                        if (out1)
+                        {
+                            string magicSign = Convert.ToString(rv[0], 16).ToUpper() + " " + 
+                                Convert.ToString(rv[1], 16).ToUpper() + " " + 
+                                Convert.ToString(rv[2], 16).ToUpper() + " " + 
+                                Convert.ToString(rv[3], 16).ToUpper();
+
+                            if (magicSignature.Contains("," + magicSign + ","))
+                            {
+                                OnMessageReceived(new ScsRawDataMessage(rv));
+                            }
+                            else
+                            {
+                                OnMessageReceived(new ScsTextMessage(Encoding.UTF8.GetString(rv)));
+                            }
+
+                            rv = new byte[0];
+                            out1 = false;
+                        }
+                    }
+                    else
+                    {
+                        throw new CommunicationException("Tcp socket is closed");
+                    }
+
+                    // Прочитайте больше байтов, если все еще работаете
+                    if (_running)
+                    {
+                        _clientSocket.BeginReceive(_buffer, 0, _buffer.Length, 0, new AsyncCallback(ReceiveCallback), null);
                     }
                 }
-                else
+                catch
                 {
-                    throw new CommunicationException("Tcp socket is closed");
-                }
-
-                // Прочитайте больше байтов, если все еще работаете
-                if (_running)
-                {
-                    _clientSocket.BeginReceive(_buffer, 0, _buffer.Length, 0, new AsyncCallback(ReceiveCallback), null);
+                    Disconnect();
                 }
             }
-            catch
+            else
             {
-                Disconnect();
+                try
+                {
+                    // Получить количество полученных байтов
+                    var bytesRead = _clientSocket.EndReceive(ar);
+                    if (bytesRead > 0)
+                    {
+                        LastReceivedMessageTime = DateTime.Now;
+
+                        // Скопируйте полученные байты в новый массив байтов
+                        var receivedBytes = new byte[bytesRead];
+                        Array.Copy(_buffer, 0, receivedBytes, 0, bytesRead);
+
+                        // Считывать сообщения в соответствии с текущим проводным протоколом
+                        var messages = WireProtocol.CreateMessages(receivedBytes);
+
+                        // Вызвать событие MessageReceived для всех полученных сообщений
+                        foreach (var message in messages)
+                        {
+                            OnMessageReceived(message);
+                        }
+                    }
+                    else
+                    {
+                        throw new CommunicationException("Tcp socket is closed");
+                    }
+
+                    // Прочитайте больше байтов, если все еще работаете
+                    if (_running)
+                    {
+                        _clientSocket.BeginReceive(_buffer, 0, _buffer.Length, 0, new AsyncCallback(ReceiveCallback), null);
+                    }
+                }
+                catch
+                {
+                    Disconnect();
+                }
             }
         }
 
@@ -1127,10 +1250,7 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
             {
                 _listenerSocket.Stop();
             }
-            catch
-            {
-
-            }
+            catch { }
         }
 
         // Точка входа нити.
@@ -1161,10 +1281,7 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
                     {
                         StartSocket();
                     }
-                    catch
-                    {
-
-                    }
+                    catch { }
                 }
             }
         }
@@ -1587,7 +1704,6 @@ namespace Hik.Communication.Scs.Communication.Messages
         // Пустой конструктор по умолчанию.
         public ScsRawDataMessage()
         {
-
         }
 
         // Создает новый объект ScsRawDataMessage со свойством MessageData.
@@ -1894,7 +2010,7 @@ namespace Hik.Communication.Scs.Communication.Messengers
             _incomingMessageProcessor.Start();
         }
 
-        // Останавливает посыльного.
+        // Останавливает мессенджер.
         // Отменяет все ожидающие потоки в методе SendMessageAndWaitForResponse и останавливает очередь сообщений.
         // Метод SendMessageAndWaitForResponse выдает исключение, если существует поток, ожидающий ответного сообщения.
         // Также останавливает обработку входящих сообщений и удаляет все сообщения в очереди входящих сообщений.
@@ -1971,9 +2087,9 @@ namespace Hik.Communication.Scs.Communication.Messengers
                 switch (waitingMessage.State)
                 {
                     case WaitingMessageStates.WaitingForResponse:
-                        throw new TimeoutException("Timeout occured. Can not received response.");
+                        throw new TimeoutException("Произошел тайм-аут. Может не получен ответ.");
                     case WaitingMessageStates.Cancelled:
-                        throw new CommunicationException("Disconnected before response received.");
+                        throw new CommunicationException("Отключен до получения ответа.");
                 }
 
                 //вернуть ответное сообщение
@@ -2132,8 +2248,7 @@ namespace Hik.Communication.Scs.Communication.Messengers
 
         // Создает новый объект SynchronizedMessenger.
         // "messenger" - Объект IMessenger, который будет использоваться для отправки /получения сообщений.
-        public SynchronizedMessenger(T messenger)
-            : this(messenger, int.MaxValue)
+        public SynchronizedMessenger(T messenger) : this(messenger, int.MaxValue)
         {
 
         }
@@ -2141,8 +2256,7 @@ namespace Hik.Communication.Scs.Communication.Messengers
         // Создает новый объект SynchronizedMessenger.
         // "messenger" - Объект IMessenger, который будет использоваться для отправки /получения сообщений.
         // "incomingMessageQueueCapacity" - емкость очереди входящих сообщений.
-        public SynchronizedMessenger(T messenger, int incomingMessageQueueCapacity)
-            : base(messenger)
+        public SynchronizedMessenger(T messenger, int incomingMessageQueueCapacity) : base(messenger)
         {
             _receiveWaiter = new ManualResetEventSlim();
             _receivingMessageQueue = new Queue<IScsMessage>();
@@ -2164,7 +2278,7 @@ namespace Hik.Communication.Scs.Communication.Messengers
             base.Start();
         }
 
-        // Останавливает посыльного.
+        // Останавливает мессенджер.
         public override void Stop()
         {
             base.Stop();
@@ -2236,7 +2350,7 @@ namespace Hik.Communication.Scs.Communication.Messengers
         // Этот метод используется для получения определенного типа сообщения от удаленного приложения.
         // Он ожидает, пока не будет получено сообщение или не наступит тайм-аут.
         // "timeout" - Значение тайм-аута для ожидания, если сообщение не получено.
-        // Use -1 to wait indefinitely.
+        // Используйте -1, чтобы ждать бесконечно.
         // Возврат - Полученное сообщение
         public TMessage ReceiveMessage<TMessage>(int timeout) where TMessage : IScsMessage
         {
@@ -2442,13 +2556,13 @@ namespace Hik.Communication.Scs.Communication.Protocols.BinarySerialization
                 throw new Exception("Message is too big (" + messageLength + " bytes). Max allowed length is " + MaxMessageLength + " bytes.");
             }
 
-            //Если сообщение имеет нулевую длину (это не должно быть, но хороший подход для его проверки)
+            //Если сообщение имеет нулевую длину (этого не должно быть, но хорошо бы проверить)
             if (messageLength == 0)
             {
                 //если больше нет байтов, немедленно верните
                 if (_receiveMemoryStream.Length == 4)
                 {
-                    _receiveMemoryStream = new MemoryStream(); //Clear the stream
+                    _receiveMemoryStream = new MemoryStream(); // Очистите поток.
                     return false;
                 }
 
@@ -2628,31 +2742,24 @@ namespace Hik.Communication.Scs.Communication
         // Конструктор.
         public CommunicationException()
         {
-
         }
 
         // Конструктор для сериализации.
-        public CommunicationException(SerializationInfo serializationInfo, StreamingContext context)
-            : base(serializationInfo, context)
+        public CommunicationException(SerializationInfo serializationInfo, StreamingContext context) : base(serializationInfo, context)
         {
-
         }
 
         // Конструктор.
         // "message" - Сообщение об исключении.
-        public CommunicationException(string message)
-            : base(message)
+        public CommunicationException(string message) : base(message)
         {
-
         }
 
         // Конструктор.
         // "message" - Сообщение об исключении.
         // "innerException" - Внутреннее исключение.
-        public CommunicationException(string message, Exception innerException)
-            : base(message, innerException)
+        public CommunicationException(string message, Exception innerException) : base(message, innerException)
         {
-
         }
     }
     //=========================================================================================================================================
@@ -2664,31 +2771,24 @@ namespace Hik.Communication.Scs.Communication
         // Конструктор.
         public CommunicationStateException()
         {
-
         }
 
         // Конструктор для сериализации.
-        public CommunicationStateException(SerializationInfo serializationInfo, StreamingContext context)
-            : base(serializationInfo, context)
+        public CommunicationStateException(SerializationInfo serializationInfo, StreamingContext context) : base(serializationInfo, context)
         {
-
         }
 
         // Конструктор.
         // "message" - Сообщение об исключении.
-        public CommunicationStateException(string message)
-            : base(message)
+        public CommunicationStateException(string message) : base(message)
         {
-
         }
 
         // Конструктор.
         // "message" - Сообщение об исключении.
         // "innerException" - Внутреннее исключение.
-        public CommunicationStateException(string message, Exception innerException)
-            : base(message, innerException)
+        public CommunicationStateException(string message, Exception innerException) : base(message, innerException)
         {
-
         }
     }
     //=========================================================================================================================================
@@ -3021,10 +3121,7 @@ namespace Hik.Communication.ScsServices.Service
                         RemoteException = exception
                     });
             }
-            catch
-            {
-
-            }
+            catch { }
         }
 
         // Вызывает событие, связанное с клиентом.
@@ -3055,7 +3152,7 @@ namespace Hik.Communication.ScsServices.Service
         // Он используется для вызова методов объекта ScsService.
         private sealed class ServiceObject
         {
-            // Объект службы, который используется для вызова методов на.
+            // Объект службы, который используется для вызова методов.
             public ScsService Service { get; private set; }
 
             // Атрибут ScsService класса объекта Service.
@@ -3168,10 +3265,7 @@ namespace Hik.Communication.ScsServices.Service
         // Получает состояние связи Клиента.
         public CommunicationStates CommunicationState
         {
-            get
-            {
-                return _serverClient.CommunicationState;
-            }
+            get { return _serverClient.CommunicationState; }
         }
 
         #endregion
@@ -3290,31 +3384,24 @@ namespace Hik.Communication.ScsServices.Communication.Messages
         // Конструктор.
         public ScsRemoteException()
         {
-
         }
 
         // Конструктор.
-        public ScsRemoteException(SerializationInfo serializationInfo, StreamingContext context)
-            : base(serializationInfo, context)
+        public ScsRemoteException(SerializationInfo serializationInfo, StreamingContext context) : base(serializationInfo, context)
         {
-
         }
 
         // Конструктор.
         // "message" - Сообщение об исключении.
-        public ScsRemoteException(string message)
-            : base(message)
+        public ScsRemoteException(string message) : base(message)
         {
-
         }
 
         // Конструктор.
         // "message" - Сообщение об исключении.
         // "innerException" - Внутреннее исключение.
-        public ScsRemoteException(string message, Exception innerException)
-            : base(message, innerException)
+        public ScsRemoteException(string message, Exception innerException) : base(message, innerException)
         {
-
         }
     }
     //=========================================================================================================================================
@@ -3419,8 +3506,7 @@ namespace Hik.Communication.ScsServices.Communication
 
         // Создает новый объект RemoteInvokeProxy.
         // "clientMessenger" - Объект Messenger, который используется для отправки/получения сообщений.
-        public RemoteInvokeProxy(RequestReplyMessenger<TMessenger> clientMessenger)
-            : base(typeof(TProxy))
+        public RemoteInvokeProxy(RequestReplyMessenger<TMessenger> clientMessenger) : base(typeof(TProxy))
         {
             _clientMessenger = clientMessenger;
         }
@@ -3644,10 +3730,7 @@ namespace Hik.Communication.ScsServices.Client
                         RemoteException = exception
                     });
             }
-            catch
-            {
-
-            }
+            catch { }
         }
 
         // Обрабатывает подключенное событие объекта _client.
@@ -3819,10 +3902,7 @@ namespace Hik.Threading
             {
                 _currentProcessTask.Wait();
             }
-            catch
-            {
-
-            }
+            catch { }
         }
 
         #endregion
@@ -3910,10 +3990,8 @@ namespace Hik.Threading
 
         // Создает новый таймер.
         // "period" - Период выполнения задания таймера (в миллисекундах)
-        public Timer(int period)
-            : this(period, false)
+        public Timer(int period) : this(period, false)
         {
-
         }
 
         // Создает новый таймер.
@@ -3985,10 +4063,7 @@ namespace Hik.Threading
                     Elapsed(this, new EventArgs());
                 }
             }
-            catch
-            {
-
-            }
+            catch { }
             finally
             {
                 lock (_taskTimer)

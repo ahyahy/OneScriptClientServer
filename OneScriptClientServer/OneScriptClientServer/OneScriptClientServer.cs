@@ -1,7 +1,8 @@
 ﻿using System;
 using ScriptEngine.Machine.Contexts;
 using ScriptEngine.Machine;
-using System.Reflection;
+using ScriptEngine.HostedScript.Library;
+using System.Collections.Concurrent;
 
 namespace oscs
 {
@@ -10,11 +11,12 @@ namespace oscs
     {
         private static CsCommunicationStates cs_CommunicationStates = new CsCommunicationStates();
         public static IValue Event = null;
-        public static ScriptEngine.HostedScript.Library.DelegateAction EventAction = null;
-        public static System.Collections.ArrayList EventQueue = new System.Collections.ArrayList();
+        public static DelegateAction EventAction = null;
+        public static ConcurrentQueue<dynamic> EventQueue = new ConcurrentQueue<dynamic>();
         public static bool goOn = true;
-        public static ScriptEngine.HostedScript.Library.DelegateAction ServerMessageReceived;
-        public static ScriptEngine.HostedScript.Library.DelegateAction ServerMessageSent;
+        public static DelegateAction ServerMessageReceived;
+        public static DelegateAction ServerMessageSent;
+        public static bool thirdPartyClientMode = false;
 
         [ScriptConstructor]
         public static IRuntimeContextInstance Constructor()
@@ -23,6 +25,13 @@ namespace oscs
         }
 
         public OneScriptClientServer Base_obj;
+        
+        [ContextProperty("РежимСтороннегоКлиента", "ThirdPartyClientMode")]
+        public bool ThirdPartyClientMode
+        {
+            get { return thirdPartyClientMode; }
+            set { thirdPartyClientMode = value; }
+        }
         
         [ContextProperty("АргументыСобытия", "EventArgs")]
         public IValue EventArgs
@@ -72,17 +81,17 @@ namespace oscs
         {
             while (EventQueue.Count == 0)
             {
-                System.Threading.Thread.Sleep(10);
+                System.Threading.Thread.Sleep(7);
             }
             return EventHandling();
         }
 
         public static ScriptEngine.HostedScript.Library.DelegateAction EventHandling()
         {
-            dynamic EventArgs1 = (dynamic)EventQueue[0];
+            dynamic EventArgs1;
+            EventQueue.TryDequeue(out EventArgs1);
             Event = EventArgs1.dll_obj;
             EventAction = EventArgs1.EventAction;
-            EventQueue.RemoveAt(0);
             return EventAction;
         }
 

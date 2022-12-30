@@ -58,7 +58,7 @@ namespace oscs
                 ServerClientEventArgs1.Sender = this;
                 ServerClientEventArgs1.Client = new CsServerClient(e.Client);
                 CsServerClientEventArgs CsServerClientEventArgs1 = new CsServerClientEventArgs(ServerClientEventArgs1);
-                OneScriptClientServer.EventQueue.Add(ServerClientEventArgs1);
+                OneScriptClientServer.EventQueue.Enqueue(ServerClientEventArgs1);
             }
         }
 
@@ -74,7 +74,7 @@ namespace oscs
                 CsServerClient1.MessageSent = OneScriptClientServer.ServerMessageSent;
                 ServerClientEventArgs1.Client = CsServerClient1;
                 CsServerClientEventArgs CsServerClientEventArgs1 = new CsServerClientEventArgs(ServerClientEventArgs1);
-                OneScriptClientServer.EventQueue.Add(ServerClientEventArgs1);
+                OneScriptClientServer.EventQueue.Enqueue(ServerClientEventArgs1);
             }
         }
 
