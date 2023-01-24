@@ -10,6 +10,7 @@ namespace oscs
     public class OneScriptClientServer : AutoContext<OneScriptClientServer>
     {
         private static CsCommunicationStates cs_CommunicationStates = new CsCommunicationStates();
+        public static CsServiceApplication CurrentServiceApplication = null;
         public static IValue Event = null;
         public static DelegateAction EventAction = null;
         public static ConcurrentQueue<dynamic> EventQueue = new ConcurrentQueue<dynamic>();
@@ -25,13 +26,6 @@ namespace oscs
         }
 
         public OneScriptClientServer Base_obj;
-        
-        [ContextProperty("РежимСтороннегоКлиента", "ThirdPartyClientMode")]
-        public bool ThirdPartyClientMode
-        {
-            get { return thirdPartyClientMode; }
-            set { thirdPartyClientMode = value; }
-        }
         
         [ContextProperty("АргументыСобытия", "EventArgs")]
         public IValue EventArgs
@@ -50,6 +44,13 @@ namespace oscs
         {
             get { return goOn; }
             set { goOn = value; }
+        }
+        
+        [ContextProperty("РежимСтороннегоКлиента", "ThirdPartyClientMode")]
+        public bool ThirdPartyClientMode
+        {
+            get { return thirdPartyClientMode; }
+            set { thirdPartyClientMode = value; }
         }
 
         [ContextProperty("СостояниеСоединения", "CommunicationStates")]
@@ -76,6 +77,13 @@ namespace oscs
             return new CsTcpServer(p1);
         }
 
+        [ContextMethod("ВызватьМетод", "CallMethod")]
+        public void CallMethod(IRuntimeContextInstance p1, string p2, ScriptEngine.HostedScript.Library.ArrayImpl p3)
+        {
+            ReflectorContext reflector = new ReflectorContext();
+            reflector.CallMethod(p1, p2, p3);
+        }
+
         [ContextMethod("ПолучитьСобытие", "DoEvents")]
         public ScriptEngine.HostedScript.Library.DelegateAction DoEvents()
         {
@@ -93,6 +101,18 @@ namespace oscs
             Event = EventArgs1.dll_obj;
             EventAction = EventArgs1.EventAction;
             return EventAction;
+        }
+
+        [ContextMethod("ПриложениеКлиент", "ServiceClient")]
+        public CsServiceClient ServiceClient(CsTcpEndPoint p1)
+        {
+            return new CsServiceClient(p1);
+        }
+
+        [ContextMethod("ПриложениеСервис", "ServiceApplication")]
+        public CsServiceApplication ServiceApplication(int p1, IRuntimeContextInstance p2)
+        {
+            return new CsServiceApplication(p1, p2);
         }
 
         [ContextMethod("СообщениеБайты", "ByteMessage")]
@@ -133,6 +153,12 @@ namespace oscs
             return new CsNumberMessage(p1);
         }
 
+        [ContextMethod("ВыполнитьНаСервереАрг", "DoAtServerArgs")]
+        public CsDoAtServerArgs DoAtServerArgs()
+        {
+        	return (CsDoAtServerArgs)Event;
+        }
+        
         [ContextMethod("СообщениеАрг", "MessageEventArgs")]
         public CsMessageEventArgs MessageEventArgs()
         {
@@ -143,6 +169,12 @@ namespace oscs
         public CsServerClientEventArgs ServerClientEventArgs()
         {
         	return (CsServerClientEventArgs)Event;
+        }
+        
+        [ContextMethod("ПриложениеКлиентАрг", "ServiceClientEventArgs")]
+        public CsServiceClientEventArgs ServiceClientEventArgs()
+        {
+        	return (CsServiceClientEventArgs)Event;
         }
         
         public static IValue RevertObj(dynamic initialObject) 
@@ -296,6 +328,10 @@ namespace oscs
             else if (p1.GetType() == typeof(ScriptEngine.Machine.Values.DateValue))
             {
                 return p1.AsDate();
+            }
+            else if (p1.GetType() == typeof(ScriptEngine.HostedScript.Library.Binary.BinaryDataContext))
+            {
+                return p1.Buffer;
             }
             else
             {
