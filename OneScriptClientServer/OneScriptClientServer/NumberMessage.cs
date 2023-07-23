@@ -1,29 +1,30 @@
 ﻿using ScriptEngine.Machine.Contexts;
 using ScriptEngine.Machine;
+using Hik.Communication.Scs.Communication.Messages;
 
 namespace oscs
 {
     public class NumberMessage
     {
         public CsNumberMessage dll_obj;
-        public Hik.Communication.Scs.Communication.Messages.ScsNumberMessage M_NumberMessage;
+        public ScsNumberMessage M_NumberMessage;
 
         public NumberMessage()
         {
-            M_NumberMessage = new Hik.Communication.Scs.Communication.Messages.ScsNumberMessage();
+            M_NumberMessage = new ScsNumberMessage();
         }
 
         public NumberMessage(decimal p1)
         {
-            M_NumberMessage = new Hik.Communication.Scs.Communication.Messages.ScsNumberMessage(p1);
+            M_NumberMessage = new ScsNumberMessage(p1);
         }
 
-        public NumberMessage(Hik.Communication.Scs.Communication.Messages.ScsNumberMessage p1)
+        public NumberMessage(ScsNumberMessage p1)
         {
             M_NumberMessage = p1;
         }
 
-        public Hik.Communication.Scs.Communication.Messages.ScsNumberMessage M_Obj
+        public ScsNumberMessage M_Obj
         {
             get { return M_NumberMessage; }
         }
@@ -62,7 +63,7 @@ namespace oscs
             Base_obj = NumberMessage1;
         }
 
-        public CsNumberMessage(oscs.NumberMessage p1)
+        public CsNumberMessage(NumberMessage p1)
         {
             NumberMessage NumberMessage1 = p1;
             NumberMessage1.dll_obj = this;
@@ -83,6 +84,5 @@ namespace oscs
             get { return Base_obj.Number; }
             set { Base_obj.Number = value; }
         }
-        
     }
 }

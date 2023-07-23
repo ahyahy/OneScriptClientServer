@@ -51,12 +51,17 @@
   <ItemGroup>
     <Compile Include="BoolMessage.cs" />
     <Compile Include="ByteMessage.cs" />
+    <Compile Include="ClientInfo.cs" />
+    <Compile Include="Collection.cs" />
     <Compile Include="CommunicationStates.cs" />
     <Compile Include="DateTimeMessage.cs" />
+    <Compile Include="DoAtClientArgs.cs" />
     <Compile Include="DoAtServerArgs.cs" />
     <Compile Include="EventArgs.cs" />
+    <Compile Include="IMyClient.cs" />
     <Compile Include="IMyService.cs" />
     <Compile Include="MessageEventArgs.cs" />
+    <Compile Include="MyClient.cs" />
     <Compile Include="MyService.cs" />
     <Compile Include="NumberMessage.cs" />
     <Compile Include="OneScriptClientServer.cs" />
@@ -65,6 +70,7 @@
     <Compile Include="ServerClient.cs" />
     <Compile Include="ServerClientEventArgs.cs" />
     <Compile Include="ServiceApplication.cs" />
+    <Compile Include="ServiceApplicationClient.cs" />
     <Compile Include="ServiceClient.cs" />
     <Compile Include="ServiceClientEventArgs.cs" />
     <Compile Include="TcpClient.cs" />

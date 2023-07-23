@@ -1,5 +1,5 @@
 ﻿using ScriptEngine.Machine.Contexts;
-using ScriptEngine.Machine;
+using ScriptEngine.HostedScript.Library;
 using System.Collections.Generic;
 using Hik.Communication.Scs.Server;
 using Hik.Communication.Scs.Communication.EndPoints.Tcp;
@@ -35,14 +35,14 @@ namespace oscs
     public class ScsServer
     {
         public CsTcpServer dll_obj;
-        public Hik.Communication.Scs.Server.IScsServer M_TcpServer;
+        public IScsServer M_TcpServer;
         public string ClientConnected { get; set; }
         public string ClientDisconnected { get; set; }
 
         public ScsServer(int p1)
         {
-            Hik.Communication.Scs.Communication.EndPoints.Tcp.ScsTcpEndPoint ScsTcpEndPoint1 = new Hik.Communication.Scs.Communication.EndPoints.Tcp.ScsTcpEndPoint(p1);
-            M_TcpServer = Hik.Communication.Scs.Server.ScsServerFactory.CreateServer(ScsTcpEndPoint1);
+            ScsTcpEndPoint ScsTcpEndPoint1 = new ScsTcpEndPoint(p1);
+            M_TcpServer = ScsServerFactory.CreateServer(ScsTcpEndPoint1);
             M_TcpServer.ClientConnected += M_TcpServer_ClientConnected;
             M_TcpServer.ClientDisconnected += M_TcpServer_ClientDisconnected;
             ClientConnected = "";
@@ -53,7 +53,7 @@ namespace oscs
         {
             if (dll_obj.ClientDisconnected != null)		
             {
-                oscs.ServerClientEventArgs ServerClientEventArgs1 = new ServerClientEventArgs(e);
+                oscs.ServerClientEventArgs ServerClientEventArgs1 = new oscs.ServerClientEventArgs(e);
                 ServerClientEventArgs1.EventAction = dll_obj.ClientDisconnected;
                 ServerClientEventArgs1.Sender = this;
                 ServerClientEventArgs1.Client = new CsServerClient(e.Client);
@@ -88,17 +88,17 @@ namespace oscs
             M_TcpServer.Stop();
         }
 		
-        public ScriptEngine.HostedScript.Library.ArrayImpl Clients
+        public ArrayImpl Clients
         {
             get
             {
                 List<IScsServerClient> list = M_TcpServer.Clients.GetAllItems();
-                ScriptEngine.HostedScript.Library.ArrayImpl ArrayImpl = new ScriptEngine.HostedScript.Library.ArrayImpl();
+                ArrayImpl arrayImpl = new ArrayImpl();
                 for (int i = 0; i < list.Count; i++)
                 {
-                    ArrayImpl.Add(new CsServerClient(list[i]));
+                    arrayImpl.Add(new CsServerClient(list[i]));
                 }
-                return ArrayImpl;
+                return arrayImpl;
             }
         }
     }
@@ -113,7 +113,7 @@ namespace oscs
             Base_obj = ScsServer1;
         }
 
-        public CsTcpServer(oscs.ScsServer p1)
+        public CsTcpServer(ScsServer p1)
         {
             Base_obj = p1;
         }
@@ -122,26 +122,26 @@ namespace oscs
 
         
         [ContextProperty("Клиенты", "Clients")]
-        public ScriptEngine.HostedScript.Library.ArrayImpl Clients
+        public ArrayImpl Clients
         {
             get { return Base_obj.Clients; }
         }
         
         [ContextProperty("ПриОтключенииКлиента", "ClientDisconnected")]
-        public ScriptEngine.HostedScript.Library.DelegateAction ClientDisconnected { get; set; }
+        public DelegateAction ClientDisconnected { get; set; }
         
         [ContextProperty("ПриОтправкеСообщения", "MessageSent")]
-        public ScriptEngine.HostedScript.Library.DelegateAction MessageSent
+        public DelegateAction MessageSent
         {
             get { return OneScriptClientServer.ServerMessageSent; }
             set { OneScriptClientServer.ServerMessageSent = value; }
         }
         
         [ContextProperty("ПриПодключенииКлиента", "ClientConnected")]
-        public ScriptEngine.HostedScript.Library.DelegateAction ClientConnected { get; set; }
+        public DelegateAction ClientConnected { get; set; }
         
         [ContextProperty("ПриПолученииСообщения", "MessageReceived")]
-        public ScriptEngine.HostedScript.Library.DelegateAction MessageReceived
+        public DelegateAction MessageReceived
         {
             get { return OneScriptClientServer.ServerMessageReceived; }
             set { OneScriptClientServer.ServerMessageReceived = value; }

@@ -4,30 +4,27 @@ using Hik.Communication.ScsServices.Service;
 using ScriptEngine.Machine.Contexts;
 using ScriptEngine.Machine;
 using ScriptEngine.HostedScript.Library;
+using ScriptEngine.HostedScript.Library.Binary;
 using System.Reflection;
+using System.Collections;
 using System.Collections.Generic;
 using Hik.Communication.ScsServices.Communication.Messages;
 using Hik.Communication.Scs.Server;
 using Hik.Communication.Scs.Communication.Messengers;
 using Hik.Communication.Scs.Communication.Messages;
 using Hik.Collections;
+using Hik.Communication.Scs.Communication;
 
 namespace Hik.Communication.ScsServices.Service
 {
     // Реализует IScsServiceApplication и обеспечивает всю функциональность.
     internal class ScsServiceApplication : IScsServiceApplication
     {
-        #region Public events
-
         // Это событие возникает, когда новый клиент подключается к сервису.
         public event EventHandler<ServiceClientEventArgs> ClientConnected;
 
         // Это событие возникает, когда клиент отключается от службы.
         public event EventHandler<ServiceClientEventArgs> ClientDisconnected;
-
-        #endregion
-
-        #region Private fields
 
         // Базовый объект IScsServer для приема клиентских подключений и управления ими.
         private readonly IScsServer _scsServer;
@@ -41,10 +38,6 @@ namespace Hik.Communication.ScsServices.Service
         // Key: Уникальный идентификатор клиента Id.
         // Value: Ссылка на клиента.
         private readonly ThreadSafeSortedList<long, IScsServiceClient> _serviceClients;
-
-        #endregion
-
-        #region Constructors
 
         // Создает новый объект ScsServiceApplication.
         // "scsServer" - Базовый объект IScsServer для приема клиентских подключений и управления ими.
@@ -62,10 +55,11 @@ namespace Hik.Communication.ScsServices.Service
             _serviceObjects = new ThreadSafeSortedList<string, ServiceObject>();
             _serviceClients = new ThreadSafeSortedList<long, IScsServiceClient>();
         }
-
-        #endregion
-
-        #region Public methods
+		
+        public ThreadSafeSortedList<long, IScsServiceClient> Clients
+        {
+            get { return _serviceClients; }
+        }
 
         // Запускает сервисное приложение.
         public void Start()
@@ -114,10 +108,6 @@ namespace Hik.Communication.ScsServices.Service
             return _serviceObjects.Remove(typeof(TServiceInterface).Name);
         }
 
-        #endregion
-
-        #region Private methods
-
         // Обрабатывает событие ClientConnected объекта _scsServer.
         // "sender" - Источник события.
         // "e" - Аргументы события.
@@ -129,7 +119,9 @@ namespace Hik.Communication.ScsServices.Service
 
             var serviceClient = ScsServiceClientFactory.CreateServiceClient(e.Client, requestReplyMessenger);
             _serviceClients[serviceClient.ClientId] = serviceClient;
-            OnClientConnected(serviceClient);
+
+            // Вызывать событие ClientConnected будем не здесь.
+            // OnClientConnected(serviceClient);
         }
 
         // Обрабатывает событие ClientDisconnected объекта _scsServer.
@@ -152,10 +144,10 @@ namespace Hik.Communication.ScsServices.Service
         // "e" - Аргументы события.
         private void Client_MessageReceived(object sender, MessageEventArgs e)
         {
-            //Получить объект RequestReplyMessenger (отправитель события) для получения клиента
+            // Получить объект RequestReplyMessenger (отправитель события) для получения клиента.
             var requestReplyMessenger = (RequestReplyMessenger<IScsServerClient>)sender;
 
-            //Отправьте сообщение в ScsRemoteInvokeMessage и проверьте его
+            // Отправьте сообщение в ScsRemoteInvokeMessage и проверьте его.
             var invokeMessage = e.Message as ScsRemoteInvokeMessage;
             if (invokeMessage == null)
             {
@@ -164,7 +156,7 @@ namespace Hik.Communication.ScsServices.Service
 
             try
             {
-                //Получить объект клиента
+                // Получить объект клиента.
                 var client = _serviceClients[requestReplyMessenger.Messenger.ClientId];
                 if (client == null)
                 {
@@ -172,7 +164,7 @@ namespace Hik.Communication.ScsServices.Service
                     return;
                 }
 
-                //Получить объект обслуживания
+                // Получить объект обслуживания.
                 var serviceObject = _serviceObjects[invokeMessage.ServiceClassName];
                 if (serviceObject == null)
                 {
@@ -180,35 +172,47 @@ namespace Hik.Communication.ScsServices.Service
                     return;
                 }
 
-                //Метод вызова
+                // Метод вызова.
                 try
                 {
                     object returnValue;
-                    //Установите для клиента значение service, чтобы пользовательская служба могла получить client
-                    //в сервисном методе, использующем свойство CurrentClient.
+                    // Установите для клиента значение service, чтобы пользовательская служба могла получить client
+                    // в сервисном методе, использующем свойство CurrentClient.
                     serviceObject.Service.CurrentClient = client;
                     try
                     {
+                        string str1 = "";
+                        for (int i = 0; i < invokeMessage.Parameters.Length; i++)
+                        {
+                            str1 = str1 + invokeMessage.Parameters[i] + System.Environment.NewLine;
+                        }
+
                         returnValue = serviceObject.InvokeMethod(invokeMessage.MethodName, invokeMessage.Parameters);
+
+                        if (invokeMessage.MethodName == "AtClientEntrance")
+                        {
+                            // А теперь вызовем событие ClientConnected.
+                            OnClientConnected(client);
+                        }
                     }
                     finally
                     {
-                        //Установите CurrentClient равным null с момента завершения вызова метода
+                        // Установите CurrentClient равным null с момента завершения вызова метода.
                         serviceObject.Service.CurrentClient = null;
                     }
 
-                    //Отправить вызов метода, возвращающий значение клиенту
+                    // Отправить вызов метода, возвращающий значение клиенту.
                     SendInvokeResponse(requestReplyMessenger, invokeMessage, returnValue, null);
                 }
                 catch (TargetInvocationException ex)
                 {
                     var innerEx = ex.InnerException;
-                    SendInvokeResponse(requestReplyMessenger, invokeMessage, null, new ScsRemoteException(innerEx.Message + Environment.NewLine + "Service Version: " + serviceObject.ServiceAttribute.Version, innerEx));
+                    SendInvokeResponse(requestReplyMessenger, invokeMessage, null, new ScsRemoteException(innerEx.Message + Environment.NewLine + "1Service Version: " + serviceObject.ServiceAttribute.Version, innerEx));
                     return;
                 }
                 catch (Exception ex)
                 {
-                    SendInvokeResponse(requestReplyMessenger, invokeMessage, null, new ScsRemoteException(ex.Message + Environment.NewLine + "Service Version: " + serviceObject.ServiceAttribute.Version, ex));
+                    SendInvokeResponse(requestReplyMessenger, invokeMessage, null, new ScsRemoteException(ex.Message + Environment.NewLine + "2Service Version: " + serviceObject.ServiceAttribute.Version, ex));
                     return;
                 }
             }
@@ -259,10 +263,6 @@ namespace Hik.Communication.ScsServices.Service
             }
         }
 
-        #endregion
-
-        #region ServiceObject class
-
         // Представляет объект пользовательского сервиса.
         // Он используется для вызова методов объекта ScsService.
         private sealed class ServiceObject
@@ -301,24 +301,22 @@ namespace Hik.Communication.ScsServices.Service
             // Вызывает метод объекта Service.
             // "methodName" - Имя метода для вызова.
             // "parameters" - Параметры метода.
-            // Возврат - Возвращаемое значение метода
+            // Возврат - Возвращаемое значение метода.
             public object InvokeMethod(string methodName, params object[] parameters)
             {
-                //Проверьте, существует ли метод с именем methodName
+                // Проверьте, существует ли метод с именем methodName.
                 if (!_methods.ContainsKey(methodName))
                 {
                     throw new Exception("There is not a method with name '" + methodName + "' in service class.");
                 }
 
-                //Метод получения
+                // Метод получения.
                 var method = _methods[methodName];
 
-                //Invoke method and return invoke result
+                // Вызвать метод и вернуть результат вызова.
                 return method.Invoke(Service, parameters);
             }
         }
-
-        #endregion
     }
 }
 
@@ -327,17 +325,19 @@ namespace oscs
     public class ServiceApplication
     {
         public CsServiceApplication dll_obj;
-        private Hik.Communication.ScsServices.Service.IScsServiceApplication M_ServiceApplication;
+        private IScsServiceApplication M_ServiceApplication;
         public string ClientConnected { get; set; }
         public string ClientDisconnected { get; set; }
+        private MyService _proxy;
 
         public ServiceApplication(ScsTcpEndPoint p1)
         {
-            //Создайте приложение-службу, которое работает на TCP-порту
+            // Создайте приложение-службу, которое работает на TCP-порту.
             M_ServiceApplication = ScsServiceBuilder.CreateService(p1);
 
-            //Создайте MyService и добавьте его в сервисное приложение
-            M_ServiceApplication.AddService<oscs.IMyService, oscs.MyService>(new oscs.MyService());
+            // Создайте MyService и добавьте его в сервисное приложение.
+            _proxy = new MyService();
+            M_ServiceApplication.AddService<IMyService, MyService>(_proxy);
 
             M_ServiceApplication.ClientConnected += M_ServiceApplication_ClientConnected;
             M_ServiceApplication.ClientDisconnected += M_ServiceApplication_ClientDisconnected;
@@ -349,9 +349,10 @@ namespace oscs
         {
             if (dll_obj.ClientDisconnected != null)
             {
-                oscs.ServiceClientEventArgs ServiceClientEventArgs1 = new ServiceClientEventArgs(e.Client);
+                oscs.ServiceClientEventArgs ServiceClientEventArgs1 = new oscs.ServiceClientEventArgs(e.Client);
                 ServiceClientEventArgs1.EventAction = dll_obj.ClientDisconnected;
                 ServiceClientEventArgs1.Sender = this;
+                ServiceClientEventArgs1.ServiceApplicationClient = e.Client.dll_obj;
                 CsServiceClientEventArgs CsServiceClientEventArgs1 = new CsServiceClientEventArgs(ServiceClientEventArgs1);
                 OneScriptClientServer.EventQueue.Enqueue(ServiceClientEventArgs1);
             }
@@ -364,6 +365,7 @@ namespace oscs
                 oscs.ServiceClientEventArgs ServiceClientEventArgs1 = new oscs.ServiceClientEventArgs(e.Client);
                 ServiceClientEventArgs1.EventAction = dll_obj.ClientConnected;
                 ServiceClientEventArgs1.Sender = this;
+                ServiceClientEventArgs1.ServiceApplicationClient = e.Client.dll_obj;
                 CsServiceClientEventArgs CsServiceClientEventArgs1 = new CsServiceClientEventArgs(ServiceClientEventArgs1);
                 OneScriptClientServer.EventQueue.Enqueue(ServiceClientEventArgs1);
             }
@@ -378,6 +380,25 @@ namespace oscs
         {
             M_ServiceApplication.Stop();
         }
+		
+        public MyService Proxy
+        {
+            get { return _proxy; }
+        }
+		
+        public ArrayImpl Clients
+        {
+            get
+            {
+                List<IScsServiceClient> list = M_ServiceApplication.Clients.GetAllItems();
+                ArrayImpl arrayImpl = new ArrayImpl();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    arrayImpl.Add(list[i].dll_obj);
+                }
+                return arrayImpl;
+            }
+        }
     }
 
     [ContextClass("КсПриложениеСервис", "CsServiceApplication")]
@@ -387,29 +408,31 @@ namespace oscs
 
         public CsServiceApplication(int p1, IRuntimeContextInstance p2)
         {
-            Hik.Communication.Scs.Communication.EndPoints.Tcp.ScsTcpEndPoint ScsTcpEndPoint1 = new Hik.Communication.Scs.Communication.EndPoints.Tcp.ScsTcpEndPoint(p1);
+            ScsTcpEndPoint ScsTcpEndPoint1 = new ScsTcpEndPoint(p1);
             ServiceApplication ServiceApplication1 = new ServiceApplication(ScsTcpEndPoint1);
             ServiceApplication1.dll_obj = this;
             Base_obj = ServiceApplication1;
-
             this.ChangedMethodName += CsServiceApplication_ChangedMethodName;
-
-            oscs.OneScriptClientServer.CurrentServiceApplication = this;
+            OneScriptClientServer.CurrentServiceApplication = this;
             Script = p2;
         }
-
+		
+        private object _lock = new object();
         private void CsServiceApplication_ChangedMethodName(object sender, System.EventArgs e)
         {
-            DelegateAction action = DelegateAction.Create(oscs.OneScriptClientServer.CurrentServiceApplication.Script, oscs.OneScriptClientServer.CurrentServiceApplication.MethodName);
-            oscs.OneScriptClientServer.CurrentServiceApplication.resalt = "92b55f72-41f9-4b03-8d64-01c7bd10325f";
-            oscs.DoAtServerArgs DoAtServerArgs1 = new DoAtServerArgs(oscs.OneScriptClientServer.CurrentServiceApplication.MethodName, oscs.OneScriptClientServer.CurrentServiceApplication.ParametersArray, oscs.OneScriptClientServer.CurrentServiceApplication.ReturnResult);
-            DoAtServerArgs1.EventAction = action;
-            DoAtServerArgs1.Sender = this;
-            CsDoAtServerArgs CsDoAtServerArgs1 = new CsDoAtServerArgs(DoAtServerArgs1);
-            OneScriptClientServer.EventQueue.Enqueue(DoAtServerArgs1);
+            lock (_lock)
+            {
+                DelegateAction action = DelegateAction.Create(OneScriptClientServer.CurrentServiceApplication.Script, OneScriptClientServer.CurrentServiceApplication.MethodName);
+                OneScriptClientServer.CurrentServiceApplication.resalt = "92b55f72-41f9-4b03-8d64-01c7bd10325f";
+                oscs.DoAtServerArgs DoAtServerArgs1 = new DoAtServerArgs(OneScriptClientServer.CurrentServiceApplication.MethodName, OneScriptClientServer.CurrentServiceApplication.ParametersArray);
+                DoAtServerArgs1.EventAction = action;
+                DoAtServerArgs1.Sender = this;
+                CsDoAtServerArgs CsDoAtServerArgs1 = new CsDoAtServerArgs(DoAtServerArgs1);
+                OneScriptClientServer.EventQueue.Enqueue(DoAtServerArgs1);
 
-            oscs.OneScriptClientServer.CurrentServiceApplication.MethodName = null;
-            oscs.OneScriptClientServer.CurrentServiceApplication.ParametersArray = null;
+                OneScriptClientServer.CurrentServiceApplication.MethodName = null;
+                OneScriptClientServer.CurrentServiceApplication.ParametersArray = null;
+            }
         }
 
         public event System.EventHandler ChangedMethodName;
@@ -417,54 +440,31 @@ namespace oscs
         {
             if (ChangedMethodName != null)
             {
-                ChangedMethodName(oscs.OneScriptClientServer.CurrentServiceApplication, System.EventArgs.Empty);
+                ChangedMethodName(OneScriptClientServer.CurrentServiceApplication, System.EventArgs.Empty);
             }
         }
 
-        private object _lock = new object();
         private string methodName = null;
         public string MethodName
         {
             get { return methodName; }
             set
             {
-                lock (_lock)
+                methodName = value;
+                if (value != null)
                 {
-                    methodName = value;
-                    if (value != null)
-                    {
-                        OnChangedMethodName();
-                    }
+                    OnChangedMethodName();
                 }
             }
         }
 
-        private ScriptEngine.HostedScript.Library.ArrayImpl parametersArray;
-        public ScriptEngine.HostedScript.Library.ArrayImpl ParametersArray
+        private ArrayImpl parametersArray;
+        public ArrayImpl ParametersArray
         {
             get { return parametersArray; }
-            set
-            {
-                lock (_lock)
-                {
-                    parametersArray = value;
-                }
-            }
+            set { parametersArray = value; }
         }
-		
-        private bool returnResult;
-        public bool ReturnResult
-        {
-            get { return returnResult; }
-            set
-            {
-                lock (_lock)
-                {
-                    returnResult = value;
-                }
-            }
-        }
-		
+
         private IRuntimeContextInstance script = null;
         public IRuntimeContextInstance Script
         {
@@ -475,11 +475,17 @@ namespace oscs
         public ServiceApplication Base_obj;
 
         
+        [ContextProperty("Клиенты", "Clients")]
+        public ArrayImpl Clients
+        {
+            get { return Base_obj.Proxy.Clients; }
+        }
+        
         [ContextProperty("ПриОтключенииКлиента", "ClientDisconnected")]
-        public ScriptEngine.HostedScript.Library.DelegateAction ClientDisconnected { get; set; }
+        public DelegateAction ClientDisconnected { get; set; }
         
         [ContextProperty("ПриПодключенииКлиента", "ClientConnected")]
-        public ScriptEngine.HostedScript.Library.DelegateAction ClientConnected { get; set; }
+        public DelegateAction ClientConnected { get; set; }
         
         [ContextProperty("Результат", "Resalt")]
         public IValue Resalt
@@ -488,20 +494,46 @@ namespace oscs
             {
                 if (resalt.GetType() == typeof(System.Byte[]))
                 {
-                    return new ScriptEngine.HostedScript.Library.Binary.BinaryDataContext(resalt);
+                    return new BinaryDataContext(resalt);
                 }
                 return ValueFactory.Create(resalt);
             }
-            set
-            {
-                lock (_lock)
-                {
-                    resalt = OneScriptClientServer.DefineTypeIValue(value);
-                }
-            }
+            set { resalt = OneScriptClientServer.RedefineIValue(value); }
         }
         
         
+        [ContextMethod("ВыполнитьНаКлиенте", "DoAtClient")]
+        public IValue DoAtClient(string p1, string p2, ArrayImpl p3 = null)
+        {
+            ArrayImpl ArrayImpl1 = Base_obj.Proxy.Clients;
+
+            foreach (CsServiceApplicationClient item in ArrayImpl1)
+            {
+                if (item.CommunicationState == (int)CommunicationStates.Disconnected)
+                {
+                    return null;
+                }
+
+                ArrayList array = new ArrayList();
+                if (p3 != null)
+                {
+                    array = new ArrayList();
+                    for (int i = 0; i < p3.Count(); i++)
+                    {
+                        array.Add(OneScriptClientServer.RedefineIValue(p3.Get(i)));
+                    }
+                }
+
+                dynamic res = item.ClientProxy.DoAtClientWithResalt(p1, p2, array);
+                if (res.GetType() == typeof(System.Byte[]))
+                {
+                    return new BinaryDataContext(res);
+                }
+                return ValueFactory.Create(res);
+            }
+            return null;
+        }
+
         [ContextMethod("Начать", "Start")]
         public void Start()
         {

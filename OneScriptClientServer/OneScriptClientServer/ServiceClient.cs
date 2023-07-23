@@ -1,12 +1,17 @@
 ﻿using System;
-using ScriptEngine.Machine.Contexts;
-using ScriptEngine.Machine;
 using System.Runtime.Remoting.Proxies;
+using ScriptEngine.Machine;
+using ScriptEngine.Machine.Contexts;
+using ScriptEngine.HostedScript.Library;
+using ScriptEngine.HostedScript.Library.Binary;
 using Hik.Communication.ScsServices.Communication;
 using Hik.Communication.Scs.Server;
 using Hik.Communication.Scs.Communication;
 using Hik.Communication.Scs.Communication.Messengers;
 using Hik.Communication.Scs.Communication.EndPoints;
+using Hik.Communication.ScsServices.Client;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Hik.Communication.ScsServices.Service
 {
@@ -14,14 +19,12 @@ namespace Hik.Communication.ScsServices.Service
     // Он используется для управления клиентом сервиса и мониторинга за ним.
     internal class ScsServiceClient : IScsServiceClient
     {
-        #region Public events
+        public oscs.CsServiceApplicationClient dll_obj { get; set; }
+        // Гуид для этого клиента. Он будет установлен при получении сервером сообщения от клиента в момент подключения.
+        public string ClientGuid { get; set; }
 
-        // Это событие возникает, когда этот клиент отключен от сервера.
+        // Это событие возникает при отключении клиента от сервера.
         public event EventHandler Disconnected;
-
-        #endregion
-
-        #region Public properties
 
         // Уникальный идентификатор для этого клиента.
         public long ClientId
@@ -41,10 +44,6 @@ namespace Hik.Communication.ScsServices.Service
             get { return _serverClient.CommunicationState; }
         }
 
-        #endregion
-
-        #region Private fields
-
         // Ссылка на базовый объект IScsServerClient.
         private readonly IScsServerClient _serverClient;
 
@@ -53,10 +52,6 @@ namespace Hik.Communication.ScsServices.Service
 
         // Последний созданный прокси-объект для вызова удаленных методов.
         private RealProxy _realProxy;
-
-        #endregion
-
-        #region Constructor
 
         // Создает новый объект ScsServiceClient.
         // "serverClient" - Ссылка на базовый объект IScsServerClient.
@@ -68,10 +63,6 @@ namespace Hik.Communication.ScsServices.Service
             _requestReplyMessenger = requestReplyMessenger;
         }
 
-        #endregion
-
-        #region Public methods
-
         // Закрывает клиентское соединение.
         public void Disconnect()
         {
@@ -79,30 +70,18 @@ namespace Hik.Communication.ScsServices.Service
         }
 
         // Получает клиентский прокси-интерфейс, который обеспечивает удаленный вызов клиентских методов.
-        // "T" - Тип клиентского интерфейса
-        // Возврат - Клиентский интерфейс
         public T GetClientProxy<T>() where T : class
         {
             _realProxy = new RemoteInvokeProxy<T, IScsServerClient>(_requestReplyMessenger);
             return (T)_realProxy.GetTransparentProxy();
         }
 
-        #endregion
-
-        #region Private methods
-
         // Обрабатывает событие отключения объекта _serverClient.
-        // "sender" - Источник события.
-        // "e" - Аргументы события.
         private void Client_Disconnected(object sender, EventArgs e)
         {
             _requestReplyMessenger.Stop();
             OnDisconnected();
         }
-
-        #endregion
-
-        #region Event raising methods
 
         // Вызывает событие отключения.
         private void OnDisconnected()
@@ -113,48 +92,70 @@ namespace Hik.Communication.ScsServices.Service
                 handler(this, EventArgs.Empty);
             }
         }
-
-        #endregion
     }
 }
-
+		
 namespace oscs
 {
     public class ServiceClient
     {
         public CsServiceClient dll_obj;
-        private Hik.Communication.ScsServices.Client.IScsServiceClient<oscs.IMyService> M_ServiceClient;
-        public oscs.IMyService _proxy;
+        private IScsServiceClient<IMyService> M_ServiceClient;
+        public IMyService _proxy;
+        private string guid = null;
+        private string clientName;
+        private oscs.Collection tag = new Collection();
+
+        // Объект, который обрабатывает вызовы удаленных методов с сервера.
+        // Он реализует контракт IMyClient.
+        private MyClient _myClient;
 
         public ServiceClient(TcpEndPoint p1)
         {
-            M_ServiceClient = Hik.Communication.ScsServices.Client.ScsServiceClientBuilder.CreateClient<oscs.IMyService>(p1.M_TcpEndPoint);
+            // Создайте MyClient для обработки удаленных вызовов методов сервером.
+            _myClient = new MyClient();
+
+            M_ServiceClient = ScsServiceClientBuilder.CreateClient<IMyService>(p1.M_TcpEndPoint, _myClient);
             _proxy = M_ServiceClient.ServiceProxy;
             M_ServiceClient.Connected += M_ServiceClient_Connected;
             M_ServiceClient.Disconnected += M_ServiceClient_Disconnected;
             Connected = "";
             Disconnected = "";
+            Guid = System.Guid.NewGuid().ToString();
         }
 
-        public ServiceClient(ServiceClient p1)
+        public string Guid
         {
-            M_ServiceClient = p1.M_ServiceClient;
-            _proxy = M_ServiceClient.ServiceProxy;
-            M_ServiceClient.Connected += M_ServiceClient_Connected;
-            M_ServiceClient.Disconnected += M_ServiceClient_Disconnected;
-            Connected = "";
-            Disconnected = "";
+            get { return guid; }
+            set
+            {
+                if (guid == null)
+                {
+                    guid = value;
+                }
+            }
         }
 
         private void M_ServiceClient_Connected(object sender, System.EventArgs e)
         {
+            try
+            {
+                // Передадим данные этого клиента клиенту на стороне сервера приложений.
+                M_ServiceClient.ServiceProxy.AtClientEntrance(this.Guid, this.ClientName, this.Tag);
+            }
+            catch
+            {
+                Disconnect();
+                System.Windows.Forms.MessageBox.Show("Не удается войти на сервер. Пожалуйста, попробуйте еще раз позже.");
+            }
+
             if (dll_obj.Connected != null)
             {
-                oscs.EventArgs EventArgs1 = new EventArgs();
-                EventArgs1.EventAction = dll_obj.Connected;
-                EventArgs1.Sender = this;
-                CsEventArgs CsEventArgs1 = new CsEventArgs(EventArgs1);
-                OneScriptClientServer.EventQueue.Enqueue(EventArgs1);
+                try
+                {
+                    dll_obj.Connected.CallAsProcedure(0, null);
+                }
+                catch { }
             }
         }
 
@@ -162,11 +163,11 @@ namespace oscs
         {
             if (dll_obj.Disconnected != null)
             {
-                oscs.EventArgs EventArgs1 = new oscs.EventArgs();
-                EventArgs1.EventAction = dll_obj.Disconnected;
-                EventArgs1.Sender = this;
-                CsEventArgs CsEventArgs1 = new CsEventArgs(EventArgs1);
-                OneScriptClientServer.EventQueue.Enqueue(EventArgs1);
+                try
+                {
+                    dll_obj.Disconnected.CallAsProcedure(0, null);
+                }
+                catch { }
             }
         }
 
@@ -189,31 +190,196 @@ namespace oscs
             M_ServiceClient.Connect();
         }
 
-
-        public oscs.IMyService Proxy
+        public IMyService Proxy
         {
             get { return _proxy; }
+        }
+		
+        public string ClientName
+        {
+            get { return clientName; }
+            set { clientName = value; }
+        }
+		
+        public oscs.Collection Tag
+        {
+            get { return tag; }
+            set { tag = value; }
         }
     }
 
     [ContextClass("КсПриложениеКлиент", "CsServiceClient")]
     public class CsServiceClient : AutoContext<CsServiceClient>
     {
-        public CsServiceClient(CsTcpEndPoint p1)
+        public dynamic resalt;
+
+        public CsServiceClient(CsTcpEndPoint p1, IRuntimeContextInstance p2)
         {
-            oscs.ServiceClient ServiceClient1 = new oscs.ServiceClient(p1.Base_obj);
+            ServiceClient ServiceClient1 = new ServiceClient(p1.Base_obj);
             ServiceClient1.dll_obj = this;
             Base_obj = ServiceClient1;
+            this.ChangedMethodName += CsServiceClient_ChangedMethodName;
+            OneScriptClientServer.CurrentServiceClient = this;
+            Script = p2;
+        }
+
+        private void CsServiceClient_ChangedMethodName(object sender, System.EventArgs e)
+        {
+            CsServiceClient sc = (CsServiceClient)sender;
+
+            DelegateAction action = DelegateAction.Create(sc.Script, sc.MethodName);
+            sc.resalt = "7b7540f9-27e6-4e4a-a0b1-8012ac6e5737";
+            DoAtClientArgs DoAtClientArgs1 = new DoAtClientArgs(sc.MethodName, sc.ParametersArray);
+            DoAtClientArgs1.EventAction = action;
+            DoAtClientArgs1.Sender = this;
+            CsDoAtClientArgs CsDoAtClientArgs1 = new CsDoAtClientArgs(DoAtClientArgs1);
+            OneScriptClientServer.EventQueue.Enqueue(DoAtClientArgs1);
+
+            sc.MethodName = null;
+            sc.ParametersArray = null;
+
+            while (sc.Resalt.AsString() == "7b7540f9-27e6-4e4a-a0b1-8012ac6e5737")
+            {
+                System.Threading.Thread.Sleep(17);
+            }
+        }
+
+        public event System.EventHandler ChangedMethodName;
+        protected void OnChangedMethodName()
+        {
+            if (ChangedMethodName != null)
+            {
+                ChangedMethodName(OneScriptClientServer.CurrentServiceClient, System.EventArgs.Empty);
+            }
+        }
+
+        private object _lock = new object();
+        private string methodName = null;
+        public string MethodName
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return methodName;
+                }
+            }
+            set
+            {
+                lock (_lock)
+                {
+                    methodName = value;
+                    if (value != null)
+                    {
+                        OnChangedMethodName();
+                    }
+                }
+            }
+        }
+
+        private object _lock2 = new object();
+        private ArrayImpl parametersArray;
+        public ArrayImpl ParametersArray
+        {
+            get
+            {
+                lock (_lock2)
+                {
+                    return parametersArray;
+                }
+            }
+            set
+            {
+                lock (_lock2)
+                {
+                    parametersArray = value;
+                }
+            }
+        }
+
+        private IRuntimeContextInstance script = null;
+        public IRuntimeContextInstance Script
+        {
+            get { return script; }
+            set { script = value; }
         }
 
         public ServiceClient Base_obj;
 
         
+        [ContextProperty("ГуидКлиента", "ClientGuid")]
+        public string ClientGuid
+        {
+            get { return Base_obj.Guid; }
+        }
+
+        [ContextProperty("ИмяКлиента", "ClientName")]
+        public string ClientName
+        {
+            get { return Base_obj.ClientName; }
+            set { Base_obj.ClientName = value; }
+        }
+
+        [ContextProperty("Метка", "Tag")]
+        public StructureImpl Tag
+        {
+            get
+            {
+                StructureImpl StructureImpl1 = new StructureImpl();
+                oscs.Collection tag = Base_obj.Tag;
+                foreach (KeyValuePair<string, object> DictionaryEntry in tag)
+                {
+                    if (DictionaryEntry.Value.GetType() == typeof(System.Byte[]))
+                    {
+                        StructureImpl1.Insert(DictionaryEntry.Key, new BinaryDataContext((System.Byte[])DictionaryEntry.Value));
+                    }
+                    else
+                    {
+                        StructureImpl1.Insert(DictionaryEntry.Key, ValueFactory.Create((dynamic)DictionaryEntry.Value));
+                    }
+                }
+                return StructureImpl1;
+            }
+            set
+            {
+                oscs.Collection tag = Base_obj.Tag;
+                foreach (KeyAndValueImpl item in value)
+                {
+                    if (item.Value.GetType() == typeof(ScriptEngine.Machine.Values.StringValue) ||
+                        item.Value.GetType() == typeof(ScriptEngine.Machine.Values.NumberValue) ||
+                        item.Value.GetType() == typeof(ScriptEngine.Machine.Values.BooleanValue) ||
+                        item.Value.GetType() == typeof(ScriptEngine.Machine.Values.DateValue) ||
+                        item.Value.GetType() == typeof(BinaryDataContext))
+                    {
+                        tag.Add(OneScriptClientServer.RedefineIValue(item.Key), OneScriptClientServer.RedefineIValue(item.Value));
+                    }
+                    else
+                    {
+                        tag.Add(OneScriptClientServer.RedefineIValue(item.Key), item.Value.GetType().ToString());
+                    }
+                }
+            }
+        }
+
         [ContextProperty("ПриОтключении", "Disconnected")]
-        public ScriptEngine.HostedScript.Library.DelegateAction Disconnected { get; set; }
+        public DelegateAction Disconnected { get; set; }
         
         [ContextProperty("ПриПодключении", "Connected")]
-        public ScriptEngine.HostedScript.Library.DelegateAction Connected { get; set; }
+        public DelegateAction Connected { get; set; }
+        
+        [ContextProperty("Результат", "Resalt")]
+        public IValue Resalt
+        {
+            get
+            {
+                if (resalt.GetType() == typeof(System.Byte[]))
+                {
+                    return new BinaryDataContext(resalt);
+                }
+                return ValueFactory.Create(resalt);
+            }
+            set { resalt = OneScriptClientServer.RedefineIValue(value); }
+        }
         
         [ContextProperty("СостояниеСоединения", "CommunicationState")]
         public int CommunicationState
@@ -222,37 +388,56 @@ namespace oscs
         }
 
         
-        [ContextMethod("ВыполнитьНаСервере", "DoAtServer")]
-        public IValue DoAtServer(string p1, ScriptEngine.HostedScript.Library.ArrayImpl p2 = null, bool p3 = true)
+        [ContextMethod("ВыполнитьНаКлиенте", "DoAtClient")]
+        public IValue DoAtClient(string p1, string p2, ArrayImpl p3 = null)
         {
-            if (Base_obj.CommunicationState == (int)Hik.Communication.Scs.Communication.CommunicationStates.Disconnected)
+            if (Base_obj.CommunicationState == (int)CommunicationStates.Disconnected)
+            {
+                return null;
+            }
+				
+            ArrayList array = new ArrayList();
+            if (p3 != null)
+            {
+                array = new ArrayList();
+                for (int i = 0; i < p3.Count(); i++)
+                {
+                    array.Add(OneScriptClientServer.RedefineIValue(p3.Get(i)));
+                }
+            }
+
+            dynamic res = Base_obj.Proxy.DoAtClientWithResalt(this.ClientGuid, p1, p2, array);
+            if (res.GetType() == typeof(System.Byte[]))
+            {
+                return new BinaryDataContext(res);
+            }
+            return ValueFactory.Create(res);
+        }
+
+        [ContextMethod("ВыполнитьНаСервере", "DoAtServer")]
+        public IValue DoAtServer(string p1, ArrayImpl p2 = null)
+        {
+            if (Base_obj.CommunicationState == (int)CommunicationStates.Disconnected)
             {
                 return null;
             }
 
-            System.Collections.ArrayList array = new System.Collections.ArrayList();
+            ArrayList array = new ArrayList();
             if (p2 != null)
             {
-                array = new System.Collections.ArrayList();
+                array = new ArrayList();
                 for (int i = 0; i < p2.Count(); i++)
                 {
-                    array.Add(OneScriptClientServer.DefineTypeIValue(p2.Get(i)));
+                    array.Add(OneScriptClientServer.RedefineIValue(p2.Get(i)));
                 }
             }
-            if (p3)
+
+            dynamic res = Base_obj.Proxy.DoAtServerWithResalt(p1, array);
+            if (res.GetType() == typeof(System.Byte[]))
             {
-                dynamic res = Base_obj.Proxy.DoAtServerWithResalt(p1, array);
-                if (res.GetType() == typeof(System.Byte[]))
-                {
-                    return new ScriptEngine.HostedScript.Library.Binary.BinaryDataContext(res);
-                }
-                return ValueFactory.Create(res);
+                return new BinaryDataContext(res);
             }
-            else
-            {
-                Base_obj.Proxy.DoAtServer(p1, array);
-            }
-            return null;
+            return ValueFactory.Create(res);
         }
 
         [ContextMethod("Отключить", "Disconnect")]
@@ -266,5 +451,40 @@ namespace oscs
         {
             Base_obj.Connect();
         }
+
+
+
+        //=======================================
+        private object _lock3 = new object();
+        [ContextMethod("ПолучитьИнформациюКлиентов", "GetClientsInfo")]
+        public ArrayImpl GetClientsInfo()
+        {
+            //ArrayImpl arrayImpl = new ArrayImpl();
+            //lock (_lock3)
+            //{
+            //    ClientInfo[] array = Base_obj.Proxy.GetClientsList();
+            //    for (int i = 0; i < array.Length; i++)
+            //    {
+            //        ClientInfo ClientInfo1 = (ClientInfo)array[i];
+            //        CsClientInfo CsClientInfo1 = new CsClientInfo(ClientInfo1.ClientGuid, ClientInfo1.ClientName, ClientInfo1.Tag);
+            //        arrayImpl.Add(CsClientInfo1);
+            //    }
+            //}
+            //return arrayImpl;
+
+
+
+            ClientInfo[] array = Base_obj.Proxy.GetClientsList();
+            ArrayImpl arrayImpl = new ArrayImpl();
+            for (int i = 0; i < array.Length; i++)
+            {
+                ClientInfo ClientInfo1 = (ClientInfo)array[i];
+                CsClientInfo CsClientInfo1 = new CsClientInfo(ClientInfo1.ClientGuid, ClientInfo1.ClientName, ClientInfo1.Tag);
+                arrayImpl.Add(CsClientInfo1);
+            }
+            return arrayImpl;
+        }
+
+        //endMethods
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using ScriptEngine.Machine.Contexts;
 using ScriptEngine.Machine;
+using ScriptEngine.HostedScript.Library;
+using Hik.Communication.ScsServices.Service;
 
 namespace Hik.Communication.ScsServices.Service
 {
@@ -24,9 +26,10 @@ namespace oscs
     public class ServiceClientEventArgs : oscs.EventArgs
     {
         public new CsServiceClientEventArgs dll_obj;
-        private Hik.Communication.ScsServices.Service.IScsServiceClient client;
+        private IScsServiceClient client;
+        public CsServiceApplicationClient ServiceApplicationClient { get; set; }
 
-        public ServiceClientEventArgs(Hik.Communication.ScsServices.Service.IScsServiceClient p1)
+        public ServiceClientEventArgs(IScsServiceClient p1)
         {
             client = p1;
         }
@@ -45,6 +48,11 @@ namespace oscs
         {
             get { return (int)client.CommunicationState; }
         }
+		
+        public CsServiceApplicationClient Client
+        {
+            get { return ServiceApplicationClient; }
+        }
     }
 
     [ContextClass("КсПриложениеКлиентАрг", "CsServiceClientEventArgs")]
@@ -52,14 +60,14 @@ namespace oscs
     {
         public CsServiceClientEventArgs(oscs.ServiceClientEventArgs p1)
         {
-            ServiceClientEventArgs ServiceClientEventArgs1 = p1;
+            oscs.ServiceClientEventArgs ServiceClientEventArgs1 = p1;
             ServiceClientEventArgs1.dll_obj = this;
             Base_obj = ServiceClientEventArgs1;
         }
 
         public CsServiceClientEventArgs(Hik.Communication.ScsServices.Service.ServiceClientEventArgs p1)
         {
-            ServiceClientEventArgs ServiceClientEventArgs1 = new ServiceClientEventArgs(p1);
+            oscs.ServiceClientEventArgs ServiceClientEventArgs1 = new oscs.ServiceClientEventArgs(p1);
             ServiceClientEventArgs1.dll_obj = this;
             Base_obj = ServiceClientEventArgs1;
         }
@@ -68,16 +76,16 @@ namespace oscs
 
         
         [ContextProperty("Действие", "EventAction")]
-        public ScriptEngine.HostedScript.Library.DelegateAction EventAction
+        public DelegateAction EventAction
         {
             get { return Base_obj.EventAction; }
             set { Base_obj.EventAction = value; }
         }
         
-        [ContextProperty("ИдентификаторКлиента", "ClientId")]
-        public decimal ClientId
+        [ContextProperty("Клиент", "Client")]
+        public CsServiceApplicationClient Client
         {
-            get { return Base_obj.ClientId; }
+            get { return Base_obj.ServiceApplicationClient; }
         }
         
         [ContextProperty("Отправитель", "Sender")]
@@ -86,10 +94,7 @@ namespace oscs
             get { return Base_obj.Sender.dll_obj; }
         }
         
-        [ContextProperty("СостояниеСоединения", "CommunicationState")]
-        public int CommunicationState
-        {
-            get { return (int)Base_obj.CommunicationState; }
-        }
+        
+        //endMethods
     }
 }

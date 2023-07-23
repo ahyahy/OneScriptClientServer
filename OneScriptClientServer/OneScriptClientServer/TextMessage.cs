@@ -1,23 +1,24 @@
 ﻿using ScriptEngine.Machine.Contexts;
+using Hik.Communication.Scs.Communication.Messages;
 
 namespace oscs
 {
     public class TextMessage
     {
         public CsTextMessage dll_obj;
-        public Hik.Communication.Scs.Communication.Messages.ScsTextMessage M_TextMessage;
+        public ScsTextMessage M_TextMessage;
 
-        public TextMessage(Hik.Communication.Scs.Communication.Messages.ScsTextMessage p1)
+        public TextMessage(ScsTextMessage p1)
         {
             M_TextMessage = p1;
         }
 
         public TextMessage(string p1 = null)
         {
-            M_TextMessage = new Hik.Communication.Scs.Communication.Messages.ScsTextMessage(p1);
+            M_TextMessage = new ScsTextMessage(p1);
         }
 
-        public Hik.Communication.Scs.Communication.Messages.ScsTextMessage M_Obj
+        public ScsTextMessage M_Obj
         {
             get { return M_TextMessage; }
         }
@@ -70,6 +71,5 @@ namespace oscs
             get { return Base_obj.Text; }
             set { Base_obj.Text = value; }
         }
-        
     }
 }

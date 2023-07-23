@@ -2,6 +2,7 @@
 using ScriptEngine.Machine.Contexts;
 using ScriptEngine.Machine;
 using ScriptEngine.HostedScript.Library;
+using ScriptEngine.HostedScript.Library.Binary;
 using System.Collections.Concurrent;
 
 namespace oscs
@@ -11,6 +12,7 @@ namespace oscs
     {
         private static CsCommunicationStates cs_CommunicationStates = new CsCommunicationStates();
         public static CsServiceApplication CurrentServiceApplication = null;
+        public static CsServiceClient CurrentServiceClient = null;
         public static IValue Event = null;
         public static DelegateAction EventAction = null;
         public static ConcurrentQueue<dynamic> EventQueue = new ConcurrentQueue<dynamic>();
@@ -77,15 +79,8 @@ namespace oscs
             return new CsTcpServer(p1);
         }
 
-        [ContextMethod("ВызватьМетод", "CallMethod")]
-        public void CallMethod(IRuntimeContextInstance p1, string p2, ScriptEngine.HostedScript.Library.ArrayImpl p3)
-        {
-            ReflectorContext reflector = new ReflectorContext();
-            reflector.CallMethod(p1, p2, p3);
-        }
-
         [ContextMethod("ПолучитьСобытие", "DoEvents")]
-        public ScriptEngine.HostedScript.Library.DelegateAction DoEvents()
+        public DelegateAction DoEvents()
         {
             while (EventQueue.Count == 0)
             {
@@ -94,7 +89,7 @@ namespace oscs
             return EventHandling();
         }
 
-        public static ScriptEngine.HostedScript.Library.DelegateAction EventHandling()
+        public static DelegateAction EventHandling()
         {
             dynamic EventArgs1;
             EventQueue.TryDequeue(out EventArgs1);
@@ -104,9 +99,9 @@ namespace oscs
         }
 
         [ContextMethod("ПриложениеКлиент", "ServiceClient")]
-        public CsServiceClient ServiceClient(CsTcpEndPoint p1)
+        public CsServiceClient ServiceClient(CsTcpEndPoint p1, IRuntimeContextInstance p2)
         {
-            return new CsServiceClient(p1);
+            return new CsServiceClient(p1, p2);
         }
 
         [ContextMethod("ПриложениеСервис", "ServiceApplication")]
@@ -116,7 +111,7 @@ namespace oscs
         }
 
         [ContextMethod("СообщениеБайты", "ByteMessage")]
-        public CsByteMessage ByteMessage(ScriptEngine.HostedScript.Library.Binary.BinaryDataContext p1 = null)
+        public CsByteMessage ByteMessage(BinaryDataContext p1 = null)
         {
             return new CsByteMessage(p1);
         }
@@ -153,6 +148,12 @@ namespace oscs
             return new CsNumberMessage(p1);
         }
 
+        [ContextMethod("ВыполнитьНаКлиентеАрг", "DoAtClientArgs")]
+        public CsDoAtClientArgs DoAtClientArgs()
+        {
+        	return (CsDoAtClientArgs)Event;
+        }
+        
         [ContextMethod("ВыполнитьНаСервереАрг", "DoAtServerArgs")]
         public CsDoAtServerArgs DoAtServerArgs()
         {
@@ -311,7 +312,7 @@ namespace oscs
             return (IValue)initialObject;
         }
 			
-        public static dynamic DefineTypeIValue(dynamic p1)
+        public static dynamic RedefineIValue(dynamic p1)
         {
             if (p1.GetType() == typeof(ScriptEngine.Machine.Values.StringValue))
             {
@@ -329,7 +330,7 @@ namespace oscs
             {
                 return p1.AsDate();
             }
-            else if (p1.GetType() == typeof(ScriptEngine.HostedScript.Library.Binary.BinaryDataContext))
+            else if (p1.GetType() == typeof(BinaryDataContext))
             {
                 return p1.Buffer;
             }

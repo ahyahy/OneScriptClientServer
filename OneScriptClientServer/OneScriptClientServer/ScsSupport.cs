@@ -84,8 +84,6 @@ namespace Hik.Communication.Scs.Server
     // Этот класс представляет клиента на стороне сервера.
     internal class ScsServerClient : IScsServerClient
     {
-        #region Public events
-
         // Это событие возникает при получении нового сообщения.
         public event EventHandler<MessageEventArgs> MessageReceived;
 
@@ -95,10 +93,6 @@ namespace Hik.Communication.Scs.Server
 
         // Это событие возникает, когда клиент отключен от сервера.
         public event EventHandler Disconnected;
-
-        #endregion
-
-        #region Public properties
 
         // Уникальный идентификатор для этого клиента на сервере.
         public long ClientId { get; set; }
@@ -134,16 +128,8 @@ namespace Hik.Communication.Scs.Server
             get { return _communicationChannel.LastSentMessageTime; }
         }
 
-        #endregion
-
-        #region Private fields
-
         // Канал связи, который используется клиентом для отправки и получения сообщений.
         private readonly ICommunicationChannel _communicationChannel;
-
-        #endregion
-
-        #region Constructor
 
         // Создает новый объект ScsClient.
         // "communicationChannel" - Канал связи, который используется клиентом для отправки и получения сообщений
@@ -154,10 +140,6 @@ namespace Hik.Communication.Scs.Server
             _communicationChannel.MessageSent += CommunicationChannel_MessageSent;
             _communicationChannel.Disconnected += CommunicationChannel_Disconnected;
         }
-
-        #endregion
-
-        #region Public methods
 
         // Отключается от клиента и закрывает базовый канал связи.
         public void Disconnect()
@@ -171,10 +153,6 @@ namespace Hik.Communication.Scs.Server
         {
             _communicationChannel.SendMessage(message);
         }
-
-        #endregion
-
-        #region Private methods
 
         // Обрабатывает событие отключения объекта _communicationChannel.
         // "sender" - Источник события.
@@ -207,10 +185,6 @@ namespace Hik.Communication.Scs.Server
             OnMessageSent(e.Message);
         }
 
-        #endregion
-
-        #region Event raising methods
-
         // Вызывает событие отключения.
         private void OnDisconnected()
         {
@@ -242,24 +216,16 @@ namespace Hik.Communication.Scs.Server
                 handler(this, new MessageEventArgs(message));
             }
         }
-
-        #endregion
     }
     //=========================================================================================================================================
     // Этот класс предоставляет базовую функциональность для серверных классов.
     internal abstract class ScsServerBase : IScsServer
     {
-        #region Public events
-
         // Это событие возникает при подключении нового клиента.
         public event EventHandler<ServerClientEventArgs> ClientConnected;
 
         // Это событие возникает, когда клиент отключается от сервера.
         public event EventHandler<ServerClientEventArgs> ClientDisconnected;
-
-        #endregion
-
-        #region Public properties
 
         // Получает/устанавливает проводной протокол, который используется при чтении и записи сообщений.
         public IScsWireProtocolFactory WireProtocolFactory { get; set; }
@@ -267,16 +233,8 @@ namespace Hik.Communication.Scs.Server
         // Набор клиентов, подключенных к серверу.
         public ThreadSafeSortedList<long, IScsServerClient> Clients { get; private set; }
 
-        #endregion
-
-        #region Private properties
-
         // Этот объект используется для прослушивания входящих подключений.
         private IConnectionListener _connectionListener;
-
-        #endregion
-
-        #region Constructor
 
         // Конструктор.
         protected ScsServerBase()
@@ -284,10 +242,6 @@ namespace Hik.Communication.Scs.Server
             Clients = new ThreadSafeSortedList<long, IScsServerClient>();
             WireProtocolFactory = WireProtocolManager.GetDefaultWireProtocolFactory();
         }
-
-        #endregion
-
-        #region Public methods
 
         // Запускает сервер.
         public virtual void Start()
@@ -311,16 +265,8 @@ namespace Hik.Communication.Scs.Server
             }
         }
 
-        #endregion
-
-        #region Protected abstract methods
-
         // Этот метод реализуется производными классами для создания соответствующего прослушивателя соединений для прослушивания входящих запросов на подключение.
         protected abstract IConnectionListener CreateConnectionListener();
-
-        #endregion
-
-        #region Private methods
 
         // Обрабатывает событие CommunicationChannelConnected объекта _connectionListener.
         // "sender" - Источник события.
@@ -349,10 +295,6 @@ namespace Hik.Communication.Scs.Server
             OnClientDisconnected(client);
         }
 
-        #endregion
-
-        #region Event raising methods
-
         // Вызывает событие, связанное с клиентом.
         // "client" - Подключенный клиент.
         protected virtual void OnClientConnected(IScsServerClient client)
@@ -374,8 +316,6 @@ namespace Hik.Communication.Scs.Server
                 handler(this, new ServerClientEventArgs(client));
             }
         }
-
-        #endregion
     }
     //=========================================================================================================================================
     // Представляет клиента с точки зрения сервера.
@@ -600,14 +540,12 @@ namespace Hik.Communication.Scs.Client
     // Представляет клиента для подключения к серверу.
     public interface IScsClient : IMessenger, IConnectableClient
     {
-        //Не определяет никакого дополнительного элемента
+        // Не определяет никакого дополнительного элемента.
     }
     //=========================================================================================================================================
     // Этот класс предоставляет базовую функциональность для клиентских классов.
     internal abstract class ScsClientBase : IScsClient
     {
-        #region Public events
-
         // Это событие возникает при получении нового сообщения.
         public event EventHandler<MessageEventArgs> MessageReceived;
 
@@ -620,10 +558,6 @@ namespace Hik.Communication.Scs.Client
 
         // Это событие возникает, когда клиент отключается от сервера.
         public event EventHandler Disconnected;
-
-        #endregion
-
-        #region Public properties
 
         // Тайм-аут для подключения к серверу (в миллисекундах).
         // Значение по умолчанию: 15 секунд (15000 мс).
@@ -678,10 +612,6 @@ namespace Hik.Communication.Scs.Client
             }
         }
 
-        #endregion
-
-        #region Private fields
-
         // Значение таймаута по умолчанию для подключения сервера.
         private const int DefaultConnectionAttemptTimeout = 15000; //15 seconds.
 
@@ -691,10 +621,6 @@ namespace Hik.Communication.Scs.Client
         // Этот таймер используется для периодической отправки сообщений PingMessage на сервер.
         private readonly Hik.Threading.Timer _pingTimer;
 
-        #endregion
-
-        #region Constructor
-
         // Конструктор
         protected ScsClientBase()
         {
@@ -703,10 +629,6 @@ namespace Hik.Communication.Scs.Client
             ConnectTimeout = DefaultConnectionAttemptTimeout;
             WireProtocol = WireProtocolManager.GetDefaultWireProtocol();
         }
-
-        #endregion
-
-        #region Public methods
 
         // Подключается к серверу.
         public void Connect()
@@ -753,17 +675,9 @@ namespace Hik.Communication.Scs.Client
             _communicationChannel.SendMessage(message);
         }
 
-        #endregion
-
-        #region Abstract methods
-
         // Этот метод реализуется производными классами для создания соответствующего канала связи.
         // Возврат - Готовый канал связи для общения
         protected abstract ICommunicationChannel CreateCommunicationChannel();
-
-        #endregion
-
-        #region Private methods
 
         // Обрабатывает событие MessageReceived объекта _communicationChannel.
         // "sender" - Источник события
@@ -819,10 +733,6 @@ namespace Hik.Communication.Scs.Client
             catch { }
         }
 
-        #endregion
-
-        #region Event raising methods
-
         // Вызывает событие Connected.
         protected virtual void OnConnected()
         {
@@ -864,8 +774,6 @@ namespace Hik.Communication.Scs.Client
                 handler(this, new MessageEventArgs(message));
             }
         }
-
-        #endregion
     }
     //=========================================================================================================================================
     // Этот класс используется для создания клиентов SCS для подключения к серверу SCS.
@@ -900,8 +808,6 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
     // Этот класс используется для связи с удаленным приложением по протоколу TCP/IP.
     internal class TcpCommunicationChannel : CommunicationChannelBase
     {
-        #region Public properties
-
         // Получает конечную точку удаленного приложения.
         public override ScsEndPoint RemoteEndPoint
         {
@@ -911,10 +817,6 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
             }
         }
         private readonly ScsTcpEndPoint _remoteEndPoint;
-
-        #endregion
-
-        #region Private fields
 
         // Размер буфера, который используется для приема байтов из TCP сокета.
         private const int ReceiveBufferSize = 2 * 4 * 1024; //8KB
@@ -957,10 +859,6 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
         // magicSignature.Add("52 61 72 21 1A 07 01 00"); // rar - RAR archive.
         // magicSignature.Add("89 50 4E 47 0D 0A 1A 0A"); // png - Image encoded in the Portable Network Graphics format[10].
 
-        #endregion
-
-        #region Constructor
-
         // Создает новый объект TcpCommunicationChannel.
         // "clientSocket" - Подключенный объект сокета, который используется для обмена данными по сети.
         public TcpCommunicationChannel(Socket clientSocket)
@@ -974,10 +872,6 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
             _buffer = new byte[ReceiveBufferSize];
             _syncLock = new object();
         }
-
-        #endregion
-
-        #region Public methods
 
         // Отключается от удаленного приложения и закрывает канал.
         public override void Disconnect()
@@ -1003,10 +897,6 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
             OnDisconnected();
         }
 
-        #endregion
-
-        #region Protected methods
-
         // Запускает поток для получения сообщений из сокета.
         protected override void StartInternal()
         {
@@ -1025,11 +915,11 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
                 if (oscs.OneScriptClientServer.thirdPartyClientMode)
                 {
                     byte[] sendBytes = new byte[0];
-                    if (message.GetType() == typeof(Hik.Communication.Scs.Communication.Messages.ScsRawDataMessage))
+                    if (message.GetType() == typeof(ScsRawDataMessage))
                     {
                         sendBytes = ((ScsRawDataMessage)message).MessageData;
                     }
-                    else if (message.GetType() == typeof(Hik.Communication.Scs.Communication.Messages.ScsTextMessage))
+                    else if (message.GetType() == typeof(ScsTextMessage))
                     {
                         sendBytes = Encoding.UTF8.GetBytes(((ScsTextMessage)message).Text);
                     }
@@ -1065,10 +955,6 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
                 }
             }
         }
-
-        #endregion
-
-        #region Private methods
 		
         private byte[] Combine(params byte[][] arrays)
         {
@@ -1194,8 +1080,6 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
                 }
             }
         }
-
-        #endregion
     }
     //=========================================================================================================================================
     // Этот класс используется для прослушивания и приема входящих запросов на TCP-соединение через TCP-порт.
@@ -1294,8 +1178,6 @@ namespace Hik.Communication.Scs.Communication.Channels
     // Этот класс обеспечивает базовую функциональность для всех классов каналов связи.
     internal abstract class CommunicationChannelBase : ICommunicationChannel
     {
-        #region Public events
-
         // Это событие возникает при получении нового сообщения.
         public event EventHandler<MessageEventArgs> MessageReceived;
 
@@ -1306,16 +1188,8 @@ namespace Hik.Communication.Scs.Communication.Channels
         // Это событие возникает, когда канал связи закрыт.
         public event EventHandler Disconnected;
 
-        #endregion
-
-        #region Public abstract properties
-
         // Получает конечную точку удаленного приложения.
         public abstract ScsEndPoint RemoteEndPoint { get; }
-
-        #endregion
-
-        #region Public properties
 
         // Получает текущее состояние связи.
         public CommunicationStates CommunicationState { get; protected set; }
@@ -1330,10 +1204,6 @@ namespace Hik.Communication.Scs.Communication.Channels
         // Это свойство должно быть установлено перед первым сообщением.
         public IScsWireProtocol WireProtocol { get; set; }
 
-        #endregion
-
-        #region Constructor
-
         // Конструктор.
         protected CommunicationChannelBase()
         {
@@ -1342,16 +1212,8 @@ namespace Hik.Communication.Scs.Communication.Channels
             LastSentMessageTime = DateTime.MinValue;
         }
 
-        #endregion
-
-        #region Public abstract methods
-
         // Отключается от удаленного приложения и закрывает этот канал.
         public abstract void Disconnect();
-
-        #endregion
-
-        #region Public methods
 
         // Запускает связь с удаленным приложением.
         public void Start()
@@ -1373,10 +1235,6 @@ namespace Hik.Communication.Scs.Communication.Channels
             SendMessageInternal(message);
         }
 
-        #endregion
-
-        #region Protected abstract methods
-
         // Действительно запускает связь с удаленным приложением.
         protected abstract void StartInternal();
 
@@ -1384,10 +1242,6 @@ namespace Hik.Communication.Scs.Communication.Channels
         // Этот метод переопределяется производными классами для реальной отправки в message.
         // "message" - Сообщение, которое нужно отправить.
         protected abstract void SendMessageInternal(IScsMessage message);
-
-        #endregion
-
-        #region Event raising methods
 
         // Вызывает событие отключения.
         protected virtual void OnDisconnected()
@@ -1420,8 +1274,6 @@ namespace Hik.Communication.Scs.Communication.Channels
                 handler(this, new MessageEventArgs(message));
             }
         }
-
-        #endregion
     }
     //=========================================================================================================================================
     // Хранит информацию о канале связи, который будет использоваться событием.
@@ -1921,18 +1773,12 @@ namespace Hik.Communication.Scs.Communication.Messengers
     // "T" - Тип объекта IMessenger для использования в качестве базового сообщения
     public class RequestReplyMessenger<T> : IMessenger, IDisposable where T : IMessenger
     {
-        #region Public events
-
         // Это событие возникает при получении нового сообщения от базового мессенджера.
         public event EventHandler<MessageEventArgs> MessageReceived;
 
         // Это событие возникает, когда новое сообщение отправляется без какой-либо ошибки.
         // Это не гарантирует, что сообщение будет должным образом обработано удаленным приложением.
         public event EventHandler<MessageEventArgs> MessageSent;
-
-        #endregion
-
-        #region Public properties
 
         // Получает/устанавливает проводной протокол, который используется при чтении и записи сообщений.
         public IScsWireProtocol WireProtocol
@@ -1966,10 +1812,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
         // Значение по умолчанию: 60000 (1 minute).
         public int Timeout { get; set; }
 
-        #endregion
-
-        #region Private fields
-
         // Значение тайм-аута по умолчанию.
         private const int DefaultTimeout = 60000;
 
@@ -1984,10 +1826,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
         // Этот объект используется для синхронизации потоков.
         private readonly object _syncObj = new object();
 
-        #endregion
-
-        #region Constructor
-
         // Создает новый RequestReplyMessenger.
         // "messenger" - Объект IMessenger для использования в качестве базового сообщения.
         public RequestReplyMessenger(T messenger)
@@ -1999,10 +1837,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
             _waitingMessages = new SortedList<string, WaitingMessage>();
             Timeout = DefaultTimeout;
         }
-
-        #endregion
-
-        #region Public methods
 
         // Запускает мессенджер.
         public virtual void Start()
@@ -2108,10 +1942,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
             }
         }
 
-        #endregion
-
-        #region Private methods
-
         // Обрабатывает событие MessageReceived объекта Messenger.
         // "sender" - Источник события.
         // "e" - Аргументы события.
@@ -2150,10 +1980,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
             OnMessageSent(e.Message);
         }
 
-        #endregion
-
-        #region Event raising methods
-
         // Вызывает событие MessageReceived.
         // "message" - Полученное сообщение.
         protected virtual void OnMessageReceived(IScsMessage message)
@@ -2175,10 +2001,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
                 handler(this, new MessageEventArgs(message));
             }
         }
-
-        #endregion
-
-        #region WaitingMessage class
 
         // Этот класс используется для хранения контекста обмена сообщениями для сообщения-запроса до получения ответа.
         private sealed class WaitingMessage
@@ -2212,8 +2034,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
             // Ответ получен должным образом.
             ResponseReceived
         }
-
-        #endregion
     }
     //=========================================================================================================================================
 
@@ -2222,16 +2042,10 @@ namespace Hik.Communication.Scs.Communication.Messengers
     // Он подходит для использования в приложениях, которые хотят получать сообщения с помощью синхронизированных вызовов методов вместо асинхронного события MessageReceived.
     public class SynchronizedMessenger<T> : RequestReplyMessenger<T> where T : IMessenger
     {
-        #region Public properties
-
         // Получает/устанавливает емкость очереди входящих сообщений.
         // Никакое сообщение не будет получено от удаленного приложения, если количество сообщений во внутренней очереди превышает это значение.
         // Значение по умолчанию: int.MaxValue (2147483647).
         public int IncomingMessageQueueCapacity { get; set; }
-
-        #endregion
-
-        #region Private fields
 
         // Очередь, которая используется для хранения получаемых сообщений до тех пор, пока для их получения не будет вызван метод Receive(...).
         private readonly Queue<IScsMessage> _receivingMessageQueue;
@@ -2241,10 +2055,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
 
         // Это логическое значение указывает на состояние выполнения этого класса.
         private volatile bool _running;
-
-        #endregion
-
-        #region Constructors
 
         // Создает новый объект SynchronizedMessenger.
         // "messenger" - Объект IMessenger, который будет использоваться для отправки /получения сообщений.
@@ -2262,10 +2072,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
             _receivingMessageQueue = new Queue<IScsMessage>();
             IncomingMessageQueueCapacity = incomingMessageQueueCapacity;
         }
-
-        #endregion
-
-        #region Public methods
 
         // Запускает мессенджер.
         public override void Start()
@@ -2365,10 +2171,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
             return (TMessage)receivedMessage;
         }
 
-        #endregion
-
-        #region Protected methods
-
         // Переопределяет
         protected override void OnMessageReceived(IScsMessage message)
         {
@@ -2382,8 +2184,6 @@ namespace Hik.Communication.Scs.Communication.Messengers
                 _receiveWaiter.Set();
             }
         }
-
-        #endregion
     }
     //=========================================================================================================================================
 }
@@ -2403,27 +2203,17 @@ namespace Hik.Communication.Scs.Communication.Protocols.BinarySerialization
     // DeserializeMessage должны быть переопределены.
     public class BinarySerializationProtocol : IScsWireProtocol
     {
-        #region Private fields
-
         // Максимальная длина сообщения.
         private const int MaxMessageLength = 128 * 1024 * 1024; //128 Megabytes.
 
         // Этот объект MemoryStream используется для сбора байтов приема для построения сообщений.
         private MemoryStream _receiveMemoryStream;
 
-        #endregion
-
-        #region Constructor
-
         // Создает новый экземпляр BinarySerializationProtocol.
         public BinarySerializationProtocol()
         {
             _receiveMemoryStream = new MemoryStream();
         }
-
-        #endregion
-
-        #region IScsWireProtocol implementation
 
         // Сериализует сообщение в массив байтов для отправки удаленному приложению.
         // Этот метод синхронизирован. Таким образом, только один поток может вызывать его одновременно.
@@ -2484,10 +2274,6 @@ namespace Hik.Communication.Scs.Communication.Protocols.BinarySerialization
             }
         }
 
-        #endregion
-
-        #region Proptected virtual methods
-
         // Этот метод используется для сериализации IScsMessage в массив байтов.
         // Этот метод может быть переопределен производными классами для изменения стратегии сериализации.
         // Это пара с методом DeserializeMessage, и они должны быть переопределены вместе.
@@ -2528,10 +2314,6 @@ namespace Hik.Communication.Scs.Communication.Protocols.BinarySerialization
                 return (IScsMessage)binaryFormatter.Deserialize(deserializeMemoryStream);
             }
         }
-
-        #endregion
-
-        #region Private methods
 
         // Этот метод пытается прочитать одно сообщение и добавить его в коллекцию сообщений. 
         // "messages" - Коллекция сообщений для сбора сообщений.
@@ -2642,10 +2424,6 @@ namespace Hik.Communication.Scs.Communication.Protocols.BinarySerialization
             return buffer;
         }
 
-        #endregion
-
-        #region Nested classes
-
         // Этот класс используется при десериализации, чтобы разрешить десериализацию объектов, которые определены
         // в сборках, которые загружаются во время выполнения (например, плагины).
         protected sealed class DeserializationAppDomainBinder : SerializationBinder
@@ -2658,8 +2436,6 @@ namespace Hik.Communication.Scs.Communication.Protocols.BinarySerialization
                         select assembly.GetType(typeName)).FirstOrDefault();
             }
         }
-
-        #endregion
     }
     //=========================================================================================================================================
 
@@ -2814,6 +2590,9 @@ namespace Hik.Communication.ScsServices.Service
     // Представляет приложение службы SCS, которое используется для создания службы SCS и управления ею.
     public interface IScsServiceApplication
     {
+        // Для получения списка клиентов на стороне сервера приложений.
+        ThreadSafeSortedList<long, IScsServiceClient> Clients { get; }
+		
         // Это событие возникает, когда новый клиент подключается к сервису.
         event EventHandler<ServiceClientEventArgs> ClientConnected;
 
@@ -2843,10 +2622,14 @@ namespace Hik.Communication.ScsServices.Service
     }
     //=========================================================================================================================================
 
-    // Представляет клиента, который использует службу SDS.
+    // Представляет клиента, который использует службу SCS.
     public interface IScsServiceClient
     {
-        // Это событие возникает, когда клиент отключен от службы.
+        // Гуид для этого клиента.
+        string ClientGuid { get; set; }
+        oscs.CsServiceApplicationClient dll_obj { get; set; }
+		
+        // Это событие возникает при отключении клиента от службы.
         event EventHandler Disconnected;
 
         // Уникальный идентификатор для этого клиента.
@@ -2877,8 +2660,7 @@ namespace Hik.Communication.ScsServices.Service
         private static IScsServiceClient _currentClient;
 
         // Это свойство является потокобезопасным, если возвращает правильный клиент, когда 
-        // вызывается в сервисном методе, если метод вызывается системой SCS,
-        // иначе выдает исключение.
+        // вызывается в сервисном методе, если метод вызывается системой SCS, иначе выдает исключение.
         protected internal IScsServiceClient CurrentClient
         {
             get
@@ -3132,17 +2914,11 @@ namespace Hik.Communication.ScsServices.Client
     // "T" - Тип сервисного интерфейса
     internal class ScsServiceClient<T> : IScsServiceClient<T> where T : class
     {
-        #region Public events
-
         // Это событие возникает, когда клиент подключается к серверу.
         public event EventHandler Connected;
 
         // Это событие возникает, когда клиент отключается от сервера.
         public event EventHandler Disconnected;
-
-        #endregion
-
-        #region Public properties
 
         // Тайм-аут для подключения к серверу (в миллисекундах).
         // Значение по умолчанию: 15 seconds (15000 ms).
@@ -3171,10 +2947,6 @@ namespace Hik.Communication.ScsServices.Client
             set { _requestReplyMessenger.Timeout = value; }
         }
 
-        #endregion
-
-        #region Private fields
-
         // Базовый объект IScsClient для связи с сервером.
         private readonly IScsClient _client;
 
@@ -3187,10 +2959,6 @@ namespace Hik.Communication.ScsServices.Client
         // Клиентский объект, который используется для вызова метода, вызывается на стороне клиента.
         // Может быть нулевым, если у клиента нет методов, которые должны быть вызваны сервером.
         private readonly object _clientObject;
-
-        #endregion
-
-        #region Constructor
 
         // Создает новый объект ScsServiceClient.
         // "client" - Базовый объект IScsClient для связи с сервером.
@@ -3211,10 +2979,6 @@ namespace Hik.Communication.ScsServices.Client
             ServiceProxy = (T)_realServiceProxy.GetTransparentProxy();
         }
 
-        #endregion
-
-        #region Public methods
-
         // Подключается к серверу.
         public void Connect()
         {
@@ -3233,10 +2997,6 @@ namespace Hik.Communication.ScsServices.Client
         {
             Disconnect();
         }
-
-        #endregion
-
-        #region Private methods
 
         // Обрабатывает событие MessageReceived мессенджера.
         // Он получает сообщения от сервера и вызывает соответствующий метод.
@@ -3319,10 +3079,6 @@ namespace Hik.Communication.ScsServices.Client
             OnDisconnected();
         }
 
-        #endregion
-
-        #region Private methods
-
         // Вызывает связанное событие.
         private void OnConnected()
         {
@@ -3342,8 +3098,6 @@ namespace Hik.Communication.ScsServices.Client
                 handler(this, EventArgs.Empty);
             }
         }
-
-        #endregion
     }
     //=========================================================================================================================================
 
@@ -3385,8 +3139,6 @@ namespace Hik.Threading
     // "TItem" - Тип элемента для обработки
     public class SequentialItemProcessor<TItem>
     {
-        #region Private fields
-
         // Делегат метода, который вызывается для фактической обработки элементов.
         private readonly Action<TItem> _processMethod;
 
@@ -3405,10 +3157,6 @@ namespace Hik.Threading
         // Объект для синхронизации потоков.
         private readonly object _syncObj = new object();
 
-        #endregion
-
-        #region Constructor
-
         // Создает новый объект SequentialItemProcessor.
         // "processMethod" - Делегат метода, который вызывается для фактической обработки элементов.
         public SequentialItemProcessor(Action<TItem> processMethod)
@@ -3416,10 +3164,6 @@ namespace Hik.Threading
             _processMethod = processMethod;
             _queue = new Queue<TItem>();
         }
-
-        #endregion
-
-        #region Public methods
 
         // Добавляет элемент в очередь для обработки элемента.
         // "item" - Элемент для добавления в очередь.
@@ -3473,10 +3217,6 @@ namespace Hik.Threading
             catch { }
         }
 
-        #endregion
-
-        #region Private methods
-
         // Этот метод выполняется в новой отдельной задаче (потоке) для обработки элементов в очереди.
         private void ProcessItem()
         {
@@ -3514,22 +3254,14 @@ namespace Hik.Threading
                 _currentProcessTask = Task.Factory.StartNew(ProcessItem);
             }
         }
-
-        #endregion
     }
     //=========================================================================================================================================
 
     // Этот класс представляет собой таймер, который периодически выполняет некоторые задачи.
     public class Timer
     {
-        #region Public events
-
         // Это событие периодически вызывается в соответствии с периодом таймера.
         public event EventHandler Elapsed;
-
-        #endregion
-
-        #region Public fields
 
         // Период выполнения задания таймера (в миллисекундах).
         public int Period { get; set; }
@@ -3537,10 +3269,6 @@ namespace Hik.Threading
         // Указывает, вызывает ли таймер прошедшее событие при методе запуска таймера один раз.
         // По умолчанию: False.
         public bool RunOnStart { get; set; }
-
-        #endregion
-
-        #region Private fields
 
         // Этот таймер используется для выполнения задачи через определенные промежутки времени.
         private readonly System.Threading.Timer _taskTimer;
@@ -3551,10 +3279,6 @@ namespace Hik.Threading
         // Указывает, что независимо от того, выполняется ли задача или _taskTimer находится в спящем режиме.
         // Это поле используется для ожидания выполнения задач при остановке таймера.
         private volatile bool _performingTasks;
-
-        #endregion
-
-        #region Constructors
 
         // Создает новый таймер.
         // "period" - Период выполнения задания таймера (в миллисекундах)
@@ -3571,10 +3295,6 @@ namespace Hik.Threading
             RunOnStart = runOnStart;
             _taskTimer = new System.Threading.Timer(TimerCallBack, null, Timeout.Infinite, Timeout.Infinite);
         }
-
-        #endregion
-
-        #region Public methods
 
         // Запускает таймер.
         public void Start()
@@ -3604,10 +3324,6 @@ namespace Hik.Threading
                 }
             }
         }
-
-        #endregion
-
-        #region Private methods
 
         // Этот метод вызывается _taskTimer.
         // "state" - Неиспользованный аргумент.
@@ -3646,8 +3362,6 @@ namespace Hik.Threading
                 }
             }
         }
-
-        #endregion
     }
     //=========================================================================================================================================
 }

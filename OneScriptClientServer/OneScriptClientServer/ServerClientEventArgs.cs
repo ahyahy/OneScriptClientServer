@@ -1,6 +1,8 @@
 ﻿using System;
 using ScriptEngine.Machine.Contexts;
 using ScriptEngine.Machine;
+using ScriptEngine.HostedScript.Library;
+using Hik.Communication.Scs.Server;
 
 namespace Hik.Communication.Scs.Server
 {
@@ -24,9 +26,9 @@ namespace oscs
     public class ServerClientEventArgs : oscs.EventArgs
     {
         public new CsServerClientEventArgs dll_obj;
-        private Hik.Communication.Scs.Server.IScsServerClient client;
+        private IScsServerClient client;
 
-        public ServerClientEventArgs(Hik.Communication.Scs.Server.IScsServerClient p1)
+        public ServerClientEventArgs(IScsServerClient p1)
         {
             client = p1;
         }
@@ -44,7 +46,7 @@ namespace oscs
     {
         public CsServerClientEventArgs(oscs.ServerClientEventArgs p1)
         {
-            ServerClientEventArgs ServerClientEventArgs1 = p1;
+            oscs.ServerClientEventArgs ServerClientEventArgs1 = p1;
             ServerClientEventArgs1.dll_obj = this;
             Base_obj = ServerClientEventArgs1;
         }
@@ -53,7 +55,7 @@ namespace oscs
 
         
         [ContextProperty("Действие", "EventAction")]
-        public ScriptEngine.HostedScript.Library.DelegateAction EventAction
+        public DelegateAction EventAction
         {
             get { return Base_obj.EventAction; }
             set { Base_obj.EventAction = value; }
@@ -74,5 +76,4 @@ namespace oscs
         
         //endMethods
     }
-
-}//endnamespace
+}

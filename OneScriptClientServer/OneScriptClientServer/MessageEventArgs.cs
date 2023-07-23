@@ -1,11 +1,13 @@
 ﻿using System;
 using ScriptEngine.Machine.Contexts;
 using ScriptEngine.Machine;
+using ScriptEngine.HostedScript.Library;
+using Hik.Communication.Scs.Communication.Messages;
 
 namespace Hik.Communication.Scs.Communication.Messages
 {
     // Сохраняет сообщение, которое будет использоваться событием.
-    public class MessageEventArgs : EventArgs
+    public class MessageEventArgs : System.EventArgs
     {
         // Объект сообщение, связанный с этим событием.
         public IScsMessage Message { get; private set; }
@@ -24,9 +26,9 @@ namespace oscs
     public class MessageEventArgs : oscs.EventArgs
     {
         public new CsMessageEventArgs dll_obj;
-        private Hik.Communication.Scs.Communication.Messages.IScsMessage message;
+        private IScsMessage message;
 
-        public MessageEventArgs(Hik.Communication.Scs.Communication.Messages.IScsMessage p1)
+        public MessageEventArgs(IScsMessage p1)
         {
             message = p1;
         }
@@ -56,7 +58,7 @@ namespace oscs
     {
         public CsMessageEventArgs(oscs.MessageEventArgs p1)
         {
-            MessageEventArgs MessageEventArgs1 = p1;
+            oscs.MessageEventArgs MessageEventArgs1 = p1;
             MessageEventArgs1.dll_obj = this;
             Base_obj = MessageEventArgs1;
         }
@@ -65,7 +67,7 @@ namespace oscs
 
         
         [ContextProperty("Действие", "EventAction")]
-        public ScriptEngine.HostedScript.Library.DelegateAction EventAction
+        public DelegateAction EventAction
         {
             get { return Base_obj.EventAction; }
             set { Base_obj.EventAction = value; }
@@ -95,5 +97,4 @@ namespace oscs
         
         //endMethods
     }
-
-}//endnamespace
+}

@@ -1,15 +1,18 @@
 ﻿using System;
 using ScriptEngine.Machine.Contexts;
 using ScriptEngine.Machine;
+using ScriptEngine.HostedScript.Library;
+using Hik.Communication.Scs.Communication.Messages;
+using Hik.Communication.Scs.Server;
 
 namespace oscs
 {
     public class ServerClient
     {
         public CsServerClient dll_obj;
-        public Hik.Communication.Scs.Server.IScsServerClient M_ServerClient;
+        public IScsServerClient M_ServerClient;
 
-        public ServerClient(Hik.Communication.Scs.Server.IScsServerClient p1)
+        public ServerClient(IScsServerClient p1)
         {
             M_ServerClient = p1;
             M_ServerClient.Disconnected += M_ServerClient_Disconnected;
@@ -36,7 +39,7 @@ namespace oscs
 
         public string MessageSent { get; set; }
 
-        public oscs.TcpEndPoint RemoteEndPoint
+        public TcpEndPoint RemoteEndPoint
         {
             get { return new TcpEndPoint(M_ServerClient.RemoteEndPoint); }
         }
@@ -62,7 +65,7 @@ namespace oscs
         {
             if (dll_obj.MessageReceived != null)		
             {
-                oscs.MessageEventArgs MessageEventArgs1 = new MessageEventArgs(e.Message);
+                oscs.MessageEventArgs MessageEventArgs1 = new oscs.MessageEventArgs(e.Message);
                 MessageEventArgs1.EventAction = dll_obj.MessageReceived;
                 MessageEventArgs1.Sender = this;
                 CsMessageEventArgs CsMessageEventArgs1 = new CsMessageEventArgs(MessageEventArgs1);
@@ -72,9 +75,14 @@ namespace oscs
 
         private void M_ServerClient_MessageSent(object sender, Hik.Communication.Scs.Communication.Messages.MessageEventArgs e)
         {
+            if (e.Message.GetType() == typeof(ScsPingMessage))
+            {
+                return;
+            }
+
             if (dll_obj.MessageSent != null)		
             {
-                oscs.MessageEventArgs MessageEventArgs1 = new MessageEventArgs(e.Message);
+                oscs.MessageEventArgs MessageEventArgs1 = new oscs.MessageEventArgs(e.Message);
                 MessageEventArgs1.EventAction = dll_obj.MessageSent;
                 MessageEventArgs1.Sender = this;
                 CsMessageEventArgs CsMessageEventArgs1 = new CsMessageEventArgs(MessageEventArgs1);
@@ -82,7 +90,7 @@ namespace oscs
             }
         }
 
-        public void SendMessage(Hik.Communication.Scs.Communication.Messages.IScsMessage p1)
+        public void SendMessage(IScsMessage p1)
         {
             M_ServerClient.SendMessage(p1);
         }
@@ -91,16 +99,16 @@ namespace oscs
     [ContextClass ("КсСерверКлиент", "CsServerClient")]
     public class CsServerClient : AutoContext<CsServerClient>
     {
-        public CsServerClient(Hik.Communication.Scs.Server.IScsServerClient p1)
+        public CsServerClient(IScsServerClient p1)
         {
             oscs.ServerClient ServerClient1 = new oscs.ServerClient(p1);
             ServerClient1.dll_obj = this;
             Base_obj = ServerClient1;
         }
 		
-        public ScriptEngine.HostedScript.Library.DelegateAction MessageSent { get; set; }
+        public DelegateAction MessageSent { get; set; }
 
-        public ScriptEngine.HostedScript.Library.DelegateAction MessageReceived { get; set; }
+        public DelegateAction MessageReceived { get; set; }
 
         public oscs.ServerClient Base_obj;
         
@@ -111,18 +119,12 @@ namespace oscs
         }
         
         [ContextProperty("ПриОтключении", "Disconnected")]
-        public ScriptEngine.HostedScript.Library.DelegateAction Disconnected { get; set; }
+        public DelegateAction Disconnected { get; set; }
         
         [ContextProperty("СостояниеСоединения", "CommunicationState")]
         public int CommunicationState
         {
             get { return (int)Base_obj.CommunicationState; }
-        }
-
-        [ContextProperty("УдаленнаяКонечнаяТочка", "RemoteEndPoint")]
-        public CsTcpEndPoint RemoteEndPoint
-        {
-            get { return (CsTcpEndPoint)OneScriptClientServer.RevertObj(Base_obj.RemoteEndPoint); }
         }
         
         [ContextMethod("Отключить", "Disconnect")]

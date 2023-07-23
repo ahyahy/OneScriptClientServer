@@ -1,0 +1,785 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>OneScriptFormsPropertyTag</TITLE>
+<META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
+<LINK rel="stylesheet" type="text/css" href="mainstyle.css"></HEAD>
+<BODY id=bodyID class=dtBODY>
+<DIV id=nsbanner>
+<DIV id=bannerrow1>
+<TABLE class=bannerparthead cellSpacing=0>
+  <TBODY>
+  <TR id=hdr>
+    <TD class=runninghead></TD>
+    <TD class=product></TD></TR></TBODY></TABLE></DIV>
+<DIV id=TitleRow>
+<H1 class=dtH1>Заготовка для чата</H1></DIV></DIV>
+<DIV id=nstext>
+<H4 class=dtH4>Описание задачи</H4>
+<P>Поставленная задача - создать набор скриптов, демонстрирующих применение данной библиотеки для создания приложения по обмену сообщениями и возможностью 
+управления работой скрипта на другой машине в сети.</P>
+<P>Используются две библиотеки для скриптового языка <B>OneScript</B>. Библиотека создания экранных форм - <B>OneScriptForms</B>, и библиотека создания TCP 
+сервера и TCP клиентов - <B>OneScriptClientServer</B>. Обеспечена совместная работа обеих библиотек в одном приложении, несмотря на то, что у каждой 
+есть цикл ожидания событий.</P>
+<P>Особенностью является возможность <B>вызова на исполнение метода, записанного в скрипте, исполняющемся на другой машине в сети</B>. Поддерживается 
+передача параметров и получение ответа с удаленной машины.</P>
+<P>Запрограммирован только минимальный набор действий, достаточный для показа работоспособности чата. Только передача текста другим клиентам 
+и обновление списка подключенных к серверу клиентов. И выполняется это методами в скриптах каждой из машин в сети.</P>
+<P>Вот так должна выглядеть структура каталога нашего примера.</P>
+<P></P>
+<IMG src="Chat1.jpg"></IMG>
+<P></P>
+<P>Первым нужно запустить на исполнение скрипт <B>СерверЧата.os</B>.</P>
+<P>Затем можно запускать экземпляры клиентов <B>ЧатOneScript.os</B>.</P>
+<P>Каталог <B>ЧатOneScript</B> скопируйте на удаленную машину и запустите на ней клиент <B>ЧатOneScript.os</B>.</P>
+<P></P>
+<P>Работа клиентов будет выглядеть примерно так:</P>
+<P></P>
+<IMG src="Chat2.jpg"></IMG>
+<P></P>
+<P></P>
+<IMG src="Chat3.jpg"></IMG>
+<P></P>
+<details><summary>Код скрипта СерверЧата.os:</summary>
+<P><PRE class=code>
+<a id="copy1" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select1" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
+<hr style="border-color: lightgray;"><DIV id="cont1">
+Перем КС;
+
+Процедура ПриложениеСервис_ПриПодключенииКлиента() Экспорт
+	ПриложениеКлиентАрг = КС.АргументыСобытия;
+	Сообщить("Подключен новый клиент. Идентификатор клиента = " + ПриложениеКлиентАрг.Клиент.ИдентификаторКлиента);
+	Сообщить("ГуидКлиента = " + ПриложениеКлиентАрг.Клиент.ГуидКлиента);
+	Сообщить("========================================");
+КонецПроцедуры
+
+ТекПуть = Новый Файл(ТекущийСценарий().Источник).Путь;
+ПодключитьВнешнююКомпоненту(ОбъединитьПути(ТекПуть,"OneScriptClientServer.dll"));
+КС = Новый КлиентСерверДляОдноСкрипта();
+ПриложениеСервис1 = КС.ПриложениеСервис(10085, ЭтотОбъект);
+ПриложениеСервис1.ПриПодключенииКлиента = Новый Действие(ЭтотОбъект, "ПриложениеСервис_ПриПодключенииКлиента");
+
+ПриложениеСервис1.Начать();
+Сообщить("ПриложениеСервис запущен");
+
+Пока КС.Продолжать Цикл
+	КС.ПолучитьСобытие().Выполнить();
+КонецЦикла;
+</DIV>
+</PRE>
+</details>
+<P></P>
+<hr style="border-color: lightgray;">
+<P></P>
+<details><summary>Код скрипта ЧатOneScript.os:</summary>
+<P><PRE class=code>
+<a id="copy2" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select2" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
+<hr style="border-color: lightgray;"><DIV id="cont2">
+Перем ТекПуть;
+
+Процедура ЗапускКлиента(параметр1, параметр2, параметр3, параметр4, параметр5, параметр6, параметр7, параметр8) Экспорт
+	Контекст = Новый Структура("Ф", параметр1);
+	Контекст.Вставить("Сценарий1", параметр2);
+	Контекст.Вставить("Панель1", параметр3);
+	Контекст.Вставить("Форма_1", параметр4);
+	Контекст.Вставить("Таблица1", параметр5);
+	Контекст.Вставить("Надпись1", параметр6);
+	Контекст.Вставить("IP", параметр7);
+	Контекст.Вставить("Порт", параметр8);
+	ЗагрузитьСценарий(ОбъединитьПути(ТекПуть,"Клиент.os"), Контекст);
+КонецПроцедуры
+
+ТекПуть = Новый Файл(ТекущийСценарий().Источник).Путь;
+ПодключитьВнешнююКомпоненту(ОбъединитьПути(ТекПуть,"OneScriptForms.dll"));
+Ф = Новый ФормыДляОдноСкрипта();
+Ф.РазрешитьСобытия = Истина;
+Если Ф.ПлатформаWin Тогда
+	Ф.СкрытьКонсоль();
+КонецЕсли;
+
+ПодключитьСценарий(ОбъединитьПути(ТекПуть,"ГлавнаяФормаКлиента.os"), "ГлавнаяФормаКлиента");
+Сценарий1 = Новый ГлавнаяФормаКлиента();
+Сценарий1.Ф = Ф;
+ГлавнаяФормаКлиента1 = Ф.СоздатьФорму(Сценарий1);
+ГлавнаяФормаКлиента1.Показать();
+ГлавнаяФормаКлиента1.Активизировать();
+
+// В модальной диалоговой форме зададим IP адрес и порт для клиента.
+ПодключитьСценарий(ОбъединитьПути(ТекПуть,"Диалог.os"), "Диалог");
+Сценарий3 = Новый Диалог();
+Сценарий3.Ф = Ф;
+Диалог = Ф.СоздатьФорму(Сценарий3);
+ЗначениеВозврата = Диалог.ПоказатьДиалог();
+IP = "";
+Порт = 0;
+Если ЗначениеВозврата = Ф.РезультатДиалога.Да Тогда
+	IP = Сценарий3.IP;
+	Порт = Сценарий3.Порт;
+Иначе
+	ЗавершитьРаботу(4);
+КонецЕсли;
+
+МассивПараметров = Новый Массив(8);
+МассивПараметров[0] = Ф;
+МассивПараметров[1] = Сценарий1;
+МассивПараметров[2] = Сценарий1.Панель1;
+МассивПараметров[3] = Сценарий1.Форма_1;
+МассивПараметров[4] = Сценарий1.Таблица1;
+МассивПараметров[5] = Сценарий1.Надпись1;
+МассивПараметров[6] = IP;
+МассивПараметров[7] = Порт;
+Задание = ФоновыеЗадания.Выполнить(ЭтотОбъект, "ЗапускКлиента", МассивПараметров);
+
+// Организуем проверку взаимодействия формы и клиента, запущенных в разных скриптах.
+// Если взаимодействие не установилось, выходим из скрипта.
+// Взаимодействие подразумевает возможность управления формой из скрипта клиента, запущенного в фоновом задании.
+// Взаимодействие может например не установиться если запускать чат на одном и том же компьютере с очень малым 
+// промежутком времени между запусками. Промежуток в полсекунды и выше позволяет успешно запустить чат.
+Успешно = Ложь;
+Для А = 0 По 100 Цикл
+	Если Не Сценарий1.Панель1.ЦветФона.Имя = "Красный" Тогда
+		Приостановить(100);
+	Иначе
+		Успешно = Истина;
+	КонецЕсли;
+КонецЦикла;
+Если Не Успешно Тогда
+	ЗавершитьРаботу(5);
+КонецЕсли;
+
+Ф.ЗапуститьОбработкуСобытий();
+</DIV>
+</PRE>
+</details>
+<P></P>
+<hr style="border-color: lightgray;">
+<P></P>
+<details><summary>Код скрипта ГлавнаяФормаКлиента.os:</summary>
+<P><PRE class=code>
+<a id="copy3" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select3" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
+<hr style="border-color: lightgray;"><DIV id="cont3">
+Перем КС Экспорт;
+Перем Кнопка1 Экспорт;
+Перем Надпись1 Экспорт;
+Перем Панель1 Экспорт;
+Перем Панель12 Экспорт;
+Перем Панель2 Экспорт;
+Перем Панель3 Экспорт;
+Перем Панель5 Экспорт;
+Перем Панель6 Экспорт;
+Перем Панель7 Экспорт;
+Перем ПолеВвода1 Экспорт;
+Перем ПолеВвода2 Экспорт;
+Перем ПолеВыбора3 Экспорт;
+Перем ПолеКартинки1 Экспорт;
+Перем ПриложениеКлиент1 Экспорт;
+Перем Стр0;
+Перем Стр1;
+Перем Стр2;
+Перем Стр3;
+Перем Стр4;
+Перем Стр5;
+Перем Стр6;
+Перем Стр7;
+Перем Стр8;
+Перем Стр9;
+Перем СтрКартинки Экспорт;
+Перем Сценарий2 Экспорт;
+Перем Таблица1 Экспорт;
+Перем Ф Экспорт;
+Перем Форма_1 Экспорт;
+
+Процедура Отправить() Экспорт
+	МассивПараметров = Новый Массив();
+	МассивПараметров.Добавить("" + ПолеВвода1.Текст);
+	М = ПриложениеКлиент1.ПолучитьИнформациюКлиентов();
+	Для А = 0 По М.ВГраница() Цикл
+		Клиент = М.Получить(А);
+		ГуидКлиента = Клиент.ГуидКлиента;
+		Если ГуидКлиента = ПриложениеКлиент1.ГуидКлиента Тогда
+		Иначе
+			ПриложениеКлиент1.ВыполнитьНаКлиенте(ГуидКлиента, "ДобавитьСообщение", МассивПараметров);
+		КонецЕсли;
+	КонецЦикла;
+	ПолеВвода2.Текст = ПолеВвода1.Текст;
+	ПолеВвода1.Текст = "";
+КонецПроцедуры
+
+Процедура Форма1_ПриЗакрытии() Экспорт
+	М2 = Новый Массив(); // Массив для передачи данных о клиентах кроме отключенного.
+	М1 = ПриложениеКлиент1.ПолучитьИнформациюКлиентов();
+	Для А = 0 По М1.ВГраница() Цикл
+		ИнформацияКлиента = М1.Получить(А);
+		Если Не ИнформацияКлиента.ИмяКлиента = ПриложениеКлиент1.ИмяКлиента Тогда
+			М2.Добавить(ИнформацияКлиента);
+		КонецЕсли;
+	КонецЦикла;
+	Сценарий2.КлиентОтключился(М2);
+	ПриложениеКлиент1.Отключить();
+КонецПроцедуры
+
+Процедура ПриСозданииФормы(_Форма) Экспорт
+    Форма_1 = _Форма;
+	Форма_1.Закрыта = Ф.Действие(ЭтотОбъект, "Форма1_ПриЗакрытии");
+    Форма_1.Отображать = Истина;
+    Форма_1.Показать();
+    Форма_1.Активизировать();
+
+    Панель1 = Ф.Панель();
+    Панель2 = Ф.Панель();
+    Панель3 = Ф.Панель();
+    Панель5 = Ф.Панель();
+    Панель6 = Ф.Панель();
+    Панель7 = Ф.Панель();
+    Кнопка1 = Ф.Кнопка();
+    ПолеВвода1 = Ф.ПолеВвода();
+    Панель12 = Ф.Панель();
+    ПолеВыбора3 = Ф.ПолеВыбора();
+    ПолеКартинки1 = Ф.ПолеКартинки();
+    ПолеВвода2 = Ф.ПолеВвода();
+	Надпись1 = Ф.Надпись();
+	Таблица1 = Ф.Таблица();
+
+    Форма_1.Размер = Ф.Размер(640, 480);
+    Форма_1.Текст = "Чат клиент (OneScript)";
+
+    Панель1.Родитель = Форма_1;
+    Панель1.Стыковка = Ф.СтильСтыковки.Право;
+    Панель1.НаПереднийПлан();
+    Панель1.Размер = Ф.Размер(200, 447);
+    Панель1.ПорядокОбхода = 0;
+    Панель1.Положение = Ф.Точка(432, 0);
+    Панель1.СтильГраницы = Ф.СтильГраницы.Трехмерная;
+    Панель1.ЦветФона = Ф.Цвет("РозовоКоричневый");
+
+	Таблица1.Родитель = Панель1;
+	Таблица1.Стыковка = Ф.СтильСтыковки.Заполнение;
+	Таблица1.ОтображатьЗаголовкиСтолбцов = Ложь;
+	Таблица1.ОтображатьЗаголовкиСтрок = Ложь;
+	Таблица1.ИзменятьРазмерКолонок = Ложь;
+	Таблица1.ИзменятьРазмерСтрок = Ложь;
+	Таблица1.ТолькоЧтение = Истина;
+	КолонкаКартинка1 = Ф.КолонкаКартинка();
+	КолонкаКартинка1.Ширина = 58;
+	КолонкаПолеВвода1 = Ф.КолонкаПолеВвода();
+	КолонкаПолеВвода1.Ширина = 145;
+	Таблица1.Колонки.Добавить(КолонкаКартинка1);
+	Таблица1.Колонки.Добавить(КолонкаПолеВвода1);
+	Таблица1.ДобавлятьСтроки = Ложь; // Так как мы будем добавлять строки программно, запретим автоматическое добавление строк.
+	
+	// Для подготовки (корректной работы) полос прокрутки добавим заведомо много строк с последующим их удалением.
+	// Это задействует алгоритмы обработки поведения полос прокрутки. Иначе можно получить форму с недоступной таблицей.
+	Таблица1.КоличествоСтрок = 200;
+	Таблица1.Строки.Очистить();
+
+    Панель12.Родитель = Панель1;
+    Панель12.Стыковка = Ф.СтильСтыковки.Верх;
+    Панель12.Высота = 63;
+    Панель12.ПорядокОбхода = 0;
+    Панель12.Положение = Ф.Точка(4, 3);
+    Панель12.ЦветФона = Ф.Цвет("СветлыйЛососевый");
+
+    ПолеВыбора3.Родитель = Панель12;
+    ПолеВыбора3.Размер = Ф.Размер(115, 24);
+    ПолеВыбора3.ПорядокОбхода = 0;
+    ПолеВыбора3.Положение = Ф.Точка(67, 36);
+    ПолеВыбора3.Текст = "Занят";
+    ПолеВыбора3.ШиринаВыпадающегоСписка = 115;
+    ПолеВыбора3.Элементы.Добавить(Ф.ЭлементСписка("Доступный", "Доступный"));
+    ПолеВыбора3.Элементы.Добавить(Ф.ЭлементСписка("Занят", "Занят"));
+    ПолеВыбора3.Элементы.Добавить(Ф.ЭлементСписка("Вышел", "Вышел"));
+
+    ПолеКартинки1.Родитель = Панель12;
+    ПолеКартинки1.Размер = Ф.Размер(58, 57);
+    ПолеКартинки1.Положение = Ф.Точка(3, 3);
+    ПолеКартинки1.ЦветФона = Ф.Цвет("ТусклоРозовый");
+	Случайное = Ф.Математика().Целое(Ф.Математика().Случайное() * 10);
+	Если Случайное = 0 Тогда
+		СтрКартинки = Стр0;
+	ИначеЕсли Случайное = 1 Тогда
+		СтрКартинки = Стр1;
+	ИначеЕсли Случайное = 2 Тогда
+		СтрКартинки = Стр2;
+	ИначеЕсли Случайное = 3 Тогда
+		СтрКартинки = Стр3;
+	ИначеЕсли Случайное = 4 Тогда
+		СтрКартинки = Стр4;
+	ИначеЕсли Случайное = 5 Тогда
+		СтрКартинки = Стр5;
+	ИначеЕсли Случайное = 6 Тогда
+		СтрКартинки = Стр6;
+	ИначеЕсли Случайное = 7 Тогда
+		СтрКартинки = Стр7;
+	ИначеЕсли Случайное = 8 Тогда
+		СтрКартинки = Стр8;
+	ИначеЕсли Случайное = 9 Тогда
+		СтрКартинки = Стр9;
+	КонецЕсли;
+	Изображение1 = Ф.Картинка(СтрКартинки);
+	ПолеКартинки1.РазмещениеФоновогоИзображения = Ф.РазмещениеИзображения.Масштабировать;
+	ПолеКартинки1.РежимМасштабирования = Ф.РежимРазмераПоляКартинки.РастянутьИзображение;
+	ПолеКартинки1.Изображение = Изображение1;
+	
+    Надпись1.Родитель = Панель12;
+    Надпись1.Размер = Ф.Размер(115, 23);
+    Надпись1.ПорядокОбхода = 18;
+    Надпись1.ВыравниваниеТекста = Ф.ВыравниваниеСодержимого.СерединаЦентр;
+    Надпись1.Положение = Ф.Точка(67, 4);
+    Надпись1.ЦветФона = Ф.Цвет("СветлыйЛососевый");
+
+    Панель2.Родитель = Форма_1;
+    Панель2.Стыковка = Ф.СтильСтыковки.Заполнение;
+    Панель2.НаПереднийПлан();
+    Панель2.Размер = Ф.Размер(432, 447);
+    Панель2.ПорядокОбхода = 1;
+    Панель2.Положение = Ф.Точка(0, 0);
+    Панель2.СтильГраницы = Ф.СтильГраницы.Трехмерная;
+    Панель2.ЦветФона = Ф.Цвет("ТемноСерый");
+
+    Панель3.Родитель = Панель2;
+    Панель3.Стыковка = Ф.СтильСтыковки.Низ;
+    Панель3.НаПереднийПлан();
+    Панель3.Размер = Ф.Размер(428, 73);
+    Панель3.ПорядокОбхода = 0;
+    Панель3.Положение = Ф.Точка(0, 370);
+    Панель3.СтильГраницы = Ф.СтильГраницы.Трехмерная;
+    Панель3.ЦветФона = Ф.Цвет("ТуманноБелый");
+
+    Панель6.Родитель = Панель3;
+    Панель6.Стыковка = Ф.СтильСтыковки.Право;
+    Панель6.НаПереднийПлан();
+    Панель6.Размер = Ф.Размер(83, 69);
+    Панель6.ПорядокОбхода = 0;
+    Панель6.Положение = Ф.Точка(341, 0);
+    Панель6.ЦветФона = Ф.Цвет("ТусклоСерый");
+
+    Кнопка1.Родитель = Панель6;
+    Кнопка1.Стыковка = Ф.СтильСтыковки.Заполнение;
+    Кнопка1.НаПереднийПлан();
+    Кнопка1.Размер = Ф.Размер(83, 69);
+    Кнопка1.ПорядокОбхода = 0;
+    Кнопка1.Нажатие = Ф.Действие(ЭтотОбъект, "Отправить");
+    Кнопка1.Положение = Ф.Точка(0, 0);
+    Кнопка1.Текст = "Отправить";
+    Кнопка1.ЦветФона = Ф.Цвет("ПолосаПрокрутки");
+
+    Панель7.Родитель = Панель3;
+    Панель7.Стыковка = Ф.СтильСтыковки.Заполнение;
+    Панель7.НаПереднийПлан();
+    Панель7.Размер = Ф.Размер(341, 69);
+    Панель7.ПорядокОбхода = 1;
+    Панель7.Положение = Ф.Точка(0, 0);
+    Панель7.ЦветФона = Ф.Цвет("ТуманноБелый");
+
+    ПолеВвода1.Родитель = Панель7;
+    ПолеВвода1.Стыковка = Ф.СтильСтыковки.Заполнение;
+    ПолеВвода1.НаПереднийПлан();
+    ПолеВвода1.Размер = Ф.Размер(341, 69);
+    ПолеВвода1.ПорядокОбхода = 0;
+    ПолеВвода1.МногострочныйРежим = Истина;
+    ПолеВвода1.Положение = Ф.Точка(0, 0);
+
+    Панель5.Родитель = Панель2;
+    Панель5.Стыковка = Ф.СтильСтыковки.Заполнение;
+    Панель5.НаПереднийПлан();
+    Панель5.Размер = Ф.Размер(428, 370);
+    Панель5.ПорядокОбхода = 2;
+    Панель5.Положение = Ф.Точка(0, 0);
+    Панель5.СтильГраницы = Ф.СтильГраницы.Трехмерная;
+    Панель5.ЦветФона = Ф.Цвет("Черный");
+
+    ПолеВвода2.Родитель = Панель5;
+    ПолеВвода2.Стыковка = Ф.СтильСтыковки.Заполнение;
+    ПолеВвода2.НаПереднийПлан();
+    ПолеВвода2.Размер = Ф.Размер(424, 366);
+    ПолеВвода2.ПорядокОбхода = 0;
+    ПолеВвода2.МногострочныйРежим = Истина;
+    ПолеВвода2.Положение = Ф.Точка(0, 0);
+КонецПроцедуры
+
+Стр0 = "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";
+Стр1 = "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";
+Стр2 = "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";
+Стр3 = "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";
+Стр4 = "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";
+Стр5 = "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";
+Стр6 = "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";
+Стр7 = "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";
+Стр8 = "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";
+Стр9 = "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";
+</DIV>
+</PRE>
+</details>
+<P></P>
+<hr style="border-color: lightgray;">
+<P></P>
+<details><summary>Код скрипта Клиент.os:</summary>
+<P><PRE class=code>
+<a id="copy4" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select4" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
+<hr style="border-color: lightgray;"><DIV id="cont4">
+Перем КС;
+Перем ПриложениеКлиент1;
+Перем ИмяКлиента;
+
+Функция РазобратьСтроку(Строка, Разделитель)
+	Стр = СтрЗаменить(Строка, Разделитель, Символы.ПС);
+	М = Новый Массив;
+	Если ПустаяСтрока(Стр) Тогда
+		Возврат М;
+	КонецЕсли;
+	Для Ч = 1 По СтрЧислоСтрок(Стр) Цикл
+		М.Добавить(СтрПолучитьСтроку(Стр, Ч));
+	КонецЦикла;
+	Возврат М;
+КонецФункции
+
+Процедура ПриложениеКлиент1_ПриПодключении() Экспорт
+	М = ПриложениеКлиент1.ПолучитьИнформациюКлиентов();
+	Для А = 0 По М.ВГраница() Цикл
+		ИнформацияКлиента = М.Получить(А);
+		ГуидКлиента = ИнформацияКлиента.ГуидКлиента;
+		Если ГуидКлиента = ПриложениеКлиент1.ГуидКлиента Тогда
+		Иначе
+			ПриложениеКлиент1.ВыполнитьНаКлиенте(ГуидКлиента, "ОбновитьСписокКлиентов");
+		КонецЕсли;
+	КонецЦикла;
+КонецПроцедуры
+
+Процедура ДобавитьСообщение() Экспорт
+	МассивПараметров = КС.ВыполнитьНаКлиентеАрг().МассивПараметров;
+	Сообщение = МассивПараметров.Получить(0);
+	Сценарий1.ПолеВвода2.Текст = Сообщение;
+	ПриложениеКлиент1.Результат = ""; // Без этой строки не работает передача сообщений.
+КонецПроцедуры
+
+Процедура ОбновитьСписокКлиентов() Экспорт
+	Таблица1.Строки.Очистить();
+	М = ПриложениеКлиент1.ПолучитьИнформациюКлиентов();
+	Для А = 0 По М.ВГраница() Цикл
+		ИнформацияКлиента = М.Получить(А);
+		Если Не ИнформацияКлиента.ГуидКлиента = ПриложениеКлиент1.ГуидКлиента Тогда
+			Если Ф.ПлатформаWin Тогда
+				ИндексСтроки1 = Таблица1.Строки.Добавить();
+				ИндексСтроки2 = Таблица1.Строки.Добавить();
+				Форма_1.Обновить();
+				Для Каждого Эл Из ИнформацияКлиента.Метка Цикл
+					Если Эл.Ключ = "СтрКартинка" Тогда
+						КартинкаЯчейки = Таблица1.Ячейка(0, ИндексСтроки1);
+						КартинкаЯчейки.Значение = Ф.Картинка(Эл.Значение);
+						КартинкаЯчейки.РазмещениеИзображения = Ф.РазмещениеИзображенияЯчейки.Масштабировать;
+					КонецЕсли;
+				КонецЦикла;
+				Таблица1.Ячейка(1, ИндексСтроки1).Значение = ИнформацияКлиента.ИмяКлиента;
+				Таблица1.ОбъединитьЯчейки(0, ИндексСтроки1, 1, 2);
+			Иначе
+				ИндексСтроки1 = Таблица1.Строки.Добавить();
+				Форма_1.Обновить();
+				Для Каждого Эл Из ИнформацияКлиента.Метка Цикл
+					Если Эл.Ключ = "СтрКартинка" Тогда
+						КартинкаЯчейки = Таблица1.Ячейка(0, ИндексСтроки1);
+						КартинкаЯчейки.Значение = Ф.Картинка(Эл.Значение);
+						КартинкаЯчейки.РазмещениеИзображения = Ф.РазмещениеИзображенияЯчейки.Масштабировать;
+					КонецЕсли;
+				КонецЦикла;
+				Таблица1.Ячейка(1, ИндексСтроки1).Значение = ИнформацияКлиента.ИмяКлиента;
+			КонецЕсли;
+		КонецЕсли;
+	КонецЦикла;
+	Надпись1.Текст = ИмяКлиента;
+	ПриложениеКлиент1.Результат = ""; // Без этой строки не работает обновление таблицы.
+КонецПроцедуры
+
+Процедура ОбновитьСписокКлиентовПослеОтключенияКлиента() Экспорт
+	Таблица1.Строки.Очистить();
+	М1 = КС.ВыполнитьНаКлиентеАрг().МассивПараметров;
+	Для А = 0 По М1.ВГраница() Цикл
+		Стр = М1.Получить(А);
+		М2 = РазобратьСтроку(Стр, " ");
+		Если М2.Количество() > 2 Тогда
+			ГуидКлиента = М2.Получить(0);
+			ИмяКлиента1 = М2.Получить(1);
+			СтрКартинка = М2.Получить(2);
+			Если Не ГуидКлиента = ПриложениеКлиент1.ГуидКлиента Тогда
+				Если Ф.ПлатформаWin Тогда
+					ИндексСтроки1 = Таблица1.Строки.Добавить();
+					ИндексСтроки2 = Таблица1.Строки.Добавить();
+					Форма_1.Обновить();
+					
+					КартинкаЯчейки = Таблица1.Ячейка(0, ИндексСтроки1);
+					КартинкаЯчейки.Значение = Ф.Картинка(СтрКартинка);
+					КартинкаЯчейки.РазмещениеИзображения = Ф.РазмещениеИзображенияЯчейки.Масштабировать;
+							
+					Таблица1.Ячейка(1, ИндексСтроки1).Значение = ИмяКлиента1;
+					Таблица1.ОбъединитьЯчейки(0, ИндексСтроки1, 1, 2);
+				Иначе
+					ИндексСтроки1 = Таблица1.Строки.Добавить();
+					Форма_1.Обновить();
+					
+					КартинкаЯчейки = Таблица1.Ячейка(0, ИндексСтроки1);
+					КартинкаЯчейки.Значение = Ф.Картинка(СтрКартинка);
+					КартинкаЯчейки.РазмещениеИзображения = Ф.РазмещениеИзображенияЯчейки.Масштабировать;
+							
+					Таблица1.Ячейка(1, ИндексСтроки1).Значение = ИмяКлиента1;
+				КонецЕсли;
+			КонецЕсли;
+		КонецЕсли;
+	КонецЦикла;
+	ПриложениеКлиент1.Результат = ""; // Без этой строки не работает обновление таблицы.
+КонецПроцедуры
+
+Процедура КлиентОтключился(ПараметрМассив) Экспорт
+	М1 = ПараметрМассив;
+	М2 = Новый Массив();
+	Для А = 0 По М1.ВГраница() Цикл
+		ИнформацияКлиента = М1.Получить(А);
+		СтрКартинка = "";
+		ГуидКлиента = ИнформацияКлиента.ГуидКлиента;
+		ИмяКлиента1 = ИнформацияКлиента.ИмяКлиента;
+		Метка = ИнформацияКлиента.Метка;
+		Для Каждого Эл Из Метка Цикл
+			Если Эл.Ключ = "СтрКартинка" Тогда
+				СтрКартинка = Эл.Значение;
+			КонецЕсли;
+		КонецЦикла;
+		Стр = ГуидКлиента + " " + ИмяКлиента1 + " " + СтрКартинка;
+		М2.Добавить(Стр);
+	КонецЦикла;
+	
+	Для А = 0 По М1.ВГраница() Цикл
+		ИнформацияКлиента = М1.Получить(А);
+		ГуидКлиента = ИнформацияКлиента.ГуидКлиента;
+		ПриложениеКлиент1.ВыполнитьНаКлиенте(ГуидКлиента, "ОбновитьСписокКлиентовПослеОтключенияКлиента", М2);
+	КонецЦикла;
+КонецПроцедуры
+
+ТекПуть = Новый Файл(ТекущийСценарий().Источник).Путь;
+ПодключитьВнешнююКомпоненту(ОбъединитьПути(ТекПуть,"OneScriptClientServer.dll"));
+КС = Новый КлиентСерверДляОдноСкрипта();
+
+ПриложениеКлиент1 = КС.ПриложениеКлиент(КС.TCPКонечнаяТочка(IP, Порт), ЭтотОбъект);
+ПриложениеКлиент1.ПриПодключении = Новый Действие(ЭтотОбъект, "ПриложениеКлиент1_ПриПодключении");
+ИмяКлиента = "" + ТекущаяУниверсальнаяДатаВМиллисекундах();
+ПриложениеКлиент1.ИмяКлиента = ИмяКлиента;
+Сценарий1.ПриложениеКлиент1 = ПриложениеКлиент1;
+Сценарий1.Сценарий2 = ЭтотОбъект;
+
+НашаСтруктура = Новый Структура("СтрКартинка", Сценарий1.СтрКартинки);
+ПриложениеКлиент1.Метка = НашаСтруктура;
+
+ПриложениеКлиент1.Подключить();
+Панель1.ЦветФона = Ф.Цвет("Красный");
+Надпись1.ОсновнойЦвет = Ф.Цвет("Черный");
+Надпись1.Шрифт = Ф.Шрифт(, Надпись1.Шрифт.Размер, Ф.СтильШрифта.Жирный);
+
+ОбновитьСписокКлиентов();
+
+Пока КС.Продолжать Цикл
+	КС.ПолучитьСобытие().Выполнить();
+КонецЦикла;
+</DIV>
+</PRE>
+</details>
+<P></P>
+<hr style="border-color: lightgray;">
+<P></P>
+<details><summary>Код скрипта Диалог.os:</summary>
+<P><PRE class=code>
+<a id="copy5" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select5" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
+<hr style="border-color: lightgray;"><DIV id="cont5">
+Перем ВремяСоздания;
+Перем Ф Экспорт;
+Перем ЭтаФорма;
+Перем ДанныеРаботыДиалога Экспорт;
+Перем IP Экспорт;
+Перем Порт Экспорт;
+Перем ПолеВводаIP;
+Перем РегуляторВверхВниз1;
+
+Процедура ПриСозданииФормы(Форма) Экспорт
+    ЭтаФорма = Форма;
+    // тут можно добавить все элементы управления 
+    ЭтаФорма.Текст = "Ввод IP адреса и номера порта";
+    ЭтаФорма.Ширина = 350;
+    ЭтаФорма.Высота = 160;
+	
+    ПолеВводаIP = Ф.ПолеВвода();
+    ПолеВводаIP.Родитель = ЭтаФорма;
+	ПолеВводаIP.Лево = 20;
+	ПолеВводаIP.Верх = 20;
+	ПолеВводаIP.Ширина = 250;
+	ПолеВводаIP.МногострочныйРежим = Ложь;
+	ПолеВводаIP.Текст = "127.0.0.1";
+
+	РегуляторВверхВниз1 = Ф.РегуляторВверхВниз();
+    РегуляторВверхВниз1.Родитель = ЭтаФорма;
+	РегуляторВверхВниз1.Ширина = ПолеВводаIP.Ширина;
+	РегуляторВверхВниз1.Ниже(ПолеВводаIP, 10);
+	РегуляторВверхВниз1.Максимум = 65535;
+	РегуляторВверхВниз1.Минимум = 0;
+	РегуляторВверхВниз1.Значение = 10085;
+	
+	// если установить Истина, то эта команда не позволит открыть диалог в модальном режиме
+	ЭтаФорма.Отображать = Ложь;
+    
+    КнопкаОК = Ф.Кнопка();
+    КнопкаОК.Родитель = ЭтаФорма;
+    КнопкаОК.Текст = "ОК";
+    КнопкаОК.Лево = РегуляторВверхВниз1.Лево;
+    КнопкаОК.Ширина = 80;
+    КнопкаОК.Высота = 25;
+	КнопкаОК.Ниже(РегуляторВверхВниз1, 10);
+	КнопкаОК.Нажатие = Новый Действие(ЭтотОбъект, "КнопкаОК_Нажатие");
+
+    КнопкаОтмена = Ф.Кнопка();
+    КнопкаОтмена.Родитель = ЭтаФорма;
+    КнопкаОтмена.Текст = "Отмена";
+    КнопкаОтмена.Ширина = КнопкаОК.Ширина;
+    КнопкаОтмена.Высота = КнопкаОК.Высота;
+	КнопкаОтмена.Ниже(РегуляторВверхВниз1, 10);
+    КнопкаОтмена.Правее(КнопкаОК, 10);
+	КнопкаОтмена.Нажатие = Новый Действие(ЭтотОбъект, "КнопкаОтмена_Нажатие");
+КонецПроцедуры
+
+Процедура КнопкаОК_Нажатие() Экспорт
+    ДанныеРаботыДиалога = "ПРИНЯТО!";
+	IP = ПолеВводаIP.Текст;
+	Порт = РегуляторВверхВниз1.Значение;
+	ЭтаФорма.РезультатДиалога = Ф.РезультатДиалога.Да; // после установки результата диалога форма диалога закроется
+КонецПроцедуры
+
+Процедура КнопкаОтмена_Нажатие() Экспорт
+    ДанныеРаботыДиалога = "ОТКЛОНЕНО!";
+	ЭтаФорма.РезультатДиалога = Ф.РезультатДиалога.Нет; // после установки результата диалога форма диалога закроется
+КонецПроцедуры
+
+//тут можно настроить начальные данные экземпляра формы
+ВремяСоздания = ТекущаяУниверсальнаяДатаВМиллисекундах();
+ДанныеРаботыДиалога = "Форма закрыта без выбора";
+</DIV>
+</PRE>
+</details>
+<P></P>
+<H4 class=dtH4>Смотрите также</H4>
+<P><A href="OSClientServer.html">Библиотека&nbsp;OneScriptClientServer</A></P></DIV>
+<script>
+window.onload = function () {
+    var a = document.getElementById('select1');
+    a.onclick = function() {
+		window.getSelection().removeAllRanges();
+		var ta1 = document.getElementById('cont1'); 
+		var range1 = document.createRange();
+		range1.selectNode(ta1); 
+		window.getSelection().addRange(range1); 
+        return false;
+    }
+	
+    var b = document.getElementById('copy1');
+    b.onclick = function() {
+		window.getSelection().removeAllRanges();
+		var ta2 = document.getElementById('cont1'); 
+		var range2 = document.createRange();
+		range2.selectNode(ta2); 
+		window.getSelection().addRange(range2);
+		try { 
+		  document.execCommand('copy'); 
+		} catch(err) {} 
+		window.getSelection().removeRange(range2);
+        return false;
+    }
+	
+    var c = document.getElementById('select2');
+    c.onclick = function() {
+		window.getSelection().removeAllRanges();
+		var ta3 = document.getElementById('cont2'); 
+		var range3 = document.createRange();
+		range3.selectNode(ta3); 
+		window.getSelection().addRange(range3); 
+        return false;
+    }
+	
+    var d = document.getElementById('copy2');
+    d.onclick = function() {
+		window.getSelection().removeAllRanges();
+		var ta4 = document.getElementById('cont2'); 
+		var range4 = document.createRange();
+		range4.selectNode(ta4); 
+		window.getSelection().addRange(range4);
+		try { 
+		  document.execCommand('copy'); 
+		} catch(err) {} 
+		window.getSelection().removeRange(range4);
+        return false;
+    }
+	
+    var c = document.getElementById('select3');
+    c.onclick = function() {
+		window.getSelection().removeAllRanges();
+		var ta3 = document.getElementById('cont3'); 
+		var range3 = document.createRange();
+		range3.selectNode(ta3); 
+		window.getSelection().addRange(range3); 
+        return false;
+    }
+	
+    var d = document.getElementById('copy3');
+    d.onclick = function() {
+		window.getSelection().removeAllRanges();
+		var ta4 = document.getElementById('cont3'); 
+		var range4 = document.createRange();
+		range4.selectNode(ta4); 
+		window.getSelection().addRange(range4);
+		try { 
+		  document.execCommand('copy'); 
+		} catch(err) {} 
+		window.getSelection().removeRange(range4);
+        return false;
+    }
+	
+    var c = document.getElementById('select4');
+    c.onclick = function() {
+		window.getSelection().removeAllRanges();
+		var ta3 = document.getElementById('cont4'); 
+		var range3 = document.createRange();
+		range3.selectNode(ta3); 
+		window.getSelection().addRange(range3); 
+        return false;
+    }
+	
+    var d = document.getElementById('copy4');
+    d.onclick = function() {
+		window.getSelection().removeAllRanges();
+		var ta4 = document.getElementById('cont4'); 
+		var range4 = document.createRange();
+		range4.selectNode(ta4); 
+		window.getSelection().addRange(range4);
+		try { 
+		  document.execCommand('copy'); 
+		} catch(err) {} 
+		window.getSelection().removeRange(range4);
+        return false;
+    }
+	
+    var c = document.getElementById('select5');
+    c.onclick = function() {
+		window.getSelection().removeAllRanges();
+		var ta3 = document.getElementById('cont5'); 
+		var range3 = document.createRange();
+		range3.selectNode(ta3); 
+		window.getSelection().addRange(range3); 
+        return false;
+    }
+	
+    var d = document.getElementById('copy5');
+    d.onclick = function() {
+		window.getSelection().removeAllRanges();
+		var ta4 = document.getElementById('cont5'); 
+		var range4 = document.createRange();
+		range4.selectNode(ta4); 
+		window.getSelection().addRange(range4);
+		try { 
+		  document.execCommand('copy'); 
+		} catch(err) {} 
+		window.getSelection().removeRange(range4);
+        return false;
+    }
+}
+</script>
+</BODY></HTML>

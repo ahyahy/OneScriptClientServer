@@ -1,25 +1,26 @@
 ﻿using ScriptEngine.Machine.Contexts;
+using Hik.Communication.Scs.Communication.Messages;
 
 namespace oscs
 {
     public class BoolMessage
     {
         public CsBoolMessage dll_obj;
-        public Hik.Communication.Scs.Communication.Messages.ScsBoolMessage M_BoolMessage;
+        public ScsBoolMessage M_BoolMessage;
 
         public BoolMessage()
         {
-            M_BoolMessage = new Hik.Communication.Scs.Communication.Messages.ScsBoolMessage();
+            M_BoolMessage = new ScsBoolMessage();
         }
 
-        public BoolMessage(Hik.Communication.Scs.Communication.Messages.ScsBoolMessage p1)
+        public BoolMessage(ScsBoolMessage p1)
         {
             M_BoolMessage = p1;
         }
 
         public BoolMessage(System.Boolean p1)
         {
-            M_BoolMessage = new Hik.Communication.Scs.Communication.Messages.ScsBoolMessage(p1);
+            M_BoolMessage = new ScsBoolMessage(p1);
         }
 
         public System.Boolean BoolVal
@@ -28,7 +29,7 @@ namespace oscs
             set { M_BoolMessage.BoolVal = value; }
         }
 
-        public Hik.Communication.Scs.Communication.Messages.ScsBoolMessage M_Obj
+        public ScsBoolMessage M_Obj
         {
             get { return M_BoolMessage; }
         }
@@ -82,6 +83,5 @@ namespace oscs
         {
             get { return Base_obj.MessageId; }
         }
-        
     }
 }

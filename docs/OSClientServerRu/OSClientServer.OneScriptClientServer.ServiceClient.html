@@ -14,9 +14,16 @@
 <H1 class=dtH1>КлиентСерверДляОдноСкрипта.ПриложениеКлиент (OneScriptClientServer.ServiceClient)&nbsp;Метод</H1></DIV></DIV>
 <DIV id=nstext>
 <H4 class=dtH4>Синтаксис</H4>
-<P>ПриложениеКлиент()</P>
+<P>ПриложениеКлиент(&lt;КонечнаяТочка&gt;, &lt;Сценарий&gt;)</P>
 <H4 class=dtH4>Параметры</H4>
-<DL></DL>
+<DL>
+<DT><I>КонечнаяТочка</I> (обязательный)</DT>
+<DD>Тип: <A href="OSClientServer.TcpEndPoint.html">TCPКонечнаяТочка&nbsp;(TcpEndPoint)</A>.</DD>
+<DD>Конечная точка сервера для его подключения.</DD>
+<DT><I>Сценарий</I> (обязательный)</DT>
+<DD>Тип: Произвольный.</DD>
+<DD>Сценарий, как объект с типом значения <B>ScriptEngine.Machine.IRuntimeContextInstance</B>.</DD>
+</DL>
 <H4 class=dtH4>Возвращаемое значение</H4>
 <P>Тип: <A href="OSClientServer.ServiceClient.html">ПриложениеКлиент&nbsp;(ServiceClient)</A>.</P>
 <H4 class=dtH4>Описание</H4>
@@ -25,33 +32,20 @@
 <P></P>
 <H4 class=dtH4>Пример</H4>
 <P><PRE class=code>
-ПриложениеКлиент1 = КС.ПриложениеКлиент(КС.TCPКонечнаяТочка("127.0.0.1", 10085));
+ПриложениеКлиент1 = КС.ПриложениеКлиент(КС.TCPКонечнаяТочка("127.0.0.1", 10085), ЭтотОбъект);
 </PRE>
 <details><summary>Полный пример кода</summary>
 <P><PRE class=code>
 <a id="copy1" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select1" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont1">
+//== Файл Клиент.os == начало
 ПодключитьВнешнююКомпоненту("C:\444\111\OneScriptClientServer\OneScriptClientServer\bin\Debug\OneScriptClientServer.dll");
 КС = Новый КлиентСерверДляОдноСкрипта();
-ПриложениеКлиент1 = КС.ПриложениеКлиент(КС.TCPКонечнаяТочка("127.0.0.1", 10085));
+ПриложениеКлиент1 = КС.ПриложениеКлиент(КС.TCPКонечнаяТочка("127.0.0.1", 10085), ЭтотОбъект);
+ПриложениеКлиент1.ИмяКлиента = "Приложение - клиент";
 
-Сообщить("" + ПриложениеКлиент1);
-</DIV>
-</PRE>
-</details>
-<P></P>
-<details><summary>Тестовый код</summary>
-<P><PRE class=code>
-<a id="copy2" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select2" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
-<hr style="border-color: lightgray;"><DIV id="cont2">
-ПодключитьВнешнююКомпоненту("C:\444\111\OneScriptClientServer\OneScriptClientServer\bin\Debug\OneScriptClientServer.dll");
-КС = Новый КлиентСерверДляОдноСкрипта();
-
-ПриложениеКлиент1 = КС.ПриложениеКлиент(КС.TCPКонечнаяТочка("127.0.0.1", 10085));
-
-Сообщить(?(
-"" + ПриложениеКлиент1 = "КсПриложениеКлиент"
-, "", "!!! ") + "КлиентСерверДляОдноСкрипта.ПриложениеКлиент (OneScriptClientServer.ServiceClient) Метод" + " " + ТекущаяДата());
+Сообщить("ПриложениеКлиент1.ИмяКлиента = " + ПриложениеКлиент1.ИмяКлиента);
+//== Файл Клиент.os == конец
 </DIV>
 </PRE>
 </details>
@@ -82,30 +76,6 @@ window.onload = function () {
 		  document.execCommand('copy'); 
 		} catch(err) {} 
 		window.getSelection().removeRange(range2);
-        return false;
-    }
-	
-    var c = document.getElementById('select2');
-    c.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta3 = document.getElementById('cont2'); 
-		var range3 = document.createRange();
-		range3.selectNode(ta3); 
-		window.getSelection().addRange(range3); 
-        return false;
-    }
-	
-    var d = document.getElementById('copy2');
-    d.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta4 = document.getElementById('cont2'); 
-		var range4 = document.createRange();
-		range4.selectNode(ta4); 
-		window.getSelection().addRange(range4);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range4);
         return false;
     }
 }

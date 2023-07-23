@@ -1,4 +1,6 @@
 ﻿using ScriptEngine.Machine.Contexts;
+using Hik.Communication.Scs.Communication.EndPoints;
+using Hik.Communication.Scs.Communication.EndPoints.Tcp;
 
 namespace oscs
 {
@@ -6,25 +8,25 @@ namespace oscs
     {
         public CsTcpEndPoint dll_obj;
         public string ipAddress;
-        public Hik.Communication.Scs.Communication.EndPoints.Tcp.ScsTcpEndPoint M_TcpEndPoint;
+        public ScsTcpEndPoint M_TcpEndPoint;
         public int port;
 
-        public TcpEndPoint(Hik.Communication.Scs.Communication.EndPoints.ScsEndPoint p1)
+        public TcpEndPoint(ScsEndPoint p1)
         {
-            Hik.Communication.Scs.Communication.EndPoints.Tcp.ScsTcpEndPoint p2 = (Hik.Communication.Scs.Communication.EndPoints.Tcp.ScsTcpEndPoint)p1;
-            M_TcpEndPoint = new Hik.Communication.Scs.Communication.EndPoints.Tcp.ScsTcpEndPoint(p2.IpAddress, p2.TcpPort);
-        }
-
-        public TcpEndPoint(oscs.TcpEndPoint p1)
-        {
-            M_TcpEndPoint = p1.M_TcpEndPoint;
-            ipAddress = p1.ipAddress;
-            port = p1.port;
+            ScsTcpEndPoint p2 = (ScsTcpEndPoint)p1;
+            M_TcpEndPoint = new ScsTcpEndPoint(p2.IpAddress, p2.TcpPort);
         }
 
         public TcpEndPoint(string p1, int p2)
         {
-            M_TcpEndPoint = new Hik.Communication.Scs.Communication.EndPoints.Tcp.ScsTcpEndPoint(p1, p2);
+            M_TcpEndPoint = new ScsTcpEndPoint(p1, p2);
+        }
+
+        public TcpEndPoint(TcpEndPoint p1)
+        {
+            M_TcpEndPoint = p1.M_TcpEndPoint;
+            ipAddress = p1.ipAddress;
+            port = p1.port;
         }
 
         public string IpAddress
@@ -49,7 +51,7 @@ namespace oscs
             Base_obj = TcpEndPoint1;
         }
 
-        public CsTcpEndPoint(oscs.TcpEndPoint p1)
+        public CsTcpEndPoint(TcpEndPoint p1)
         {
             TcpEndPoint TcpEndPoint1 = p1;
             TcpEndPoint1.dll_obj = this;
@@ -70,6 +72,5 @@ namespace oscs
         {
             get { return Base_obj.TcpPort; }
         }
-        
     }
 }

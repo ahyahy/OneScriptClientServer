@@ -31,75 +31,16 @@ TCPСервер1.Остановить();
 <P><PRE class=code>
 <a id="copy1" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select1" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont1">
-Перем КС, TCPСервер1;
-
-Процедура TCPСервер1_ПриПодключенииКлиента() Экспорт
-	СерверКлиент = КС.СерверКлиентАрг().Клиент;
-	Сообщить("Клиент подключен. Идентификатор клиента = " + СерверКлиент.ИдентификаторКлиента);
-	TCPСервер1.Остановить();
-КонецПроцедуры
-
 ПодключитьВнешнююКомпоненту("C:\444\111\OneScriptClientServer\OneScriptClientServer\bin\Debug\OneScriptClientServer.dll");
 КС = Новый КлиентСерверДляОдноСкрипта();
 
-КлиентОтключен = Ложь;
-
 TCPСервер1 = КС.TCPСервер(10085);
-TCPСервер1.ПриПодключенииКлиента = Новый Действие(ЭтотОбъект, "TCPСервер1_ПриПодключенииКлиента");
 TCPСервер1.Начать();
 Сообщить("Сервер запущен.");
-
-TCPКлиент1 = КС.TCPКлиент(КС.TCPКонечнаяТочка("127.0.0.1", 10085));
-TCPКлиент1.Подключить();
 Приостановить(1000);
 
-TCPКлиент1.Отключить();
-
-Пока КС.Продолжать Цикл
-	КС.ПолучитьСобытие().Выполнить();
-	КС.Продолжать = Ложь;
-КонецЦикла;
-</DIV>
-</PRE>
-</details>
-<P></P>
-<details><summary>Тестовый код</summary>
-<P><PRE class=code>
-<a id="copy2" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select2" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
-<hr style="border-color: lightgray;"><DIV id="cont2">
-Перем КС, КлиентПодключен, TCPСервер1;
-
-Процедура TCPСервер1_ПриПодключенииКлиента() Экспорт
-	СерверКлиент = КС.СерверКлиентАрг().Клиент;
-	// Сообщить("Клиент подключен. Идентификатор клиента = " + СерверКлиент.ИдентификаторКлиента);
-	КлиентПодключен = Истина;
-	TCPСервер1.Остановить();
-	КС.Продолжать = Ложь;
-КонецПроцедуры
-
-ПодключитьВнешнююКомпоненту("C:\444\111\OneScriptClientServer\OneScriptClientServer\bin\Debug\OneScriptClientServer.dll");
-КС = Новый КлиентСерверДляОдноСкрипта();
-
-КлиентПодключен = Ложь;
-
-TCPСервер1 = КС.TCPСервер(10085);
-TCPСервер1.ПриПодключенииКлиента = Новый Действие(ЭтотОбъект, "TCPСервер1_ПриПодключенииКлиента");
-TCPСервер1.Начать();
-// Сообщить("Сервер запущен.");
-
-TCPКлиент1 = КС.TCPКлиент(КС.TCPКонечнаяТочка("127.0.0.1", 10085));
-TCPКлиент1.Подключить();
-Приостановить(1000);
-
-TCPКлиент1.Отключить();
-
-Пока КС.Продолжать Цикл
-	КС.ПолучитьСобытие().Выполнить();
-КонецЦикла;
-
-Сообщить(?(
-КлиентПодключен
-, "", "!!! ") + "TCPСервер.Остановить (TcpServer.Stop) Метод" + " " + ТекущаяДата());
+TCPСервер1.Остановить();
+Сообщить("Сервер остановлен.");
 </DIV>
 </PRE>
 </details>
@@ -130,30 +71,6 @@ window.onload = function () {
 		  document.execCommand('copy'); 
 		} catch(err) {} 
 		window.getSelection().removeRange(range2);
-        return false;
-    }
-	
-    var c = document.getElementById('select2');
-    c.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta3 = document.getElementById('cont2'); 
-		var range3 = document.createRange();
-		range3.selectNode(ta3); 
-		window.getSelection().addRange(range3); 
-        return false;
-    }
-	
-    var d = document.getElementById('copy2');
-    d.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta4 = document.getElementById('cont2'); 
-		var range4 = document.createRange();
-		range4.selectNode(ta4); 
-		window.getSelection().addRange(range4);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range4);
         return false;
     }
 }

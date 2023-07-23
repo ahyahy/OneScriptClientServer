@@ -1,23 +1,25 @@
 ﻿using ScriptEngine.Machine.Contexts;
+using ScriptEngine.HostedScript.Library.Binary;
+using Hik.Communication.Scs.Communication.Messages;
 
 namespace oscs
 {
     public class ByteMessage
     {
         public CsByteMessage dll_obj;
-        public Hik.Communication.Scs.Communication.Messages.ScsRawDataMessage M_ByteMessage;
+        public ScsRawDataMessage M_ByteMessage;
 
         public ByteMessage(byte[] p1 = null)
         {
-            M_ByteMessage = new Hik.Communication.Scs.Communication.Messages.ScsRawDataMessage(p1);
+            M_ByteMessage = new ScsRawDataMessage(p1);
         }
 
-        public ByteMessage(Hik.Communication.Scs.Communication.Messages.ScsRawDataMessage p1)
+        public ByteMessage(ScsRawDataMessage p1)
         {
             M_ByteMessage = p1;
         }
 
-        public Hik.Communication.Scs.Communication.Messages.ScsRawDataMessage M_Obj
+        public ScsRawDataMessage M_Obj
         {
             get { return M_ByteMessage; }
         }
@@ -42,7 +44,7 @@ namespace oscs
     [ContextClass ("КсСообщениеБайты", "CsByteMessage")]
     public class CsByteMessage : AutoContext<CsByteMessage>
     {
-        public CsByteMessage(ScriptEngine.HostedScript.Library.Binary.BinaryDataContext p1)
+        public CsByteMessage(BinaryDataContext p1)
         {
             ByteMessage ByteMessage1 = new ByteMessage();
             ByteMessage1.dll_obj = this;
@@ -57,7 +59,7 @@ namespace oscs
             Base_obj = ByteMessage1;
         }
 		
-        public CsByteMessage(oscs.ByteMessage p1)
+        public CsByteMessage(ByteMessage p1)
         {
             ByteMessage ByteMessage1 = p1;
             ByteMessage1.dll_obj = this;
@@ -67,10 +69,10 @@ namespace oscs
         public ByteMessage Base_obj;
         
         [ContextProperty("Данные", "MessageData")]
-        public ScriptEngine.HostedScript.Library.Binary.BinaryDataContext MessageData
+        public BinaryDataContext MessageData
         {
-            get { return new ScriptEngine.HostedScript.Library.Binary.BinaryDataContext(Base_obj.MessageData); }
-            set { Base_obj.MessageData = ((ScriptEngine.HostedScript.Library.Binary.BinaryDataContext)value).Buffer; }
+            get { return new BinaryDataContext(Base_obj.MessageData); }
+            set { Base_obj.MessageData = ((BinaryDataContext)value).Buffer; }
         }
         
         [ContextProperty("Идентификатор", "MessageId")]
@@ -78,6 +80,5 @@ namespace oscs
         {
             get { return Base_obj.MessageId; }
         }
-        
     }
 }

@@ -1,24 +1,25 @@
 ﻿using System;
 using ScriptEngine.Machine.Contexts;
+using Hik.Communication.Scs.Communication.Messages;
 
 namespace oscs
 {
     public class DateTimeMessage
     {
         public CsDateTimeMessage dll_obj;
-        public Hik.Communication.Scs.Communication.Messages.ScsDateTimeMessage M_DateTimeMessage;
+        public ScsDateTimeMessage M_DateTimeMessage;
 
         public DateTimeMessage()
         {
-            M_DateTimeMessage = new Hik.Communication.Scs.Communication.Messages.ScsDateTimeMessage();
+            M_DateTimeMessage = new ScsDateTimeMessage();
         }
 
         public DateTimeMessage(DateTime p1)
         {
-            M_DateTimeMessage = new Hik.Communication.Scs.Communication.Messages.ScsDateTimeMessage(p1);
+            M_DateTimeMessage = new ScsDateTimeMessage(p1);
         }
 
-        public DateTimeMessage(Hik.Communication.Scs.Communication.Messages.ScsDateTimeMessage p1)
+        public DateTimeMessage(ScsDateTimeMessage p1)
         {
             M_DateTimeMessage = p1;
         }
@@ -29,7 +30,7 @@ namespace oscs
             set { M_DateTimeMessage.DateVal = value; }
         }
 
-        public Hik.Communication.Scs.Communication.Messages.ScsDateTimeMessage M_Obj
+        public ScsDateTimeMessage M_Obj
         {
             get { return M_DateTimeMessage; }
         }
@@ -83,6 +84,5 @@ namespace oscs
         {
             get { return Base_obj.MessageId; }
         }
-        
     }
 }
