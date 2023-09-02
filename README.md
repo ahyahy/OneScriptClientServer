@@ -88,4 +88,4 @@
 
 ### Запуск и примеры
 
-На компьютере должен быть установлен OneScript. Тестирование проводил для версии 1.7.0.214. Скомпилированную библиотеку можно найти в [каталоге docs](https://github.com/ahyahy/OneScriptClientServer/tree/main/docs) этого проекта с именем OneScriptClientServerх_х_х_х.zip. Возможно будет необходимо правой кнопкой мыши вызвать свойства распакованного файла OneScriptClientServer.dll и разблокировать его. Создание сервера и клиента подробно приведено в примерах в разделе `Документация` сайта библиотеки <https://ahyahy.github.io/OneScriptClientServer/doc.html>.
+На компьютере должен быть установлен OneScript. Тестирование проводил на OneScript версий 1.6.0 - 1.8.3. Скомпилированную библиотеку можно найти в [каталоге docs](https://github.com/ahyahy/OneScriptClientServer/tree/main/docs) этого проекта с именем OneScriptClientServerх_х_х_х.zip. Возможно будет необходимо правой кнопкой мыши вызвать свойства распакованного файла OneScriptClientServer.dll и разблокировать его. Создание сервера и клиента подробно приведено в примерах в разделе `Документация` сайта библиотеки <https://ahyahy.github.io/OneScriptClientServer/doc.html>.
