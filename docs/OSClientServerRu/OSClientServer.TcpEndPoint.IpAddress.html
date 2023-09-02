@@ -28,6 +28,16 @@
 <P><PRE class=code>
 <a id="copy1" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select1" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont1">
+//== Файл Сервер.os == начало
+ПодключитьВнешнююКомпоненту("C:\444\111\OneScriptClientServer\OneScriptClientServer\bin\Debug\OneScriptClientServer.dll");
+КС = Новый КлиентСерверДляОдноСкрипта();
+
+TCPСервер1 = КС.TCPСервер(10085);
+TCPСервер1.ПриОтключенииКлиента = КС.Действие(ЭтотОбъект, "TCPСервер1_ПриОтключенииКлиента");
+TCPСервер1.Начать();
+Сообщить("Сервер запущен.");
+//== Файл Сервер.os == конец
+
 //== Файл Клиент.os == начало
 ПодключитьВнешнююКомпоненту("C:\444\111\OneScriptClientServer\OneScriptClientServer\bin\Debug\OneScriptClientServer.dll");
 КС = Новый КлиентСерверДляОдноСкрипта();
