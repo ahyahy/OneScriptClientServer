@@ -5,6 +5,7 @@ using Hik.Communication.Scs.Server;
 using Hik.Communication.Scs.Communication.EndPoints.Tcp;
 using Hik.Communication.Scs.Communication.Channels;
 using Hik.Communication.Scs.Communication.Channels.Tcp;
+using ScriptEngine.Machine;
 
 namespace Hik.Communication.Scs.Server.Tcp
 {
@@ -128,20 +129,20 @@ namespace oscs
         }
         
         [ContextProperty("ПриОтключенииКлиента", "ClientDisconnected")]
-        public DelegateAction ClientDisconnected { get; set; }
+        public IValue ClientDisconnected { get; set; }
         
         [ContextProperty("ПриОтправкеСообщения", "MessageSent")]
-        public DelegateAction MessageSent
+        public IValue MessageSent
         {
             get { return OneScriptClientServer.ServerMessageSent; }
             set { OneScriptClientServer.ServerMessageSent = value; }
         }
         
         [ContextProperty("ПриПодключенииКлиента", "ClientConnected")]
-        public DelegateAction ClientConnected { get; set; }
+        public IValue ClientConnected { get; set; }
         
         [ContextProperty("ПриПолученииСообщения", "MessageReceived")]
-        public DelegateAction MessageReceived
+        public IValue MessageReceived
         {
             get { return OneScriptClientServer.ServerMessageReceived; }
             set { OneScriptClientServer.ServerMessageReceived = value; }

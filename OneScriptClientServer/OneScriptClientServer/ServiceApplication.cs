@@ -482,10 +482,10 @@ namespace oscs
         }
         
         [ContextProperty("ПриОтключенииКлиента", "ClientDisconnected")]
-        public DelegateAction ClientDisconnected { get; set; }
+        public IValue ClientDisconnected { get; set; }
         
         [ContextProperty("ПриПодключенииКлиента", "ClientConnected")]
-        public DelegateAction ClientConnected { get; set; }
+        public IValue ClientConnected { get; set; }
         
         [ContextProperty("Результат", "Resalt")]
         public IValue Resalt

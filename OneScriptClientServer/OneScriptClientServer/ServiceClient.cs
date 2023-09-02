@@ -151,23 +151,52 @@ namespace oscs
 
             if (dll_obj.Connected != null)
             {
-                try
+                IValue Action1 = dll_obj.Connected;
+                if (Action1 != null)
                 {
-                    dll_obj.Connected.CallAsProcedure(0, null);
+                    if (Action1.GetType() == typeof(CsAction))
+                    {
+                        ReflectorContext reflector = new ReflectorContext();
+                        try
+                        {
+                            reflector.CallMethod(((CsAction)Action1).Script, ((CsAction)Action1).MethodName, null);
+                        }
+                        catch { }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            ((DelegateAction)Action1).CallAsProcedure(0, null);
+                        }
+                        catch { }
+                    }
                 }
-                catch { }
             }
         }
 
         private void M_ServiceClient_Disconnected(object sender, System.EventArgs e)
         {
-            if (dll_obj.Disconnected != null)
+            IValue Action1 = dll_obj.Disconnected;
+            if (Action1 != null)
             {
-                try
+                if (Action1.GetType() == typeof(CsAction))
                 {
-                    dll_obj.Disconnected.CallAsProcedure(0, null);
+                    ReflectorContext reflector = new ReflectorContext();
+                    try
+                    {
+                        reflector.CallMethod(((CsAction)Action1).Script, ((CsAction)Action1).MethodName, null);
+                    }
+                    catch { }
                 }
-                catch { }
+                else
+                {
+                    try
+                    {
+                        ((DelegateAction)Action1).CallAsProcedure(0, null);
+                    }
+                    catch { }
+                }
             }
         }
 
@@ -362,10 +391,10 @@ namespace oscs
         }
 
         [ContextProperty("ПриОтключении", "Disconnected")]
-        public DelegateAction Disconnected { get; set; }
+        public IValue Disconnected { get; set; }
         
         [ContextProperty("ПриПодключении", "Connected")]
-        public DelegateAction Connected { get; set; }
+        public IValue Connected { get; set; }
         
         [ContextProperty("Результат", "Resalt")]
         public IValue Resalt
@@ -451,29 +480,10 @@ namespace oscs
         {
             Base_obj.Connect();
         }
-
-
-
-        //=======================================
-        private object _lock3 = new object();
+					
         [ContextMethod("ПолучитьИнформациюКлиентов", "GetClientsInfo")]
         public ArrayImpl GetClientsInfo()
         {
-            //ArrayImpl arrayImpl = new ArrayImpl();
-            //lock (_lock3)
-            //{
-            //    ClientInfo[] array = Base_obj.Proxy.GetClientsList();
-            //    for (int i = 0; i < array.Length; i++)
-            //    {
-            //        ClientInfo ClientInfo1 = (ClientInfo)array[i];
-            //        CsClientInfo CsClientInfo1 = new CsClientInfo(ClientInfo1.ClientGuid, ClientInfo1.ClientName, ClientInfo1.Tag);
-            //        arrayImpl.Add(CsClientInfo1);
-            //    }
-            //}
-            //return arrayImpl;
-
-
-
             ClientInfo[] array = Base_obj.Proxy.GetClientsList();
             ArrayImpl arrayImpl = new ArrayImpl();
             for (int i = 0; i < array.Length; i++)

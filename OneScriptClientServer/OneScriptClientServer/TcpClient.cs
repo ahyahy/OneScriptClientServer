@@ -119,16 +119,16 @@ namespace oscs
         public TcpClient Base_obj;
         
         [ContextProperty("ПриОтключении", "Disconnected")]
-        public DelegateAction Disconnected { get; set; }
+        public IValue Disconnected { get; set; }
         
         [ContextProperty("ПриОтправкеСообщения", "MessageSent")]
-        public DelegateAction MessageSent { get; set; }
+        public IValue MessageSent { get; set; }
         
         [ContextProperty("ПриПодключении", "Connected")]
-        public DelegateAction Connected { get; set; }
+        public IValue Connected { get; set; }
         
         [ContextProperty("ПриПолученииСообщения", "MessageReceived")]
-        public DelegateAction MessageReceived { get; set; }
+        public IValue MessageReceived { get; set; }
         
         [ContextProperty("СостояниеСоединения", "CommunicationState")]
         public int CommunicationState

@@ -76,7 +76,7 @@ namespace oscs
 
         
         [ContextProperty("Действие", "EventAction")]
-        public DelegateAction EventAction
+        public IValue EventAction
         {
             get { return Base_obj.EventAction; }
             set { Base_obj.EventAction = value; }
