@@ -7,7 +7,7 @@ namespace oscs
     public class EventArgs
     {
         public CsEventArgs dll_obj;
-        public DelegateAction EventAction;
+        public IValue EventAction;
         public dynamic Sender;
 
         public EventArgs()
@@ -37,7 +37,7 @@ namespace oscs
         public EventArgs Base_obj;
         
         [ContextProperty("Действие", "EventAction")]
-        public DelegateAction EventAction
+        public IValue EventAction
         {
             get { return Base_obj.EventAction; }
             set { Base_obj.EventAction = value; }

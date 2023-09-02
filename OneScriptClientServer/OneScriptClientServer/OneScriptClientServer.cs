@@ -14,11 +14,11 @@ namespace oscs
         public static CsServiceApplication CurrentServiceApplication = null;
         public static CsServiceClient CurrentServiceClient = null;
         public static IValue Event = null;
-        public static DelegateAction EventAction = null;
+        public static IValue EventAction = null;
         public static ConcurrentQueue<dynamic> EventQueue = new ConcurrentQueue<dynamic>();
         public static bool goOn = true;
-        public static DelegateAction ServerMessageReceived;
-        public static DelegateAction ServerMessageSent;
+        public static IValue ServerMessageReceived;
+        public static IValue ServerMessageSent;
         public static bool thirdPartyClientMode = false;
 
         [ScriptConstructor]
@@ -67,6 +67,12 @@ namespace oscs
             return new CsTcpClient(p1);
         }
 
+        [ContextMethod("Действие", "Action")]
+        public CsAction Action(IRuntimeContextInstance script, string methodName)
+        {
+            return new CsAction(script, methodName);
+        }
+
         [ContextMethod("TCPКонечнаяТочка", "TcpEndPoint")]
         public CsTcpEndPoint TcpEndPoint(string p1, int p2)
         {
@@ -86,10 +92,16 @@ namespace oscs
             {
                 System.Threading.Thread.Sleep(7);
             }
-            return EventHandling();
+
+            IValue Action1 = EventHandling();
+            if (Action1.GetType() == typeof(CsAction))
+            {
+                return DelegateAction.Create(((CsAction)Action1).Script, ((CsAction)Action1).MethodName);
+            }
+            return (DelegateAction)Action1;
         }
 
-        public static DelegateAction EventHandling()
+        public static IValue EventHandling()
         {
             dynamic EventArgs1;
             EventQueue.TryDequeue(out EventArgs1);

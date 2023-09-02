@@ -106,9 +106,9 @@ namespace oscs
             Base_obj = ServerClient1;
         }
 		
-        public DelegateAction MessageSent { get; set; }
+        public IValue MessageSent { get; set; }
 
-        public DelegateAction MessageReceived { get; set; }
+        public IValue MessageReceived { get; set; }
 
         public oscs.ServerClient Base_obj;
         
@@ -119,7 +119,7 @@ namespace oscs
         }
         
         [ContextProperty("ПриОтключении", "Disconnected")]
-        public DelegateAction Disconnected { get; set; }
+        public IValue Disconnected { get; set; }
         
         [ContextProperty("СостояниеСоединения", "CommunicationState")]
         public int CommunicationState

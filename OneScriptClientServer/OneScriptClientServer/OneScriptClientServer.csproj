@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
     <Compile Include="BoolMessage.cs" />
     <Compile Include="ByteMessage.cs" />
     <Compile Include="ClientInfo.cs" />
