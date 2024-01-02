@@ -146,7 +146,7 @@ namespace oscs
             catch
             {
                 Disconnect();
-                System.Windows.Forms.MessageBox.Show("Не удается войти на сервер. Пожалуйста, попробуйте еще раз позже.");
+                Console.Write("Не удается войти на сервер. Пожалуйста, попробуйте еще раз позже.");
             }
 
             if (dll_obj.Connected != null)

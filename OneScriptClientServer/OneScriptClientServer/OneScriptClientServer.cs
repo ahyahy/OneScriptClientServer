@@ -10,6 +10,7 @@ namespace oscs
     [ContextClass ("КлиентСерверДляОдноСкрипта", "OneScriptClientServer")]
     public class OneScriptClientServer : AutoContext<OneScriptClientServer>
     {
+        private static CsClientMode cs_ClientMode = new CsClientMode();
         private static CsCommunicationStates cs_CommunicationStates = new CsCommunicationStates();
         public static CsServiceApplication CurrentServiceApplication = null;
         public static CsServiceClient CurrentServiceClient = null;
@@ -19,11 +20,12 @@ namespace oscs
         public static bool goOn = true;
         public static IValue ServerMessageReceived;
         public static IValue ServerMessageSent;
-        public static bool thirdPartyClientMode = false;
+        public static int thirdPartyClientMode;
 
         [ScriptConstructor]
         public static IRuntimeContextInstance Constructor()
         {
+            thirdPartyClientMode = cs_ClientMode.None;
             return new OneScriptClientServer();
         }
 
@@ -49,10 +51,16 @@ namespace oscs
         }
         
         [ContextProperty("РежимСтороннегоКлиента", "ThirdPartyClientMode")]
-        public bool ThirdPartyClientMode
+        public int ThirdPartyClientMode
         {
             get { return thirdPartyClientMode; }
             set { thirdPartyClientMode = value; }
+        }
+
+        [ContextProperty("РежимКлиента", "ClientMode")]
+        public CsClientMode ClientMode
+        {
+            get { return cs_ClientMode; }
         }
 
         [ContextProperty("СостояниеСоединения", "CommunicationStates")]
@@ -67,12 +75,6 @@ namespace oscs
             return new CsTcpClient(p1);
         }
 
-        [ContextMethod("Действие", "Action")]
-        public CsAction Action(IRuntimeContextInstance script, string methodName)
-        {
-            return new CsAction(script, methodName);
-        }
-
         [ContextMethod("TCPКонечнаяТочка", "TcpEndPoint")]
         public CsTcpEndPoint TcpEndPoint(string p1, int p2)
         {
@@ -83,6 +85,12 @@ namespace oscs
         public CsTcpServer TcpServer(int p1)
         {
             return new CsTcpServer(p1);
+        }
+
+        [ContextMethod("Действие", "Action")]
+        public CsAction Action(IRuntimeContextInstance script, string methodName)
+        {
+            return new CsAction(script, methodName);
         }
 
         [ContextMethod("ПолучитьСобытие", "DoEvents")]

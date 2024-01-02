@@ -912,7 +912,7 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
             var totalSent = 0;
             lock (_syncLock)
             {
-                if (oscs.OneScriptClientServer.thirdPartyClientMode)
+                if (oscs.OneScriptClientServer.thirdPartyClientMode != 0)
                 {
                     byte[] sendBytes = new byte[0];
                     if (message.GetType() == typeof(ScsRawDataMessage))
@@ -981,7 +981,7 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
                 return;
             }
 
-            if (oscs.OneScriptClientServer.thirdPartyClientMode)
+            if (oscs.OneScriptClientServer.thirdPartyClientMode == 2) // Браузер
             {
                 try
                 {
@@ -1009,6 +1009,59 @@ namespace Hik.Communication.Scs.Communication.Channels.Tcp
                             string magicSign = Convert.ToString(rv[0], 16).ToUpper() + " " + 
                                 Convert.ToString(rv[1], 16).ToUpper() + " " + 
                                 Convert.ToString(rv[2], 16).ToUpper() + " " + 
+                                Convert.ToString(rv[3], 16).ToUpper();
+
+                            if (magicSignature.Contains("," + magicSign + ","))
+                            {
+                                OnMessageReceived(new ScsRawDataMessage(rv));
+                            }
+                            else
+                            {
+                                OnMessageReceived(new ScsTextMessage(Encoding.UTF8.GetString(rv)));
+                            }
+
+                            rv = new byte[0];
+                            out1 = false;
+                        }
+                    }
+                    else
+                    {
+                        throw new CommunicationException("Tcp socket is closed");
+                    }
+                }
+                catch
+                {
+                    Disconnect();
+                }
+            }
+            else if (oscs.OneScriptClientServer.thirdPartyClientMode == 1) // Нативный
+            {
+                try
+                {
+                    System.Threading.Thread.Sleep(5); // без этого данные от разных отправок сторонних клиентов могут оказаться соединенными.
+                    //Получить количество полученных байтов
+                    var bytesRead = _clientSocket.EndReceive(ar);
+
+                    if (_clientSocket.Available == 0)
+                    {
+                        out1 = true;
+                    }
+
+                    if (bytesRead > 0)
+                    {
+                        LastReceivedMessageTime = DateTime.Now;
+
+                        // Скопируйте полученные байты в новый массив байтов
+                        var receivedBytes = new byte[bytesRead];
+                        Array.Copy(_buffer, 0, receivedBytes, 0, bytesRead);
+
+                        rv = Combine(rv, receivedBytes); // Накопим данные из потока для одного клиента, если их больше 4096 байт.
+
+                        if (out1)
+                        {
+                            string magicSign = Convert.ToString(rv[0], 16).ToUpper() + " " +
+                                Convert.ToString(rv[1], 16).ToUpper() + " " +
+                                Convert.ToString(rv[2], 16).ToUpper() + " " +
                                 Convert.ToString(rv[3], 16).ToUpper();
 
                             if (magicSignature.Contains("," + magicSign + ","))

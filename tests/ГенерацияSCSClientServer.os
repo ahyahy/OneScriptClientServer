@@ -1,5 +1,5 @@
-﻿// Скрипт читает файлы справки в C:\444\OSClientServerRu\ и создает *.cs файлы в каталоге C:\444\ВыгруженныеОбъекты\
-// Из каталога C:\444\ВыгруженныеОбъекты\ файлы *.cs можно скопировать в каталог проекта.
+﻿// Скрипт читает файлы справки в C:\444\OSClientServerRu\ и создает *.cs файлы в каталоге C:\444\ВыгрузкаКлиентСервера\
+// Из каталога C:\444\ВыгрузкаКлиентСервера\ файлы *.cs можно скопировать в каталог проекта.
 
 Перем СтрДирективы, СтрШапка, СтрРазделОбъявленияПеременных, СтрКонструктор, СтрBase_obj, СтрСвойства, СтрМетоды, СтрПодвал, СтрВыгрузкиПеречислений;
 Перем СтрРазделОбъявленияПеременныхДляПеречисления, СтрСвойстваДляПеречисления, СтрМетодовСистема, СписокСтрМетодовСистема;
@@ -333,7 +333,8 @@
 		|
 		|";
 		Возврат Стр;
-	ИначеЕсли ИмяКонтекстКлассаАнгл = "CommunicationStates" Тогда
+	ИначеЕсли ИмяКонтекстКлассаАнгл = "CommunicationStates" или 
+		ИмяКонтекстКлассаАнгл = "ClientMode" Тогда
 		Стр = 
 		"using ScriptEngine.Machine.Contexts;
 		|
@@ -444,6 +445,7 @@
 	Если ИмяКласса = "OneScriptClientServer" Тогда
 		Стр = 
 		"        public static IValue Event = null;
+		|        public static int thirdPartyClientMode;
 		|        public static IValue EventAction = null;
 		|        public static IValue ServerMessageReceived;
 		|        public static IValue ServerMessageSent;
@@ -471,6 +473,7 @@
 		"        [ScriptConstructor]
 		|        public static IRuntimeContextInstance Constructor()
 		|        {
+		|            thirdPartyClientMode = cs_ClientMode.None;
 		|            return new OneScriptClientServer();
 		|        }//end_constr
 		|";
@@ -1047,6 +1050,16 @@
 				|        }
 				|        
 				|";
+			ИначеЕсли (СвойствоРус = "РежимСтороннегоКлиента") и (ИмяКонтекстКлассаАнгл = "OneScriptClientServer") Тогда
+				Стр = Стр +
+				"        [ContextProperty(""РежимСтороннегоКлиента"", ""ThirdPartyClientMode"")]
+				|        public int ThirdPartyClientMode
+				|        {
+				|            get { return thirdPartyClientMode; }
+				|            set { thirdPartyClientMode = value; }
+				|        }
+				|        
+				|";
 			ИначеЕсли (СвойствоРус = "Сценарий") и (ИмяКонтекстКлассаАнгл = "Action") Тогда
 				Стр = Стр +
 				"        [ContextProperty(""Сценарий"", ""Script"")]
@@ -1094,18 +1107,6 @@
 				|                return ValueFactory.Create(resalt);
 				|            }
 				|            set { resalt = OneScriptClientServer.RedefineIValue(value); }
-				|        }
-				|        
-				|";
-			ИначеЕсли (СвойствоРус = "РежимСтороннегоКлиента") и (ИмяКонтекстКлассаАнгл = "OneScriptClientServer") Тогда
-				СтрРазделОбъявленияПеременных = СтрРазделОбъявленияПеременных + Символы.ПС +
-				"        public static bool thirdPartyClientMode = false;";
-				Стр = Стр +
-				"        [ContextProperty(""РежимСтороннегоКлиента"", ""ThirdPartyClientMode"")]
-				|        public bool ThirdPartyClientMode
-				|        {
-				|            get { return thirdPartyClientMode; }
-				|            set { thirdPartyClientMode = value; }
 				|        }
 				|        
 				|";
@@ -1658,15 +1659,20 @@
 		Знач3 = СписокПереч2.Получить(А).Значение;
 		Предст3 = СписокПереч2.Получить(А).Представление;
 		// Сообщить("Знач3 - " + Знач3 + " Предст3 - " + Предст3);
-		СтрРазделОбъявленияПеременных = СтрРазделОбъявленияПеременных + Символы.ПС +
-		"        private static Cs" + Знач3 + " cs_" + Знач3 + " = new Cs" + Знач3 + "();";
 		
-		Стр = Стр + Символы.ПС + 
-		"        [ContextProperty(""" + Предст3 + """, """ + Знач3 + """)]
-		|        public Cs" + Знач3 + " " + Знач3 + "
-		|        {
-		|            get { return cs_" + Знач3 + "; }
-		|        }" + Символы.ПС;
+		// Если Предст3 = "РежимСтороннегоКлиента" Тогда
+			// СтрРазделОбъявленияПеременных = СтрРазделОбъявленияПеременных + Символы.ПС +
+			// "        public static int cs_ThirdPartyClientMode = 0;";
+		// Иначе
+			СтрРазделОбъявленияПеременных = СтрРазделОбъявленияПеременных + Символы.ПС +
+			"        private static Cs" + Знач3 + " cs_" + Знач3 + " = new Cs" + Знач3 + "();";
+			Стр = Стр + Символы.ПС + 
+			"        [ContextProperty(""" + Предст3 + """, """ + Знач3 + """)]
+			|        public Cs" + Знач3 + " " + Знач3 + "
+			|        {
+			|            get { return cs_" + Знач3 + "; }
+			|        }" + Символы.ПС;
+		// КонецЕсли;
 	КонецЦикла;
 		Стр = Стр + Символы.ПС;
 	Возврат Стр;
@@ -2774,8 +2780,7 @@
 			Иначе
 				ИмяКонтекстКлассаАнгл1 = ИмяКонтекстКлассаАнгл;
 			КонецЕсли;
-			Если ИмяКонтекстКлассаАнгл = "Sounds" или // это перечисление собственное (не от микрософт)
-				ИмяКонтекстКлассаАнгл = "DataType" Тогда
+			Если ИмяКонтекстКлассаАнгл = "ClientMode" Тогда // это перечисление собственное (не от микрософт)
 				СтрРазделОбъявленияПеременныхДляПеречисления = СтрРазделОбъявленияПеременныхДляПеречисления + Символы.ПС + 
 				"        private int m_" + СоставнаяСтр + " = " + ЗначениеЧлена + "; // " + ЗначениеЧлена + " " + ОписаниеЧлена;
 				
@@ -3522,7 +3527,7 @@
 		|            catch
 		|            {
 		|                Disconnect();
-		|                System.Windows.Forms.MessageBox.Show(""Не удается войти на сервер. Пожалуйста, попробуйте еще раз позже."");
+		|                Console.Write(""Не удается войти на сервер. Пожалуйста, попробуйте еще раз позже."");
 		|            }
 		|
 		|            if (dll_obj.Connected != null)
@@ -5282,7 +5287,7 @@
 		|            var totalSent = 0;
 		|            lock (_syncLock)
 		|            {
-		|                if (oscs.OneScriptClientServer.thirdPartyClientMode)
+		|                if (oscs.OneScriptClientServer.thirdPartyClientMode != 0)
 		|                {
 		|                    byte[] sendBytes = new byte[0];
 		|                    if (message.GetType() == typeof(ScsRawDataMessage))
@@ -5351,7 +5356,7 @@
 		|                return;
 		|            }
 		|
-		|            if (oscs.OneScriptClientServer.thirdPartyClientMode)
+		|            if (oscs.OneScriptClientServer.thirdPartyClientMode == 2) // Браузер
 		|            {
 		|                try
 		|                {
@@ -5379,6 +5384,59 @@
 		|                            string magicSign = Convert.ToString(rv[0], 16).ToUpper() + "" "" + 
 		|                                Convert.ToString(rv[1], 16).ToUpper() + "" "" + 
 		|                                Convert.ToString(rv[2], 16).ToUpper() + "" "" + 
+		|                                Convert.ToString(rv[3], 16).ToUpper();
+		|
+		|                            if (magicSignature.Contains("","" + magicSign + "",""))
+		|                            {
+		|                                OnMessageReceived(new ScsRawDataMessage(rv));
+		|                            }
+		|                            else
+		|                            {
+		|                                OnMessageReceived(new ScsTextMessage(Encoding.UTF8.GetString(rv)));
+		|                            }
+		|
+		|                            rv = new byte[0];
+		|                            out1 = false;
+		|                        }
+		|                    }
+		|                    else
+		|                    {
+		|                        throw new CommunicationException(""Tcp socket is closed"");
+		|                    }
+		|                }
+		|                catch
+		|                {
+		|                    Disconnect();
+		|                }
+		|            }
+		|            else if (oscs.OneScriptClientServer.thirdPartyClientMode == 1) // Нативный
+		|            {
+		|                try
+		|                {
+		|                    System.Threading.Thread.Sleep(5); // без этого данные от разных отправок сторонних клиентов могут оказаться соединенными.
+		|                    //Получить количество полученных байтов
+		|                    var bytesRead = _clientSocket.EndReceive(ar);
+		|
+		|                    if (_clientSocket.Available == 0)
+		|                    {
+		|                        out1 = true;
+		|                    }
+		|
+		|                    if (bytesRead > 0)
+		|                    {
+		|                        LastReceivedMessageTime = DateTime.Now;
+		|
+		|                        // Скопируйте полученные байты в новый массив байтов
+		|                        var receivedBytes = new byte[bytesRead];
+		|                        Array.Copy(_buffer, 0, receivedBytes, 0, bytesRead);
+		|
+		|                        rv = Combine(rv, receivedBytes); // Накопим данные из потока для одного клиента, если их больше 4096 байт.
+		|
+		|                        if (out1)
+		|                        {
+		|                            string magicSign = Convert.ToString(rv[0], 16).ToUpper() + "" "" +
+		|                                Convert.ToString(rv[1], 16).ToUpper() + "" "" +
+		|                                Convert.ToString(rv[2], 16).ToUpper() + "" "" +
 		|                                Convert.ToString(rv[3], 16).ToUpper();
 		|
 		|                            if (magicSignature.Contains("","" + magicSign + "",""))
@@ -8703,7 +8761,7 @@
 КонецФункции//СортировкаКласса2Уровня(СтрКласса)
 
 КаталогСправки = "C:\444\OSClientServerRu";// без слэша в конце
-КаталогВыгрузки = "C:\444\ВыгруженныеОбъекты";// без слэша в конце
+КаталогВыгрузки = "C:\444\ВыгрузкаКлиентСервера";// без слэша в конце
 // КаталогВыгрузки = "\\UBUNTU SHARE\allaccess";// без слэша в конце
 
 ВыгрузкаДляCS();
