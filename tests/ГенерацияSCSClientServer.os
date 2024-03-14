@@ -5381,19 +5381,7 @@
 		|
 		|                        if (out1)
 		|                        {
-		|                            string magicSign = Convert.ToString(rv[0], 16).ToUpper() + "" "" + 
-		|                                Convert.ToString(rv[1], 16).ToUpper() + "" "" + 
-		|                                Convert.ToString(rv[2], 16).ToUpper() + "" "" + 
-		|                                Convert.ToString(rv[3], 16).ToUpper();
-		|
-		|                            if (magicSignature.Contains("","" + magicSign + "",""))
-		|                            {
-		|                                OnMessageReceived(new ScsRawDataMessage(rv));
-		|                            }
-		|                            else
-		|                            {
-		|                                OnMessageReceived(new ScsTextMessage(Encoding.UTF8.GetString(rv)));
-		|                            }
+		|                            OnMessageReceived(new ScsTextMessage(Encoding.UTF8.GetString(rv)));
 		|
 		|                            rv = new byte[0];
 		|                            out1 = false;
