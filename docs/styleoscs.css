@@ -140,6 +140,9 @@ div.divleft
 	width: 500px;
 	white-space: nowrap;
 	overflow:auto;
+	
+	
+	font-size: 150%;
 }
 div.divleft a
 {
