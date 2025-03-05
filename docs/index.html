@@ -1,57 +1,62 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
-	<head>
-		<meta content="text/html; charset=Windows-1251" http-equiv="content-type">
-		<title>Главная</title>
-	</head>
+<HTML>
+	<HEAD>
+		<TITLE>Главная</TITLE>
+		<META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
+		<LINK rel="stylesheet" type="text/css" href="styleoscs.css">
+	</HEAD>
+<BODY>
+<header>
+	<section>
+		<div>
+			<div id="logo"><big><big><big>Клиент-сервер<br><small><small>для сценарного языка</small></small> OneScript </big></big></big></div>
+		</div>
+		<div style="direction: rtl;">
+			<input type="checkbox" id="toggle"></input>
+			<label id="menu3" for="toggle" class="hamburger-icon">Меню<div></div><div></div><div></div></label>
+			<nav id="buttons">
+				<a href="index.html">Главная</a>
+				<a href="screenshot.html">Скриншоты</a>
+				<a href="howworks.html">Как это работает</a>
+				<a href="doc.html">Документация</a>
+				<a href="down.html">Скачать</a>
+				<a href="kont.html">Контакты</a>
+			</nav>
+		</div>
+	</section>
+</header>
+<P></P>
 <body>
-
-<table style="text-align: left; width: 1000px; height: 816px; margin-left: auto; margin-right: auto; background-color: white;" border="0" cellpadding="2" cellspacing="2">
-	<tbody>
-    <tr>
-		<td style="vertical-align: top; font-weight: bold; text-align: center; font-style: italic; color: rgb(51, 51, 153);"><big><big><big>Клиент-сервер<br><small><small>для сценарного языка</small></small> OneScript </big></big></big></td>
-		<td style="width: 70px; text-align: center; color: rgb(51, 51, 51); vertical-align: top;"><a href="index.html"><button type="button">Главная</button></a><small><br></small></td>
-		<td style="width: 90px; text-align: center; color: rgb(51, 51, 51); vertical-align: top;"><a href="screenshot.html"><button type="button">Скриншоты</button></a><br></td>
-		<td style="width: 130px; text-align: center; color: rgb(51, 51, 51); vertical-align: top;"><a href="howworks.html"><button type="button">Как это работает</button></a><small><br></small></td>
-		<td style="width: 110px; text-align: center; color: rgb(51, 51, 51); vertical-align: top;"><a href="doc.html"><button type="button">Документация</button></a><small><br></small></td>
-		<td style="width: 75px; text-align: center; color: rgb(51, 51, 51); vertical-align: top;"><a href="down.html"><button type="button">Скачать</button></a><small><br></small></td>
-		<th style="width: 75px; text-align: center; color: rgb(51, 51, 51); vertical-align: top; font-weight: normal;"><a href="kont.html"><button type="button">Контакты</button></a><small><br></small></th>
-    </tr>
-    <tr>
-		<td colspan="7" rowspan="1" style="vertical-align: top; height: 747px; background-color: white;">
-		<hr style="border-color: lightgray;">
-		<p style="margin-left: 40px;">&nbsp;&nbsp;&nbsp; На этом сайте представлена бесплатная библиотека создания клиент-серверных приложений для сценарного языка OneScript.
-			<br>
-			<br>&nbsp;&nbsp;&nbsp;Основой проекта послужила разработка автора Halil ibrahim Kalkan <a href="https://www.codeproject.com/Articles/155282/TCP-Server-Client-Communication-Implementation" target="_blank">A Complete TCP Server/Client Communication and RMI Framework in C# .NET - Implementation</a>
-			под лицензией <a href="https://www.codeproject.com/info/cpol10.aspx" target="_blank">The Code Project Open License (CPOL) 1.02</a>
-			<br>
-			<br>&nbsp;&nbsp;&nbsp;С моей стороны была проведена адаптация вышеуказанной разработки для использования в коде односкрипта, а так же добавлена новая функциональность. 
-			<br>
-			<br>&nbsp;&nbsp;&nbsp;Возможности библиотеки:
-			<br>&nbsp;&nbsp;&nbsp;1. Обмен сообщениями. Сообщение может быть экземпляром классов 
-			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;СообщениеБайты (ByteMessage) (соответствует типу ДвоичныеДанные из 1С),
-			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;СообщениеБулево (BoolMessage),
-			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;СообщениеДата (DateTimeMessage).
-			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;СообщениеТекст (TextMessage),
-			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;СообщениеЧисло (NumberMessage) (соответствует типу данных decimal из C#),
-			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Размер пересылаемого сообщения для этих классов ограничен 128 мегабайтами. Файлы превышающие этот размер нужно будет предварительно разбить на фрагменты.
-			<br>&nbsp;&nbsp;&nbsp;2. Вызов клиентом методов на сервере и получение ответа в виде значения с базовым типом данных, или типом ДвоичныеДанные. Методы будут исполнены в контексте сервера.
-			<br>&nbsp;&nbsp;&nbsp;3. Вызов клиентом методов на другом клиенте и получение ответа в виде значения с базовым типом данных, или типом ДвоичныеДанные. Методы будут исполнены в контексте другого клиента.
-			<br>&nbsp;&nbsp;&nbsp;4. Многопоточность и асинхронность работы сервера. Сервер многопоточный (каждый клиент в своем потоке живет), асинхронный (обработка клиентов происходит асинхронно).
-			<br>&nbsp;&nbsp;&nbsp;5. Производительность. Для замера производительности на одном и том же компьютере были запущены сервер и клиент.
-За одну секунду сервер подключил 1700 клиентов (экземпляров класса TCPКлиент(TcpClient)).
-В другом замере клиент успешно послал 15000 коротких текстовых сообщений за одну секунду.
-			<br>&nbsp;&nbsp;&nbsp;6. Сервер так же может обрабатывать подключения нативного клиента <B>TCPСоединение&nbsp;/&nbsp;TCPConnection</B> из библиотеки односкрипта. На размер 
-данных влияют системные ограничения.
-			<br>&nbsp;&nbsp;&nbsp;7. К серверу можно подключаться из браузера и обмениваться данными по протоколу http. На размер данных влияют ограничения браузера и системные.
-			<br>
-			<br>Если быть точным серверов в библиотеке два. Это важно и об этом подробнее в разделе <a href="howworks.html">Как&nbsp;это&nbsp;работает</a>.
-		</p>
-		<p style="margin-left: 40px;"></p>
-		</td>
-    </tr>
-	</tbody>
-</table>
-<br>
-<br>
+<section>
+	<p>На этом сайте представлена бесплатная библиотека создания клиент-серверных приложений для сценарного языка OneScript.</p>
+	<p>Основой проекта послужила разработка автора Halil ibrahim Kalkan <a href="https://www.codeproject.com/Articles/155282/TCP-Server-Client-Communication-Implementation" target="_blank">A Complete TCP Server/Client Communication and RMI Framework in C# .NET - Implementation</a>
+		под лицензией <a href="https://www.codeproject.com/info/cpol10.aspx" target="_blank">The Code Project Open License (CPOL) 1.02</a></p>
+	<p>С моей стороны была проведена адаптация вышеуказанной разработки для использования в коде односкрипта, а так же добавлена новая функциональность.</p>
+	<p>Возможности библиотеки:
+		<li>Обмен сообщениями. Сообщение может быть экземпляром классов: 
+			<div style="margin-left: 40px; margin-bottom:5px;">
+				<br>СообщениеБайты (ByteMessage) (соответствует типу ДвоичныеДанные из 1С),
+				<br>СообщениеБулево (BoolMessage),
+				<br>СообщениеДата (DateTimeMessage).
+				<br>СообщениеТекст (TextMessage),
+				<br>СообщениеЧисло (NumberMessage) (соответствует типу данных decimal из C#),
+			</div>
+			<p style="margin-left: 40px;">Размер пересылаемого сообщения для этих классов ограничен 128 мегабайтами. 
+			Файлы превышающие этот размер нужно будет предварительно разбить на фрагменты.</p>
+		</li>
+		<li>Вызов клиентом методов на сервере и получение ответа в виде значения с базовым типом данных, или типом ДвоичныеДанные. 
+			Методы будут исполнены в контексте сервера.</li>
+		<li>Вызов клиентом методов на другом клиенте и получение ответа в виде значения с базовым типом данных, или типом ДвоичныеДанные. 
+			Методы будут исполнены в контексте другого клиента.</li>
+		<li>Многопоточность и асинхронность работы сервера. Сервер многопоточный (каждый клиент в своем потоке живет), асинхронный 
+			(обработка клиентов происходит асинхронно).</li>
+		<li>Производительность. Для замера производительности на одном и том же компьютере были запущены сервер и клиент.
+			За одну секунду сервер подключил 1700 клиентов (экземпляров класса TCPКлиент(TcpClient)).
+			В другом замере клиент успешно послал 15000 коротких текстовых сообщений за одну секунду.</li>
+		<li>Сервер так же может обрабатывать подключения нативного клиента <B>TCPСоединение&nbsp;/&nbsp;TCPConnection</B> из библиотеки 
+		односкрипта. На размер данных влияют системные ограничения.</li>
+		<li>К серверу можно подключаться из браузера и обмениваться данными по протоколу http. На размер данных влияют ограничения браузера и системные.</li>
+	</p>
+	<p>Если быть точным серверов в библиотеке два. Это важно и об этом подробнее в разделе <a href="howworks.html">Как&nbsp;это&nbsp;работает</a>.</p>
+</section>
 </body></html>
