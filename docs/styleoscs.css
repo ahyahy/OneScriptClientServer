@@ -140,9 +140,6 @@ div.divleft
 	width: 500px;
 	white-space: nowrap;
 	overflow:auto;
-	
-	
-	font-size: 150%;
 }
 div.divleft a
 {
@@ -181,6 +178,9 @@ input#toggle1:checked ~ div.divleft
 	height:82%;
 	width:60%;
 	overflow-y: scroll;
+	
+	font-size: 250%;
+
 }
 div#nsbanner
 {
