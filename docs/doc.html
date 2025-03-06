@@ -53,6 +53,25 @@
 				el.checked = false;
 			}
 		}
+		function divleftClick(e){
+			let el = document.getElementById('toggle1');
+			if (e.target.nodeName == 'A')
+			{
+				let el3 = document.getElementById('titlepage');
+				el3.innerText = e.target.innerText;
+				el.checked = false;
+			}
+		}
+		function expand(){
+			document.querySelectorAll('details').forEach(detail => {
+				detail.open = true;
+			});
+		}
+		function collapse(){
+			document.querySelectorAll('details').forEach(detail => {
+				detail.open = false;
+			});
+		}
 	</script>
 	<!-- Секция переключателя -->
 	<input type="checkbox" id="toggle1"></input>
@@ -60,282 +79,290 @@
 	<div class="divmodal"></div>
 	<!-- Сама справка -->
 	<div class="divleft" id="divleftid" onclick="divleftClick(event)">
+		<div id="expandcollapse">
+			<div id="expand" onclick="expand()">развернуть</div>
+			<div id="separator">&nbsp;|&nbsp;</div>
+			<div id="collapse" onclick="collapse()">свернуть</div>
+		</div>
 		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.TcpClient.html" target="right">TCPКлиент (TcpClient) Класс</a></summary>
+			<summary class="menu"><a href="OSClientServerRu/OSClientServer.html" target="right">OneScriptClientServer (классы, перечисления)</a></summary>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.TcpClient.html" target="right">TCPКлиент (TcpClient) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.TcpClientConstructor.html" target="right">TCPКлиент (TcpClient) Конструктор</a></p>
 				<p class="events"><a href="OSClientServerRu/OSClientServer.TcpClientEvents.html" target="right">TCPКлиент (TcpClient) События</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.TcpClientMembers.html" target="right">TCPКлиент (TcpClient) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.TcpClientProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpClient.Disconnected.html" target="right">ПриОтключении (Disconnected) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpClient.MessageSent.html" target="right">ПриОтправкеСообщения (MessageSent) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpClient.Connected.html" target="right">ПриПодключении (Connected) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpClient.MessageReceived.html" target="right">ПриПолученииСообщения (MessageReceived) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpClient.CommunicationState.html" target="right">СостояниеСоединения (CommunicationState) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpClient.Disconnected.html" target="right">ПриОтключении (Disconnected) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpClient.MessageSent.html" target="right">ПриОтправкеСообщения (MessageSent) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpClient.Connected.html" target="right">ПриПодключении (Connected) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpClient.MessageReceived.html" target="right">ПриПолученииСообщения (MessageReceived) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpClient.CommunicationState.html" target="right">СостояниеСоединения (CommunicationState) Свойство</a></p>
 				</details>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.TcpClientMethods.html" target="right">Методы</a></summary>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.TcpClient.Disconnect.html" target="right">Отключить (Disconnect) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.TcpClient.SendMessage.html" target="right">ОтправитьСообщение (SendMessage) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.TcpClient.Connect.html" target="right">Подключить (Connect) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.TcpClient.Disconnect.html" target="right">Отключить (Disconnect) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.TcpClient.SendMessage.html" target="right">ОтправитьСообщение (SendMessage) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.TcpClient.Connect.html" target="right">Подключить (Connect) Метод</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.TcpEndPoint.html" target="right">TCPКонечнаяТочка (TcpEndPoint) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.TcpEndPoint.html" target="right">TCPКонечнаяТочка (TcpEndPoint) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.TcpEndPointConstructor.html" target="right">TCPКонечнаяТочка (TcpEndPoint) Конструктор</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.TcpEndPointMembers.html" target="right">TCPКонечнаяТочка (TcpEndPoint) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.TcpEndPointProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpEndPoint.IpAddress.html" target="right">IPАдрес (IpAddress) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpEndPoint.TcpPort.html" target="right">TCPПорт (TcpPort) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpEndPoint.IpAddress.html" target="right">IPАдрес (IpAddress) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpEndPoint.TcpPort.html" target="right">TCPПорт (TcpPort) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.TcpServer.html" target="right">TCPСервер (TcpServer) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.TcpServer.html" target="right">TCPСервер (TcpServer) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.TcpServerConstructor.html" target="right">TCPСервер (TcpServer) Конструктор</a></p>
 				<p class="events"><a href="OSClientServerRu/OSClientServer.TcpServerEvents.html" target="right">TCPСервер (TcpServer) События</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.TcpServerMembers.html" target="right">TCPСервер (TcpServer) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.TcpServerProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpServer.Clients.html" target="right">Клиенты (Clients) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpServer.ClientDisconnected.html" target="right">ПриОтключенииКлиента (ClientDisconnected) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpServer.MessageSent.html" target="right">ПриОтправкеСообщения (MessageSent) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpServer.ClientConnected.html" target="right">ПриПодключенииКлиента (ClientConnected) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpServer.MessageReceived.html" target="right">ПриПолученииСообщения (MessageReceived) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpServer.Clients.html" target="right">Клиенты (Clients) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpServer.ClientDisconnected.html" target="right">ПриОтключенииКлиента (ClientDisconnected) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpServer.MessageSent.html" target="right">ПриОтправкеСообщения (MessageSent) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpServer.ClientConnected.html" target="right">ПриПодключенииКлиента (ClientConnected) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TcpServer.MessageReceived.html" target="right">ПриПолученииСообщения (MessageReceived) Свойство</a></p>
 				</details>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.TcpServerMethods.html" target="right">Методы</a></summary>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.TcpServer.Start.html" target="right">Начать (Start) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.TcpServer.Stop.html" target="right">Остановить (Stop) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.TcpServer.Start.html" target="right">Начать (Start) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.TcpServer.Stop.html" target="right">Остановить (Stop) Метод</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.EventArgs.html" target="right">АргументыСобытия (EventArgs) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.EventArgs.html" target="right">АргументыСобытия (EventArgs) Класс</a></summary>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.EventArgsMembers.html" target="right">АргументыСобытия (EventArgs) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.EventArgsProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.EventArgs.EventAction.html" target="right">Действие (EventAction) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.EventArgs.Sender.html" target="right">Отправитель (Sender) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.EventArgs.EventAction.html" target="right">Действие (EventAction) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.EventArgs.Sender.html" target="right">Отправитель (Sender) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.DoAtClientArgs.html" target="right">ВыполнитьНаКлиентеАрг (DoAtClientArgs) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.DoAtClientArgs.html" target="right">ВыполнитьНаКлиентеАрг (DoAtClientArgs) Класс</a></summary>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.DoAtClientArgsMembers.html" target="right">ВыполнитьНаКлиентеАрг (DoAtClientArgs) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.DoAtClientArgsProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.DoAtClientArgs.MethodName.html" target="right">ИмяМетода (MethodName) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.DoAtClientArgs.ParametersArray.html" target="right">МассивПараметров (ParametersArray) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.DoAtClientArgs.MethodName.html" target="right">ИмяМетода (MethodName) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.DoAtClientArgs.ParametersArray.html" target="right">МассивПараметров (ParametersArray) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.DoAtServerArgs.html" target="right">ВыполнитьНаСервереАрг (DoAtServerArgs) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.DoAtServerArgs.html" target="right">ВыполнитьНаСервереАрг (DoAtServerArgs) Класс</a></summary>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.DoAtServerArgsMembers.html" target="right">ВыполнитьНаСервереАрг (DoAtServerArgs) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.DoAtServerArgsProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.DoAtServerArgs.MethodName.html" target="right">ИмяМетода (MethodName) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.DoAtServerArgs.ParametersArray.html" target="right">МассивПараметров (ParametersArray) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.DoAtServerArgs.MethodName.html" target="right">ИмяМетода (MethodName) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.DoAtServerArgs.ParametersArray.html" target="right">МассивПараметров (ParametersArray) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.Action.html" target="right">Действие (Action) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.Action.html" target="right">Действие (Action) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.ActionConstructor.html" target="right">Действие (Action) Конструктор</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.ActionMembers.html" target="right">Действие (Action) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ActionProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.Action.MethodName.html" target="right">ИмяМетода (MethodName) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.Action.Script.html" target="right">Сценарий (Script) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.Action.MethodName.html" target="right">ИмяМетода (MethodName) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.Action.Script.html" target="right">Сценарий (Script) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ClientInfo.html" target="right">ИнформацияКлиента (ClientInfo) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ClientInfo.html" target="right">ИнформацияКлиента (ClientInfo) Класс</a></summary>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.ClientInfoMembers.html" target="right">ИнформацияКлиента (ClientInfo) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ClientInfoProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ClientInfo.ClientGuid.html" target="right">ГуидКлиента (ClientGuid) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ClientInfo.ClientName.html" target="right">ИмяКлиента (ClientName) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ClientInfo.Tag.html" target="right">Метка (ClientGuid) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ClientInfo.ClientGuid.html" target="right">ГуидКлиента (ClientGuid) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ClientInfo.ClientName.html" target="right">ИмяКлиента (ClientName) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ClientInfo.Tag.html" target="right">Метка (ClientGuid) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.html" target="right">КлиентСерверДляОдноСкрипта (OneScriptClientServer) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.html" target="right">КлиентСерверДляОдноСкрипта (OneScriptClientServer) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.OneScriptClientServerConstructor.html" target="right">КлиентСерверДляОдноСкрипта (OneScriptClientServer) Конструктор</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.OneScriptClientServerMembers.html" target="right">КлиентСерверДляОдноСкрипта (OneScriptClientServer) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.OneScriptClientServerProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.EventArgs.html" target="right">АргументыСобытия (EventArgs) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.Sender.html" target="right">Отправитель (Sender) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.GoOn.html" target="right">Продолжать (GoOn) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.ThirdPartyClientMode.html" target="right">РежимСтороннегоКлиента (ThirdPartyClientMode) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.EventArgs.html" target="right">АргументыСобытия (EventArgs) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.Sender.html" target="right">Отправитель (Sender) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.GoOn.html" target="right">Продолжать (GoOn) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.ThirdPartyClientMode.html" target="right">РежимСтороннегоКлиента (ThirdPartyClientMode) Свойство</a></p>
 				</details>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.OneScriptClientServerMethods.html" target="right">Методы</a></summary>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.TcpClient.html" target="right">TCPКлиент (TcpClient) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.TcpEndPoint.html" target="right">TCPКонечнаяТочка (TcpEndPoint) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.TcpServer.html" target="right">TCPСервер (TcpServer) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.Action.html" target="right">Действие (Action) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.DoEvents.html" target="right">ПолучитьСобытие (DoEvents) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.ServiceClient.html" target="right">ПриложениеКлиент (ServiceClient) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.ServiceApplication.html" target="right">ПриложениеСервис (ServiceApplication) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.ByteMessage.html" target="right">СообщениеБайты (ByteMessage) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.BoolMessage.html" target="right">СообщениеБулево (BoolMessage) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.DateTimeMessage.html" target="right">СообщениеДата (DateTimeMessage) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.TextMessage.html" target="right">СообщениеТекст (TextMessage) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.NumberMessage.html" target="right">СообщениеЧисло (NumberMessage) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.TcpClient.html" target="right">TCPКлиент (TcpClient) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.TcpEndPoint.html" target="right">TCPКонечнаяТочка (TcpEndPoint) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.TcpServer.html" target="right">TCPСервер (TcpServer) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.Action.html" target="right">Действие (Action) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.DoEvents.html" target="right">ПолучитьСобытие (DoEvents) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.ServiceClient.html" target="right">ПриложениеКлиент (ServiceClient) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.ServiceApplication.html" target="right">ПриложениеСервис (ServiceApplication) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.ByteMessage.html" target="right">СообщениеБайты (ByteMessage) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.BoolMessage.html" target="right">СообщениеБулево (BoolMessage) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.DateTimeMessage.html" target="right">СообщениеДата (DateTimeMessage) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.TextMessage.html" target="right">СообщениеТекст (TextMessage) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.OneScriptClientServer.NumberMessage.html" target="right">СообщениеЧисло (NumberMessage) Метод</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServiceClient.html" target="right">ПриложениеКлиент (ServiceClient) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServiceClient.html" target="right">ПриложениеКлиент (ServiceClient) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.ServiceClientConstructor.html" target="right">ПриложениеКлиент (ServiceClient) Конструктор</a></p>
 				<p class="events"><a href="OSClientServerRu/OSClientServer.ServiceClientEvents.html" target="right">ПриложениеКлиент (ServiceClient) События</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.ServiceClientMembers.html" target="right">ПриложениеКлиент (ServiceClient) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ServiceClientProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.ClientGuid.html" target="right">ГуидКлиента (ClientGuid) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.ClientName.html" target="right">ИмяКлиента (ClientName) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.Tag.html" target="right">Метка (Tag) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.Disconnected.html" target="right">ПриОтключении (Disconnected) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.Connected.html" target="right">ПриПодключении (Connected) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.Resalt.html" target="right">Результат (Resalt) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.CommunicationState.html" target="right">СостояниеСоединения (CommunicationState) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.ClientGuid.html" target="right">ГуидКлиента (ClientGuid) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.ClientName.html" target="right">ИмяКлиента (ClientName) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.Tag.html" target="right">Метка (Tag) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.Disconnected.html" target="right">ПриОтключении (Disconnected) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.Connected.html" target="right">ПриПодключении (Connected) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.Resalt.html" target="right">Результат (Resalt) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClient.CommunicationState.html" target="right">СостояниеСоединения (CommunicationState) Свойство</a></p>
 				</details>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ServiceClientMethods.html" target="right">Методы</a></summary>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceClient.DoAtClient.html" target="right">ВыполнитьНаКлиенте (DoAtClient) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceClient.DoAtServer.html" target="right">ВыполнитьНаСервере (DoAtServer) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceClient.Disconnect.html" target="right">Отключить (Disconnect) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceClient.Connect.html" target="right">Подключить (Connect) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceClient.GetClientsInfo.html" target="right">ПолучитьИнформациюКлиентов (GetClientsInfo) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceClient.DoAtClient.html" target="right">ВыполнитьНаКлиенте (DoAtClient) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceClient.DoAtServer.html" target="right">ВыполнитьНаСервере (DoAtServer) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceClient.Disconnect.html" target="right">Отключить (Disconnect) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceClient.Connect.html" target="right">Подключить (Connect) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceClient.GetClientsInfo.html" target="right">ПолучитьИнформациюКлиентов (GetClientsInfo) Метод</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServiceClientEventArgs.html" target="right">ПриложениеКлиентАрг (ServiceClientEventArgs) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServiceClientEventArgs.html" target="right">ПриложениеКлиентАрг (ServiceClientEventArgs) Класс</a></summary>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.ServiceClientEventArgsMembers.html" target="right">ПриложениеКлиентАрг (ServiceClientEventArgs) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ServiceClientEventArgsProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClientEventArgs.Client.html" target="right">Клиент (Client) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceClientEventArgs.Client.html" target="right">Клиент (Client) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServiceApplication.html" target="right">ПриложениеСервис (ServiceApplication) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServiceApplication.html" target="right">ПриложениеСервис (ServiceApplication) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.ServiceApplicationConstructor.html" target="right">ПриложениеСервис (ServiceApplication) Конструктор</a></p>
 				<p class="events"><a href="OSClientServerRu/OSClientServer.ServiceApplicationEvents.html" target="right">ПриложениеСервис (ServiceApplication) События</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.ServiceApplicationMembers.html" target="right">ПриложениеСервис (ServiceApplication) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ServiceApplicationProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplication.Clients.html" target="right">Клиенты (Clients) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplication.ClientDisconnected.html" target="right">ПриОтключенииКлиента (ClientDisconnected) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplication.ClientConnected.html" target="right">ПриПодключенииКлиента (ClientConnected) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplication.Resalt.html" target="right">Результат (Resalt) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplication.Clients.html" target="right">Клиенты (Clients) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplication.ClientDisconnected.html" target="right">ПриОтключенииКлиента (ClientDisconnected) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplication.ClientConnected.html" target="right">ПриПодключенииКлиента (ClientConnected) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplication.Resalt.html" target="right">Результат (Resalt) Свойство</a></p>
 				</details>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ServiceApplicationMethods.html" target="right">Методы</a></summary>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceApplication.DoAtClient.html" target="right">ВыполнитьНаКлиенте (DoAtClient) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceApplication.Start.html" target="right">Начать (Start) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceApplication.Stop.html" target="right">Остановить (Stop) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceApplication.DoAtClient.html" target="right">ВыполнитьНаКлиенте (DoAtClient) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceApplication.Start.html" target="right">Начать (Start) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceApplication.Stop.html" target="right">Остановить (Stop) Метод</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClient.html" target="right">ПриложениеСервисКлиент (ServiceApplicationClient) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClient.html" target="right">ПриложениеСервисКлиент (ServiceApplicationClient) Класс</a></summary>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClientMembers.html" target="right">ПриложениеСервисКлиент (ServiceApplicationClient) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClientProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClient.ClientGuid.html" target="right">ГуидКлиента (ClientGuid) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClient.ClientId.html" target="right">ИдентификаторКлиента (ClientId) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClient.CommunicationState.html" target="right">СостояниеСоединения (CommunicationState) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClient.ClientGuid.html" target="right">ГуидКлиента (ClientGuid) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClient.ClientId.html" target="right">ИдентификаторКлиента (ClientId) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClient.CommunicationState.html" target="right">СостояниеСоединения (CommunicationState) Свойство</a></p>
 				</details>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClientMethods.html" target="right">Методы</a></summary>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClient.Disconnect.html" target="right">Отключить (Disconnect) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServiceApplicationClient.Disconnect.html" target="right">Отключить (Disconnect) Метод</a></p>
 				</details>
-		</details>
-		<p class="enum"><a href="OSClientServerRu/OSClientServer.ClientMode.html" target="right">РежимКлиента (ClientMode) Перечисление</a></p>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServerClient.html" target="right">СерверКлиент (ServerClient) Класс</a></summary>
+			</details>
+			<p class="enum"><a href="OSClientServerRu/OSClientServer.ClientMode.html" target="right">РежимКлиента (ClientMode) Перечисление</a></p>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServerClient.html" target="right">СерверКлиент (ServerClient) Класс</a></summary>
 				<p class="events"><a href="OSClientServerRu/OSClientServer.ServerClientEvents.html" target="right">СерверКлиент (ServerClient) События</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.ServerClientMembers.html" target="right">СерверКлиент (ServerClient) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ServerClientProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServerClient.ClientId.html" target="right">ИдентификаторКлиента (ClientId) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServerClient.Disconnected.html" target="right">ПриОтключении (Disconnected) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServerClient.CommunicationState.html" target="right">СостояниеСоединения (CommunicationState) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServerClient.ClientId.html" target="right">ИдентификаторКлиента (ClientId) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServerClient.Disconnected.html" target="right">ПриОтключении (Disconnected) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServerClient.CommunicationState.html" target="right">СостояниеСоединения (CommunicationState) Свойство</a></p>
 				</details>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ServerClientMethods.html" target="right">Методы</a></summary>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServerClient.Disconnect.html" target="right">Отключить (Disconnect) Метод</a></p>
-						<p class="method"><a href="OSClientServerRu/OSClientServer.ServerClient.SendMessage.html" target="right">ОтправитьСообщение (SendMessage) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServerClient.Disconnect.html" target="right">Отключить (Disconnect) Метод</a></p>
+					<p class="method"><a href="OSClientServerRu/OSClientServer.ServerClient.SendMessage.html" target="right">ОтправитьСообщение (SendMessage) Метод</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServerClientEventArgs.html" target="right">СерверКлиентАрг (ServerClientEventArgs) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ServerClientEventArgs.html" target="right">СерверКлиентАрг (ServerClientEventArgs) Класс</a></summary>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.ServerClientEventArgsMembers.html" target="right">СерверКлиентАрг (ServerClientEventArgs) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ServerClientEventArgsProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ServerClientEventArgs.Client.html" target="right">Клиент (Client) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ServerClientEventArgs.Client.html" target="right">Клиент (Client) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.MessageEventArgs.html" target="right">СообщениеАрг (MessageEventArgs) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.MessageEventArgs.html" target="right">СообщениеАрг (MessageEventArgs) Класс</a></summary>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.MessageEventArgsMembers.html" target="right">СообщениеАрг (MessageEventArgs) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.MessageEventArgsProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.MessageEventArgs.Message.html" target="right">Сообщение (Message) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.MessageEventArgs.Message.html" target="right">Сообщение (Message) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ByteMessage.html" target="right">СообщениеБайты (ByteMessage) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.ByteMessage.html" target="right">СообщениеБайты (ByteMessage) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.ByteMessageConstructor.html" target="right">СообщениеБайты (ByteMessage) Конструктор</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.ByteMessageMembers.html" target="right">СообщениеБайты (ByteMessage) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.ByteMessageProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ByteMessage.MessageData.html" target="right">Данные (MessageData) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.ByteMessage.MessageId.html" target="right">Идентификатор (MessageId) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ByteMessage.MessageData.html" target="right">Данные (MessageData) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.ByteMessage.MessageId.html" target="right">Идентификатор (MessageId) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.BoolMessage.html" target="right">СообщениеБулево (BoolMessage) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.BoolMessage.html" target="right">СообщениеБулево (BoolMessage) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.BoolMessageConstructor.html" target="right">СообщениеБулево (BoolMessage) Конструктор</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.BoolMessageMembers.html" target="right">СообщениеБулево (BoolMessage) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.BoolMessageProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.BoolMessage.BoolVal.html" target="right">Булево (BoolVal) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.BoolMessage.MessageId.html" target="right">Идентификатор (MessageId) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.BoolMessage.BoolVal.html" target="right">Булево (BoolVal) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.BoolMessage.MessageId.html" target="right">Идентификатор (MessageId) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.DateTimeMessage.html" target="right">СообщениеДата (DateTimeMessage) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.DateTimeMessage.html" target="right">СообщениеДата (DateTimeMessage) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.DateTimeMessageConstructor.html" target="right">СообщениеДата (DateTimeMessage) Конструктор</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.DateTimeMessageMembers.html" target="right">СообщениеДата (DateTimeMessage) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.DateTimeMessageProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.DateTimeMessage.DateVal.html" target="right">Дата (DateVal) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.DateTimeMessage.MessageId.html" target="right">Идентификатор (MessageId) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.DateTimeMessage.DateVal.html" target="right">Дата (DateVal) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.DateTimeMessage.MessageId.html" target="right">Идентификатор (MessageId) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.TextMessage.html" target="right">СообщениеТекст (TextMessage) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.TextMessage.html" target="right">СообщениеТекст (TextMessage) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.TextMessageConstructor.html" target="right">СообщениеТекст (TextMessage) Конструктор</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.TextMessageMembers.html" target="right">СообщениеТекст (TextMessage) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.TextMessageProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TextMessage.MessageId.html" target="right">Идентификатор (MessageId) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.TextMessage.Text.html" target="right">Текст (Text) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TextMessage.MessageId.html" target="right">Идентификатор (MessageId) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.TextMessage.Text.html" target="right">Текст (Text) Свойство</a></p>
 				</details>
-		</details>
-		<details>
-			<summary class="menu2"><a href="OSClientServerRu/OSClientServer.NumberMessage.html" target="right">СообщениеЧисло (NumberMessage) Класс</a></summary>
+			</details>
+			<details>
+				<summary class="menu2"><a href="OSClientServerRu/OSClientServer.NumberMessage.html" target="right">СообщениеЧисло (NumberMessage) Класс</a></summary>
 				<p class="konstr"><a href="OSClientServerRu/OSClientServer.NumberMessageConstructor.html" target="right">СообщениеЧисло (NumberMessage) Конструктор</a></p>
 				<p class="members"><a href="OSClientServerRu/OSClientServer.NumberMessageMembers.html" target="right">СообщениеЧисло (NumberMessage) Члены</a></p>
 				<details>
 					<summary class="menu3"><a href="OSClientServerRu/OSClientServer.NumberMessageProperties.html" target="right">Свойства</a></summary>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.NumberMessage.MessageId.html" target="right">Идентификатор (MessageId) Свойство</a></p>
-						<p class="prop"><a href="OSClientServerRu/OSClientServer.NumberMessage.Number.html" target="right">Число (Number) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.NumberMessage.MessageId.html" target="right">Идентификатор (MessageId) Свойство</a></p>
+					<p class="prop"><a href="OSClientServerRu/OSClientServer.NumberMessage.Number.html" target="right">Число (Number) Свойство</a></p>
 				</details>
+			</details>
 		</details>
 		<details>
-			<summary class="menu"><a>Дополнения</a></summary>
-				<p class="konstr"><a href="OSClientServerRu/OSClientServerExampleChat.html" target="right">Заготовка для чата</a></p>
-				<p class="konstr"><a href="OSClientServerRu/OSClientServerMetering.html" target="right">Замеры производительности</a></p>
-				<p class="konstr"><a href="OSClientServerRu/OSClientServerDeprecated.html" target="right">Устаревшие свойства, методы</a></p>
+			<summary class="menu"><a href="OSClientServerRu/OSClientServerAppendix.html" target="right">Дополнения</a></summary>
+			<p class="konstr"><a href="OSClientServerRu/OSClientServerExampleChat.html" target="right">Заготовка для чата</a></p>
+			<p class="konstr"><a href="OSClientServerRu/OSClientServerMetering.html" target="right">Замеры производительности</a></p>
+			<p class="konstr"><a href="OSClientServerRu/OSClientServerDeprecated.html" target="right">Устаревшие свойства, методы</a></p>
 		</details>
 	</div>
 	<!-- Конец секции переключателя -->

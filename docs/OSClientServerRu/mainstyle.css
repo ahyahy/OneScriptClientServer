@@ -443,6 +443,14 @@ div.Hierarchy
 {
 	margin: 0.5em,0.0em,0.5em,1.0em;
 }
+
+
+
+
+
+
+
+
 summary
 {
 	cursor: pointer;
@@ -451,7 +459,82 @@ summary
 summary:hover
 {
 	color:#ff3200;
+}
+
+
+
+
+
+div#expandcollapse
+{
+	display:flex;
+	margin:5px 0px 10px 20px;
+}
+div#expand
+{
+	display:inline-block;
+	cursor: pointer;
+}
+div#collapse
+{
+	display:inline-block;
+	cursor: pointer;
+}
+div#expand:hover
+{
+	color:#ff3200;
 }	
+div#collapse:hover
+{
+	color:#ff3200;
+}	
+div#separator
+{
+	display:inline-block;
+}
+summary.menu
+{
+	color: #000000;
+	margin: 5px 0px 5px 20px;
+}
+summary.menu a
+{
+	color: #000000;
+}
+summary:hover
+{
+	color:#ff3200;
+}	
+p.konstr
+{
+	margin: 5px 0px 5px 60px;
+}
+p.konstr a
+{
+	color: #000000;
+}
+p.enum a
+{
+	color: #000000;
+}
+p.enum
+{
+	margin: 5px 0px 5px 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .treeline, .treeline ul, .treeline li
 {
 	margin: 0px;
