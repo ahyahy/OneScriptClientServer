@@ -1,45 +1,64 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>OneScriptFormsPropertyTag</TITLE>
-<META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
-<LINK rel="stylesheet" type="text/css" href="mainstyle.css"></HEAD>
+<HTML>
+<HEAD>
+    <TITLE>OneScriptFormsPropertyTag</TITLE>
+    <META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
+    <LINK rel="stylesheet" type="text/css" href="mainstyle.css">
+</HEAD>
 <BODY id=bodyID class=dtBODY>
-<DIV id=nsbanner>
-<DIV id=bannerrow1>
-<TABLE class=bannerparthead cellSpacing=0>
-  <TBODY>
-  <TR id=hdr>
-    <TD class=runninghead></TD>
-    <TD class=product></TD></TR></TBODY></TABLE></DIV>
-<DIV id=TitleRow>
-<H1 class=dtH1>Заготовка для чата</H1></DIV></DIV>
-<DIV id=nstext>
-<H4 class=dtH4>Описание задачи</H4>
-<P>Поставленная задача - создать набор скриптов, демонстрирующих применение данной библиотеки для создания приложения по обмену сообщениями и возможностью 
-управления работой скрипта на другой машине в сети.</P>
-<P>Используются две библиотеки для скриптового языка <B>OneScript</B>. Библиотека создания экранных форм - <B>OneScriptForms</B>, и библиотека создания TCP 
-сервера и TCP клиентов - <B>OneScriptClientServer</B>. Обеспечена совместная работа обеих библиотек в одном приложении, несмотря на то, что у каждой 
-есть цикл ожидания событий.</P>
-<P>Особенностью является возможность <B>вызова на исполнение метода, записанного в скрипте, исполняющемся на другой машине в сети</B>. Поддерживается 
-передача параметров и получение ответа с удаленной машины.</P>
-<P>Запрограммирован только минимальный набор действий, достаточный для показа работоспособности чата. Только передача текста другим клиентам 
-и обновление списка подключенных к серверу клиентов. И выполняется это методами в скриптах каждой из машин в сети.</P>
-<P>Вот так должна выглядеть структура каталога нашего примера.</P>
-<P></P>
-<IMG class=shot src="Chat1.jpg"></IMG>
-<P></P>
-<P>Первым нужно запустить на исполнение скрипт <B>СерверЧата.os</B>.</P>
-<P>Затем можно запускать экземпляры клиентов <B>ЧатOneScript.os</B>.</P>
-<P>Каталог <B>ЧатOneScript</B> скопируйте на удаленную машину и запустите на ней клиент <B>ЧатOneScript.os</B>.</P>
-<P></P>
-<P>Работа клиентов будет выглядеть примерно так:</P>
-<P></P>
-<IMG class=shot src="Chat2.jpg"></IMG>
-<P></P>
-<P></P>
-<IMG class=shot src="Chat3.jpg"></IMG>
-<P></P>
-<details><summary>Код скрипта СерверЧата.os:</summary>
-<P><PRE class=code>
+    <DIV id=nsbanner>
+        <DIV id=bannerrow1>
+            <TABLE class=bannerparthead cellSpacing=0>
+                <TBODY>
+                    <TR id=hdr>
+                        <TD class=runninghead></TD>
+                        <TD class=product></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+        </DIV>
+        <DIV id=TitleRow>
+            <H1 class=dtH1>Заготовка для чата</H1>
+        </DIV>
+    </DIV>
+    <DIV id=nstext>
+        <H4 class=dtH4>Описание задачи</H4>
+        <P>
+            Поставленная задача - создать набор скриптов, демонстрирующих применение данной библиотеки для создания приложения по обмену сообщениями и возможностью
+            управления работой скрипта на другой машине в сети.
+        </P>
+        <P>
+            Используются две библиотеки для скриптового языка <B>OneScript</B>. Библиотека создания экранных форм - <B>OneScriptForms</B>, и библиотека создания TCP
+            сервера и TCP клиентов - <B>OneScriptClientServer</B>. Обеспечена совместная работа обеих библиотек в одном приложении, несмотря на то, что у каждой
+            есть цикл ожидания событий.
+        </P>
+        <P>
+            Особенностью является возможность <B>вызова на исполнение метода, записанного в скрипте, исполняющемся на другой машине в сети</B>. Поддерживается
+            передача параметров и получение ответа с удаленной машины.
+        </P>
+        <P>
+            Запрограммирован только минимальный набор действий, достаточный для показа работоспособности чата. Только передача текста другим клиентам
+            и обновление списка подключенных к серверу клиентов. И выполняется это методами в скриптах каждой из машин в сети.
+        </P>
+        <P>Вот так должна выглядеть структура каталога нашего примера.</P>
+        <P></P>
+        <IMG class=shot src="Chat1.jpg"></IMG>
+        <P></P>
+        <P>Первым нужно запустить на исполнение скрипт <B>СерверЧата.os</B>.</P>
+        <P>Затем можно запускать экземпляры клиентов <B>ЧатOneScript.os</B>.</P>
+        <P>Каталог <B>ЧатOneScript</B> скопируйте на удаленную машину и запустите на ней клиент <B>ЧатOneScript.os</B>.</P>
+        <P></P>
+        <P>Работа клиентов будет выглядеть примерно так:</P>
+        <P></P>
+        <IMG class=shot src="Chat2.jpg"></IMG>
+        <P></P>
+        <P></P>
+        <IMG class=shot src="Chat3.jpg"></IMG>
+        <P></P>
+        <details>
+            <summary>Код скрипта СерверЧата.os:</summary>
+            <P>
+                <PRE class=code>
 <a id="copy1" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select1" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont1">
 Перем КС;
@@ -65,12 +84,14 @@
 КонецЦикла;
 </DIV>
 </PRE>
-</details>
-<P></P>
-<hr style="border-color: lightgray;">
-<P></P>
-<details><summary>Код скрипта ЧатOneScript.os:</summary>
-<P><PRE class=code>
+        </details>
+        <P></P>
+        <hr style="border-color: lightgray;">
+        <P></P>
+        <details>
+            <summary>Код скрипта ЧатOneScript.os:</summary>
+            <P>
+                <PRE class=code>
 <a id="copy2" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select2" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont2">
 Перем ТекПуть;
@@ -148,12 +169,14 @@ IP = "";
 Ф.ЗапуститьОбработкуСобытий();
 </DIV>
 </PRE>
-</details>
-<P></P>
-<hr style="border-color: lightgray;">
-<P></P>
-<details><summary>Код скрипта ГлавнаяФормаКлиента.os:</summary>
-<P><PRE class=code>
+        </details>
+        <P></P>
+        <hr style="border-color: lightgray;">
+        <P></P>
+        <details>
+            <summary>Код скрипта ГлавнаяФормаКлиента.os:</summary>
+            <P>
+                <PRE class=code>
 <a id="copy3" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select3" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont3">
 Перем КС Экспорт;
@@ -407,12 +430,14 @@ IP = "";
 Стр9 = "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";
 </DIV>
 </PRE>
-</details>
-<P></P>
-<hr style="border-color: lightgray;">
-<P></P>
-<details><summary>Код скрипта Клиент.os:</summary>
-<P><PRE class=code>
+        </details>
+        <P></P>
+        <hr style="border-color: lightgray;">
+        <P></P>
+        <details>
+            <summary>Код скрипта Клиент.os:</summary>
+            <P>
+                <PRE class=code>
 <a id="copy4" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select4" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont4">
 Перем КС;
@@ -576,12 +601,14 @@ IP = "";
 КонецЦикла;
 </DIV>
 </PRE>
-</details>
-<P></P>
-<hr style="border-color: lightgray;">
-<P></P>
-<details><summary>Код скрипта Диалог.os:</summary>
-<P><PRE class=code>
+        </details>
+        <P></P>
+        <hr style="border-color: lightgray;">
+        <P></P>
+        <details>
+            <summary>Код скрипта Диалог.os:</summary>
+            <P>
+                <PRE class=code>
 <a id="copy5" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select5" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont5">
 Перем ВремяСоздания;
@@ -655,131 +682,133 @@ IP = "";
 ДанныеРаботыДиалога = "Форма закрыта без выбора";
 </DIV>
 </PRE>
-</details>
-<P></P>
-<H4 class=dtH4>Смотрите также</H4>
-<P><A href="OSClientServer.html">Библиотека&nbsp;OneScriptClientServer</A></P></DIV>
-<script>
-window.onload = function () {
-    var a = document.getElementById('select1');
-    a.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta1 = document.getElementById('cont1'); 
-		var range1 = document.createRange();
-		range1.selectNode(ta1); 
-		window.getSelection().addRange(range1); 
-        return false;
-    }
-	
-    var b = document.getElementById('copy1');
-    b.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta2 = document.getElementById('cont1'); 
-		var range2 = document.createRange();
-		range2.selectNode(ta2); 
-		window.getSelection().addRange(range2);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range2);
-        return false;
-    }
-	
-    var c = document.getElementById('select2');
-    c.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta3 = document.getElementById('cont2'); 
-		var range3 = document.createRange();
-		range3.selectNode(ta3); 
-		window.getSelection().addRange(range3); 
-        return false;
-    }
-	
-    var d = document.getElementById('copy2');
-    d.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta4 = document.getElementById('cont2'); 
-		var range4 = document.createRange();
-		range4.selectNode(ta4); 
-		window.getSelection().addRange(range4);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range4);
-        return false;
-    }
-	
-    var c = document.getElementById('select3');
-    c.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta3 = document.getElementById('cont3'); 
-		var range3 = document.createRange();
-		range3.selectNode(ta3); 
-		window.getSelection().addRange(range3); 
-        return false;
-    }
-	
-    var d = document.getElementById('copy3');
-    d.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta4 = document.getElementById('cont3'); 
-		var range4 = document.createRange();
-		range4.selectNode(ta4); 
-		window.getSelection().addRange(range4);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range4);
-        return false;
-    }
-	
-    var c = document.getElementById('select4');
-    c.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta3 = document.getElementById('cont4'); 
-		var range3 = document.createRange();
-		range3.selectNode(ta3); 
-		window.getSelection().addRange(range3); 
-        return false;
-    }
-	
-    var d = document.getElementById('copy4');
-    d.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta4 = document.getElementById('cont4'); 
-		var range4 = document.createRange();
-		range4.selectNode(ta4); 
-		window.getSelection().addRange(range4);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range4);
-        return false;
-    }
-	
-    var c = document.getElementById('select5');
-    c.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta3 = document.getElementById('cont5'); 
-		var range3 = document.createRange();
-		range3.selectNode(ta3); 
-		window.getSelection().addRange(range3); 
-        return false;
-    }
-	
-    var d = document.getElementById('copy5');
-    d.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta4 = document.getElementById('cont5'); 
-		var range4 = document.createRange();
-		range4.selectNode(ta4); 
-		window.getSelection().addRange(range4);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range4);
-        return false;
-    }
-}
-</script>
-</BODY></HTML>
+        </details>
+        <P></P>
+        <H4 class=dtH4>Смотрите также</H4>
+        <P><A href="OSClientServer.html">Библиотека&nbsp;OneScriptClientServer</A></P>
+    </DIV>
+    <script>
+        window.onload = function () {
+            var a = document.getElementById('select1');
+            a.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta1 = document.getElementById('cont1');
+                var range1 = document.createRange();
+                range1.selectNode(ta1);
+                window.getSelection().addRange(range1);
+                return false;
+            }
+
+            var b = document.getElementById('copy1');
+            b.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta2 = document.getElementById('cont1');
+                var range2 = document.createRange();
+                range2.selectNode(ta2);
+                window.getSelection().addRange(range2);
+                try {
+                    document.execCommand('copy');
+                } catch (err) { }
+                window.getSelection().removeRange(range2);
+                return false;
+            }
+
+            var c = document.getElementById('select2');
+            c.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta3 = document.getElementById('cont2');
+                var range3 = document.createRange();
+                range3.selectNode(ta3);
+                window.getSelection().addRange(range3);
+                return false;
+            }
+
+            var d = document.getElementById('copy2');
+            d.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta4 = document.getElementById('cont2');
+                var range4 = document.createRange();
+                range4.selectNode(ta4);
+                window.getSelection().addRange(range4);
+                try {
+                    document.execCommand('copy');
+                } catch (err) { }
+                window.getSelection().removeRange(range4);
+                return false;
+            }
+
+            var c = document.getElementById('select3');
+            c.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta3 = document.getElementById('cont3');
+                var range3 = document.createRange();
+                range3.selectNode(ta3);
+                window.getSelection().addRange(range3);
+                return false;
+            }
+
+            var d = document.getElementById('copy3');
+            d.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta4 = document.getElementById('cont3');
+                var range4 = document.createRange();
+                range4.selectNode(ta4);
+                window.getSelection().addRange(range4);
+                try {
+                    document.execCommand('copy');
+                } catch (err) { }
+                window.getSelection().removeRange(range4);
+                return false;
+            }
+
+            var c = document.getElementById('select4');
+            c.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta3 = document.getElementById('cont4');
+                var range3 = document.createRange();
+                range3.selectNode(ta3);
+                window.getSelection().addRange(range3);
+                return false;
+            }
+
+            var d = document.getElementById('copy4');
+            d.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta4 = document.getElementById('cont4');
+                var range4 = document.createRange();
+                range4.selectNode(ta4);
+                window.getSelection().addRange(range4);
+                try {
+                    document.execCommand('copy');
+                } catch (err) { }
+                window.getSelection().removeRange(range4);
+                return false;
+            }
+
+            var c = document.getElementById('select5');
+            c.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta3 = document.getElementById('cont5');
+                var range3 = document.createRange();
+                range3.selectNode(ta3);
+                window.getSelection().addRange(range3);
+                return false;
+            }
+
+            var d = document.getElementById('copy5');
+            d.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta4 = document.getElementById('cont5');
+                var range4 = document.createRange();
+                range4.selectNode(ta4);
+                window.getSelection().addRange(range4);
+                try {
+                    document.execCommand('copy');
+                } catch (err) { }
+                window.getSelection().removeRange(range4);
+                return false;
+            }
+        }
+    </script>
+</BODY>
+</HTML>
