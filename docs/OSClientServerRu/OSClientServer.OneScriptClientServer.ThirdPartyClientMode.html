@@ -1,59 +1,75 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>ThirdPartyClientMode Property</TITLE>
-<META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
-<LINK rel="stylesheet" type="text/css" href="mainstyle.css"></HEAD>
+<HTML>
+<HEAD>
+    <TITLE>ThirdPartyClientMode Property</TITLE>
+    <META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
+    <LINK rel="stylesheet" type="text/css" href="mainstyle.css">
+</HEAD>
 <BODY id=bodyID class=dtBODY>
-<DIV id=nsbanner>
-<DIV id=bannerrow1>
-<TABLE class=bannerparthead cellSpacing=0>
-  <TBODY>
-  <TR id=hdr>
-    <TD class=runninghead></TD>
-    <TD class=product></TD></TR></TBODY></TABLE></DIV>
-<DIV id=TitleRow>
-<H1 class=dtH1>КлиентСерверДляОдноСкрипта.РежимСтороннегоКлиента&nbsp;(OneScriptClientServer.ThirdPartyClientMode)&nbsp;Свойство</H1></DIV></DIV>
-<DIV id=nstext>
-<H4 class=dtH4>Использование</H4>
-<P>Чтение и запись.</P>
-<H4 class=dtH4>Значение</H4>
-<P>Тип: <A href="OSClientServer.ClientMode.html">РежимКлиента&nbsp;(ClientMode)</A>.</P>
-<P>Возвращает или задает значение, показывающее, взаимодействует ли сервер с клиентами, не являющимися экземплярами классов из библиотеки <B>OneScriptClientServer</B>.</P>
-<P>Значение по умолчанию - <B>Отсутствие&nbsp;(None)</B>.</P>
-<H4 class=dtH4>Примечание</H4>
-<P>Сторонним клиентом, взаимодействующим с сервером, может быть какой либо браузер, или например объект <B>TCPСоединение&nbsp;/&nbsp;TCPConnection</B> 
-из библиотеки односкрипта. Данные такого клиента отправляются в коммуникационный поток без предварительной обработки. Клиенты, являющиеся экземплярами 
-классов из библиотеки <B>OneScriptClientServer</B>, 
-обмениваются через коммуникационный поток данными, прошедшими предварительную обработку. А именно, они обмениваются данными сериализоваными, 
-с добавлением дополнительной информации. Поэтому серверу необходимо явно, через данное свойство, указать с каким клиентом он будет взаимодействовать.</P>
-<P>Клиент <B>TCPСоединение&nbsp;/&nbsp;TCPConnection</B> из библиотеки односкрипта  может послать серверу строку или файл, переведенный в двоичные данные. Сервер сам может определить следующие типы файлов по 
-сигнатуре:
-<BR> - avi - Audio Video Interleave video format
-<BR> - bin - Amazon Kindle Update Package
-<BR> - bmp - BMP file, a bitmap format used mostly in the Windows world
-<BR> - deb - linux deb file
-<BR> - exe - DOS MZ executable file format and its descendants(including NE and PE)
-<BR> - ico - Computer icon encoded in ICO file format
-<BR> - jpg - JPEG raw or in the JFIF or Exif file format
-<BR> - mp3 - MP3 file
-<BR> - pdf - PDF document
-<BR> - png - Image encoded in the Portable Network Graphics format
-<BR> - rar - RAR archive
-<BR> - rpm - RedHat Package Manager (RPM)package
-<BR> - rtf - Rich Text Format
-<BR> - wav - Waveform Audio File Format
-<BR> - XML - eXtensible Markup Language when using the ASCII character encoding
-<BR> - zip - zip file format and formats based on it, such as JAR, ODF, OOXML
-<BR> - текстовый файл - UTF-8 encoded Unicode byte order mark, commonly seen in text files
-<BR>Это значит, что если в начале передаваемых байтов сервером будет найдена так называемая магическая последовательность байтов относящаяся к вышеперечисленным типам файлов, 
-сервер будет обращаться с ними как с двоичными данными. Остальные данные он будет считать текстом в кодировке UTF-8.</P>
-<P>Отправку сообщений с сервера помещайте в оператор <B>Попытка&nbsp;Исключение</B>. Это предотвратит блокировку сервера при сбоях в отправке.</P>
-<P>Обязательно назначте обработчик для события <B>TCPСервер.ПриПодключенииКлиента&nbsp;(TcpServer.ClientConnected)</B>. Он даже может не содержать кода, но должен быть назначен.</P>
-<H4 class=dtH4>Пример</H4>
-<P><PRE class=code>
+    <DIV id=nsbanner>
+        <DIV id=bannerrow1>
+            <TABLE class=bannerparthead cellSpacing=0>
+                <TBODY>
+                    <TR id=hdr>
+                        <TD class=runninghead></TD>
+                        <TD class=product></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+        </DIV>
+        <DIV id=TitleRow>
+            <H1 class=dtH1>КлиентСерверДляОдноСкрипта.РежимСтороннегоКлиента&nbsp;(OneScriptClientServer.ThirdPartyClientMode)&nbsp;Свойство</H1>
+        </DIV>
+    </DIV>
+    <DIV id=nstext>
+        <H4 class=dtH4>Использование</H4>
+        <P>Чтение и запись.</P>
+        <H4 class=dtH4>Значение</H4>
+        <P>Тип: <A href="OSClientServer.ClientMode.html">РежимКлиента&nbsp;(ClientMode)</A>.</P>
+        <P>Возвращает или задает значение, показывающее, взаимодействует ли сервер с клиентами, не являющимися экземплярами классов из библиотеки <B>OneScriptClientServer</B>.</P>
+        <P>Значение по умолчанию - <B>Отсутствие&nbsp;(None)</B>.</P>
+        <H4 class=dtH4>Примечание</H4>
+        <P>
+            Сторонним клиентом, взаимодействующим с сервером, может быть какой либо браузер, или например объект <B>TCPСоединение&nbsp;/&nbsp;TCPConnection</B>
+            из библиотеки односкрипта. Данные такого клиента отправляются в коммуникационный поток без предварительной обработки. Клиенты, являющиеся экземплярами
+            классов из библиотеки <B>OneScriptClientServer</B>,
+            обмениваются через коммуникационный поток данными, прошедшими предварительную обработку. А именно, они обмениваются данными сериализоваными,
+            с добавлением дополнительной информации. Поэтому серверу необходимо явно, через данное свойство, указать с каким клиентом он будет взаимодействовать.
+        </P>
+        <P>
+            Клиент <B>TCPСоединение&nbsp;/&nbsp;TCPConnection</B> из библиотеки односкрипта  может послать серверу строку или файл, переведенный в двоичные данные. Сервер сам может определить следующие типы файлов по
+            сигнатуре:
+            <BR> - avi - Audio Video Interleave video format
+            <BR> - bin - Amazon Kindle Update Package
+            <BR> - bmp - BMP file, a bitmap format used mostly in the Windows world
+            <BR> - deb - linux deb file
+            <BR> - exe - DOS MZ executable file format and its descendants(including NE and PE)
+            <BR> - ico - Computer icon encoded in ICO file format
+            <BR> - jpg - JPEG raw or in the JFIF or Exif file format
+            <BR> - mp3 - MP3 file
+            <BR> - pdf - PDF document
+            <BR> - png - Image encoded in the Portable Network Graphics format
+            <BR> - rar - RAR archive
+            <BR> - rpm - RedHat Package Manager (RPM)package
+            <BR> - rtf - Rich Text Format
+            <BR> - wav - Waveform Audio File Format
+            <BR> - XML - eXtensible Markup Language when using the ASCII character encoding
+            <BR> - zip - zip file format and formats based on it, such as JAR, ODF, OOXML
+            <BR> - текстовый файл - UTF-8 encoded Unicode byte order mark, commonly seen in text files
+            <BR>Это значит, что если в начале передаваемых байтов сервером будет найдена так называемая магическая последовательность байтов относящаяся к вышеперечисленным типам файлов,
+            сервер будет обращаться с ними как с двоичными данными. Остальные данные он будет считать текстом в кодировке UTF-8.
+        </P>
+        <P>Отправку сообщений с сервера помещайте в оператор <B>Попытка&nbsp;Исключение</B>. Это предотвратит блокировку сервера при сбоях в отправке.</P>
+        <P>Обязательно назначте обработчик для события <B>TCPСервер.ПриПодключенииКлиента&nbsp;(TcpServer.ClientConnected)</B>. Он даже может не содержать кода, но должен быть назначен.</P>
+        <H4 class=dtH4>Пример</H4>
+        <P>
+            <PRE class=code>
 КС.РежимСтороннегоКлиента = КС.РежимКлиента.Нативный;
 </PRE>
-<details><summary>Пример с нативным клиентом. Передача с сервера при подключении клиента.</summary>
-<P><PRE class=code>
+            <details>
+                <summary>Пример с нативным клиентом. Передача с сервера при подключении клиента.</summary>
+                <P>
+                    <PRE class=code>
 <a id="copy1" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select1" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont1">
 //== Файл Сервер.os == начало
@@ -117,11 +133,13 @@ TCPСоединение.ТаймаутЧтения = 2000; // Чтобы сое�
 //== Файл Клиент.os == конец
 </DIV>
 </PRE>
-</details>
-<P></P>
-<hr style="border-color: lightgray;">
-<details><summary>Пример с нативным клиентом. Передача текста.</summary>
-<P><PRE class=code>
+            </details>
+        <P></P>
+        <hr style="border-color: lightgray;">
+        <details>
+            <summary>Пример с нативным клиентом. Передача текста.</summary>
+            <P>
+                <PRE class=code>
 <a id="copy2" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select2" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont2">
 //== Файл Сервер.os == начало
@@ -199,11 +217,13 @@ TCPСоединение.ОтправитьСтроку(Стр1);
 //== Файл Клиент.os == конец
 </DIV>
 </PRE>
-</details>
-<P></P>
-<hr style="border-color: lightgray;">
-<details><summary>Пример с нативным клиентом. Передача двоичных данных.</summary>
-<P><PRE class=code>
+        </details>
+        <P></P>
+        <hr style="border-color: lightgray;">
+        <details>
+            <summary>Пример с нативным клиентом. Передача двоичных данных.</summary>
+            <P>
+                <PRE class=code>
 <a id="copy3" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select3" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont3">
 //== Файл Сервер.os == начало
@@ -277,11 +297,13 @@ TCPСоединение.ОтправитьСтроку(Base64Строка(Нов
 //== Файл Клиент.os == конец
 </DIV>
 </PRE>
-</details>
-<P></P>
-<hr style="border-color: lightgray;">
-<details><summary>Пример с клиентом-браузером. Передача текста.</summary>
-<P><PRE class=code>
+        </details>
+        <P></P>
+        <hr style="border-color: lightgray;">
+        <details>
+            <summary>Пример с клиентом-браузером. Передача текста.</summary>
+            <P>
+                <PRE class=code>
 <a id="copy4" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select4" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont4">
 //== Файл Сервер.os == начало
@@ -383,11 +405,13 @@ TCPСервер1.Начать();
 //== Файл ПодключенныйСценарий.os == конец
 </DIV>
 </PRE>
-</details>
-<P></P>
-<hr style="border-color: lightgray;">
-<details><summary>Пример с клиентом-браузером. Передача двоичных данных.</summary>
-<P><PRE class=code>
+        </details>
+        <P></P>
+        <hr style="border-color: lightgray;">
+        <details>
+            <summary>Пример с клиентом-браузером. Передача двоичных данных.</summary>
+            <P>
+                <PRE class=code>
 <a id="copy5" href="jаvascript://" title="Выделяет код, копирует и снимает выделение.">Копировать</a>     <a id="select5" href="jаvascript://" title="Выделяет код.">Выделить всё</a>
 <hr style="border-color: lightgray;"><DIV id="cont5">
 //== Файл Сервер.os == начало
@@ -506,135 +530,138 @@ TCPСервер1.Начать();
 //== Файл ПодключенныйСценарий.os == конец
 </DIV>
 </PRE>
-</details>
-<P></P>
-<hr style="border-color: lightgray;">
-<IMG class=shot src="ClientMode1.jpg"></IMG>
-<IMG class=shot src="ClientMode2.jpg"></IMG>
-<H4 class=dtH4>Смотрите также</H4>
-<P><A href="OSClientServer.OneScriptClientServer.html">КлиентСерверДляОдноСкрипта&nbsp;(OneScriptClientServer)&nbsp;Класс</A> | <A 
-href="OSClientServer.html">Библиотека&nbsp;OneScriptClientServer</A></P></DIV>
-<script>
-window.onload = function () {
-    var a = document.getElementById('select1');
-    a.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta1 = document.getElementById('cont1'); 
-		var range1 = document.createRange();
-		range1.selectNode(ta1); 
-		window.getSelection().addRange(range1); 
-        return false;
-    }
-	
-    var b = document.getElementById('copy1');
-    b.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta2 = document.getElementById('cont1'); 
-		var range2 = document.createRange();
-		range2.selectNode(ta2); 
-		window.getSelection().addRange(range2);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range2);
-        return false;
-    }
+        </details>
+        <P></P>
+        <hr style="border-color: lightgray;">
+        <IMG class=shot src="ClientMode1.jpg"></IMG>
+        <IMG class=shot src="ClientMode2.jpg"></IMG>
+        <H4 class=dtH4>Смотрите также</H4>
+        <P>
+            <A href="OSClientServer.OneScriptClientServer.html">КлиентСерверДляОдноСкрипта&nbsp;(OneScriptClientServer)&nbsp;Класс</A> | <A href="OSClientServer.html">Библиотека&nbsp;OneScriptClientServer</A>
+        </P>
+    </DIV>
+    <script>
+        window.onload = function () {
+            var a = document.getElementById('select1');
+            a.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta1 = document.getElementById('cont1');
+                var range1 = document.createRange();
+                range1.selectNode(ta1);
+                window.getSelection().addRange(range1);
+                return false;
+            }
 
-    var a = document.getElementById('select2');
-    a.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta1 = document.getElementById('cont2'); 
-		var range1 = document.createRange();
-		range1.selectNode(ta1); 
-		window.getSelection().addRange(range1); 
-        return false;
-    }
-	
-    var b = document.getElementById('copy2');
-    b.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta2 = document.getElementById('cont2'); 
-		var range2 = document.createRange();
-		range2.selectNode(ta2); 
-		window.getSelection().addRange(range2);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range2);
-        return false;
-    }
+            var b = document.getElementById('copy1');
+            b.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta2 = document.getElementById('cont1');
+                var range2 = document.createRange();
+                range2.selectNode(ta2);
+                window.getSelection().addRange(range2);
+                try {
+                    document.execCommand('copy');
+                } catch (err) { }
+                window.getSelection().removeRange(range2);
+                return false;
+            }
 
-    var a = document.getElementById('select3');
-    a.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta1 = document.getElementById('cont3'); 
-		var range1 = document.createRange();
-		range1.selectNode(ta1); 
-		window.getSelection().addRange(range1); 
-        return false;
-    }
-	
-    var b = document.getElementById('copy3');
-    b.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta2 = document.getElementById('cont3'); 
-		var range2 = document.createRange();
-		range2.selectNode(ta2); 
-		window.getSelection().addRange(range2);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range2);
-        return false;
-    }
+            var a = document.getElementById('select2');
+            a.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta1 = document.getElementById('cont2');
+                var range1 = document.createRange();
+                range1.selectNode(ta1);
+                window.getSelection().addRange(range1);
+                return false;
+            }
 
-    var a = document.getElementById('select4');
-    a.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta1 = document.getElementById('cont4'); 
-		var range1 = document.createRange();
-		range1.selectNode(ta1); 
-		window.getSelection().addRange(range1); 
-        return false;
-    }
-	
-    var b = document.getElementById('copy4');
-    b.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta2 = document.getElementById('cont4'); 
-		var range2 = document.createRange();
-		range2.selectNode(ta2); 
-		window.getSelection().addRange(range2);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range2);
-        return false;
-    }
-	
-    var a = document.getElementById('select5');
-    a.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta1 = document.getElementById('cont5'); 
-		var range1 = document.createRange();
-		range1.selectNode(ta1); 
-		window.getSelection().addRange(range1); 
-        return false;
-    }
-	
-    var b = document.getElementById('copy5');
-    b.onclick = function() {
-		window.getSelection().removeAllRanges();
-		var ta2 = document.getElementById('cont5'); 
-		var range2 = document.createRange();
-		range2.selectNode(ta2); 
-		window.getSelection().addRange(range2);
-		try { 
-		  document.execCommand('copy'); 
-		} catch(err) {} 
-		window.getSelection().removeRange(range2);
-        return false;
-    }
-}
-</script>
-</BODY></HTML>
+            var b = document.getElementById('copy2');
+            b.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta2 = document.getElementById('cont2');
+                var range2 = document.createRange();
+                range2.selectNode(ta2);
+                window.getSelection().addRange(range2);
+                try {
+                    document.execCommand('copy');
+                } catch (err) { }
+                window.getSelection().removeRange(range2);
+                return false;
+            }
+
+            var a = document.getElementById('select3');
+            a.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta1 = document.getElementById('cont3');
+                var range1 = document.createRange();
+                range1.selectNode(ta1);
+                window.getSelection().addRange(range1);
+                return false;
+            }
+
+            var b = document.getElementById('copy3');
+            b.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta2 = document.getElementById('cont3');
+                var range2 = document.createRange();
+                range2.selectNode(ta2);
+                window.getSelection().addRange(range2);
+                try {
+                    document.execCommand('copy');
+                } catch (err) { }
+                window.getSelection().removeRange(range2);
+                return false;
+            }
+
+            var a = document.getElementById('select4');
+            a.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta1 = document.getElementById('cont4');
+                var range1 = document.createRange();
+                range1.selectNode(ta1);
+                window.getSelection().addRange(range1);
+                return false;
+            }
+
+            var b = document.getElementById('copy4');
+            b.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta2 = document.getElementById('cont4');
+                var range2 = document.createRange();
+                range2.selectNode(ta2);
+                window.getSelection().addRange(range2);
+                try {
+                    document.execCommand('copy');
+                } catch (err) { }
+                window.getSelection().removeRange(range2);
+                return false;
+            }
+
+            var a = document.getElementById('select5');
+            a.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta1 = document.getElementById('cont5');
+                var range1 = document.createRange();
+                range1.selectNode(ta1);
+                window.getSelection().addRange(range1);
+                return false;
+            }
+
+            var b = document.getElementById('copy5');
+            b.onclick = function () {
+                window.getSelection().removeAllRanges();
+                var ta2 = document.getElementById('cont5');
+                var range2 = document.createRange();
+                range2.selectNode(ta2);
+                window.getSelection().addRange(range2);
+                try {
+                    document.execCommand('copy');
+                } catch (err) { }
+                window.getSelection().removeRange(range2);
+                return false;
+            }
+        }
+    </script>
+</BODY>
+</HTML>
