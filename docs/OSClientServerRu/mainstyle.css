@@ -1,594 +1,563 @@
-body
-{
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
-	color: #000000;
-	font-family: Georgia, Verdana, Arial, Helvetica, sans-serif;
-	font-size: 16px;
-	width: 100%;
-	background-color: #f5f5f5;
-	word-break: break-all;
-}
-body a
-{
-	text-decoration: none;
-}
-body a:hover
-{
-	color: red;
-}
-div.square
-{
-	width: 100px;
-	height: 100px; 
-	border: 1px solid #000000;
-}
-div#scrollyes
-{
-	padding: 2px 15px 2px 22px;
-	width: 100%;
-}
-div#nsbanner
-{
-	height:40px;
-	position: relative;
-	left: 0px;
-	padding: 0px 0px 0px 0px;
-	border-bottom: 1px solid #999999;
-	background-color: #99ccff;
-}
-div#nstext
-{
-	top: 0px;
-	padding: 5px 20px 0px 22px;
-}
-div#scrbanner
-{
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
-	border-bottom: 1px solid #999999;
-}
-div#scrtext
-{
-	padding: 0px 10px 0px 22px;
-}
-div#bannerrow1
-{
-}
-div#titlerow
-{
-	padding: 0px 10px 0px 22px;
-}
-h1, h2, h3, h4
-{
-	font-family: Georgia, Verdana, Arial, Helvetica, sans-serif;
-	margin-bottom: .4em; 
-	margin-top: 1em;
-	font-weight: bold;
-}
-h1
-{
-	font-size: 120%;
-	margin-top: 0em;
-}
-div#scrollyes h1
-{
-	font-size: 150%;
-}
-h2
-{
-	font-size: 130%;
-}
-h3
-{
-	font-size: 22px;
-}
-h4
-{
-	font-size: 100%;
-}
-.dtH1, .dtH2, .dtH3, .dtH4
-{
-	margin-left: -18px;
-	font-weight: normal;
-}
-.dtH1
-{
-	font-size: 20px;
-	font-weight: bold;
-}
-.dtH2
-{
-	font-size: 16px;
-	font-style: italic;
-	color: #0041b4;
-	font-weight: bold;
-}
-.dtH3
-{
-	font-size: 22px;
-	font-style: italic;
-	color: #0041b4;
-	font-weight: bold;
-}
-.dtH4
-{
-	font-size: 16px;
-	font-style: italic;
-	color: #0041b4;
-	font-weight: bold;
-}
-div#titlerow h1
-{
-	margin:5px 0px 0px 60px;
-	white-space:nowrap;
-}
-table.bannerparthead, table.bannertitle
-{
-	position: relative;
-	left: 0px;
-	top: 0px;
-	padding: 0px 0px 0px 0px;
-	margin: 0px 0px 0px 0px;
-	width: 100%;
-	border-collapse: collapse;
-	border-style: solid;
-	border-width: 0px;
-	background-color: #99ccff;
-	font-size: 100%;
-}
-table.bannerparthead td
-{
-	margin: 0px 0px 0px 0px;
-	padding: 2px 0px 0px 4px;
-	vertical-align: middle;
-	border-width: 0px;
-	border-style: solid;
-	border-color: #999999;
-	background: transparent;
-	font-style: italic;
-	font-weight: normal;
-}
-table.bannerparthead td.product
-{
-	text-align: right;
-	padding: 2px 5px 0px 5px;
-}
-table.bannertitle td
-{
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 3px;
-	vertical-align: middle;
-	border-width: 0px 0px 1px 0px;
-	border-style: solid;
-	border-color: #999999;
-	background: transparent;
-	font-weight: bold;
-}
-td.button1
-{
-	width: 14px;
-	cursor: hand;
-}
-p
-{
-	margin: .5em 0em .5em 0em;
-}
-blockquote.dtBlock
-{
-	margin: .5em 1.5em .5em 1.5em;
-}
-div#dtHoverText
-{
-	color: #000066;
-}
-.normal
-{
-	margin: .5em 0em .5em 0em;
-}
-.fineprint
-{
-	font-size: 90%;
-}
-.indent
-{
-	margin: .5em 1.5em .5em 1.5em;
-}
-.topicstatus
-{
-	display: block;
-	color: red;
-}
-p.label
-{
-	margin-top: 1em;
-}
-p.labelproc
-{
-	margin-top: 1em;
-	color: #000066;
-}
-div.tablediv
-{
-	width: 100%;
-	margin-top: -.4em;
-}
-ol div.tablediv, ul div.tablediv, ol div.HxLinkTable, ul div.HxLinkTable
-{
-	margin-top: 0em;
-}
-table.dtTABLE
-{
-	width: 100%;
-	margin-top: .6em;
-	margin-bottom: .3em;
-	border-width: 1px 1px 0px 0px;
-	border-style: solid;
-	border-color: #999999;
-	background-color: #999999; 
-	font-size: 100%;
-}
-table.dtTABLE th, table.dtTABLE td
-{ 
-	border-style: solid;
-	border-width: 0px 0px 1px 1px;
-	border-style: solid;
-	border-color: #999999;
-	padding: 4px 6px;
-	text-align: left;
-	background-color: #f5f5f5;
-}
-table.dtTABLE th	
-{ 
-	background: #cccccc;
-	vertical-align: bottom;
-}
-table.dtTABLE td	
-{
-	vertical-align: top;
+body {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    color: #000000;
+    font-family: Georgia, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    width: 100%;
+    background-color: #f5f5f5;
+    word-break: break-all;
 }
 
+    body a {
+        text-decoration: none;
+    }
 
+        body a:hover {
+            color: red;
+        }
 
-
-
-
-table.dtTABLE a
-{
-	text-decoration: none;
-}
-
-
-
-
-
-
-
-
-
-
-div.HxLinkTable
-{
-	width: auto;
-	margin-top: -.4em;
-	visibility: visible;
-}
-ol div.HxLinkTable, ul div.HxLinkTable
-{
-	margin-top: 0em;
-}
-table.HxLinkTable
-{
-	width: auto;
-	margin-top: 1.5em;
-	margin-bottom: .3em;
-	margin-left: -1em;
-	border-width: 1px 1px 0px 0px;
-	border-style: solid;
-	border-color: #999999;
-	font-size: 100%;
-	behavior:url(hxlinktable.htc);
-}
-table.HxLinkTable th, table.HxLinkTable td
-{ 
-	border-style: solid;
-	border-width: 0px 0px 1px 1px;
-	border-style: solid;
-	border-color: #999999;
-	padding: 4px 6px;
-	text-align: left;
-}
-table.HxLinkTable th
-{ 
-	background: #cccccc;
-	vertical-align: bottom;
-}
-table.HxLinkTable td
-{
-	background: #ffffff;
-	vertical-align: top;
-}
-pre.code
-{
-	background-color: lightgray;
-	padding: 4px 6px 4px 6px;
-	border-left: 5px solid #999999;
-}
-pre, div.syntax
-{
-	margin-top: .5em;
-	margin-bottom: .5em;
-}
-pre, code, .code, div.syntax
-{
-	font: 100% Monospace, Courier New, Courier;
-	color: #000066;
-}
-pre b, code b
-{
-	letter-spacing: .1em;
-}
-pre.syntax, div.syntax
-{
-	background: #cccccc;
-	padding: 4px 8px;
-	cursor: text;
-	margin-top: 1em;
-	margin-bottom: 1em; 
-	color: #000000;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #999999;
-	font-weight: bolder;
-	letter-spacing: .1em;
-}
-.syntax span.lang
-{
-	margin: 0px;
-	font-weight: normal;
-}
-.syntax span.meta
-{
-	margin: 0px;
-	font-weight: normal;
-	font-style: italic;
-}
-.syntax a
-{
-	margin: 0px;
-	font-weight: normal;
-}
-.syntax div
-{
-	padding-left: 24px;
-	text-indent: -24px;
-}
-.syntax .attribute
-{
-	font-weight: normal;
-}
-div.footer
-{
-	font-style: italic;
-}
-div.footer hr
-{
-	color: #999999;
-	height: 1px;
-}
-ol, ul
-{
-	margin: .5em 0em 0em 4em;
-}
-li
-{
-	margin-bottom: .5em;
-}
-ul p, ol p, dl p
-{
-	margin-left: 0em;
-}
-ul p.label, ol p.label
-{
-	margin-top: .5em;
-}
-dl
-{
-	margin-top: 0em; 
-	padding-left: 1px;
-}
-dd
-{
-	margin-bottom: 0em;
-	margin-left: 1.5em;
-}
-dt
-{
-	margin-top: .5em;
-}
-a:link
-{
-	color: #0000ff;
-}
-a:visited
-{
-	color: #0000ff;
-}
-a:hover
-{
-	color: #3366ff;
-}
-img
-{
-	border: none;
-}
-img.shot
-{
-	border: 1px solid #000000 !important;
-	box-shadow: 0 0 4px 4px rgba(0,0,0,0.2);
-	margin: 20px !important;
-}
-table.dtTABLE td img
-{
-	border: none;
-	vertical-align: top;
-	margin-right: 2px;
-}
-.missing
-{
-	color: Red;
-	font-weight: bold;
-}
-div.Hierarchy
-{
-	margin: 0.5em,0.0em,0.5em,1.0em;
-}
-summary
-{
-	cursor: pointer;
-	color:#ff0000;
-}
-summary:hover
-{
-	color:#ff3200;
-}
-div#expandcollapse
-{
-	display:flex;
-	padding:10px 0px 10px 20px;
-	position: sticky;
-	top: 0;	
-	left: 0;
-	background-color: #f5f5f5;
-}
-div#expand
-{
-	display:inline-block;
-	cursor: pointer;
-}
-div#collapse
-{
-	display:inline-block;
-	cursor: pointer;
-}
-div#expand:hover
-{
-	color:#ff3200;
-}	
-div#collapse:hover
-{
-	color:#ff3200;
-}	
-div#separator
-{
-	display:inline-block;
-}
-summary.menu
-{
-	color: #000000;
-	margin: 5px 0px 5px 20px;
-}
-summary.menu a
-{
-	color: #000000;
-}
-summary:hover
-{
-	color:#ff3200;
-}	
-p.konstr
-{
-	margin: 5px 0px 5px 60px;
-}
-p.konstr a
-{
-	color: #000000;
-}
-p.enum a
-{
-	color: #000000;
-}
-p.enum
-{
-	margin: 5px 0px 5px 20px;
+div.square {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #000000;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-.treeline, .treeline ul, .treeline li
-{
-	margin: 0px;
-	padding: 0px;
-	line-height: 1.2em;
-	list-style: none;
+div#scrollyes {
+    padding: 2px 15px 2px 22px;
+    width: 100%;
 }
-.treeline ul
-{
-	margin: 0px 0px 0px 15px;
+
+div#nsbanner {
+    height: 40px;
+    position: relative;
+    left: 0px;
+    padding: 0px 0px 0px 0px;
+    border-bottom: 1px solid #999999;
+    background-color: #99ccff;
 }
-.treeline > li:not(:only-child), .treeline li li
-{
-	position: relative;
-	padding: 3px 0px 0px 20px;
+
+div#nstext {
+    top: 0px;
+    padding: 5px 20px 0px 22px;
 }
-.treeline li:not(:last-child)
-{
-	border-left: 1px solid #ccc;
+
+div#scrbanner {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    border-bottom: 1px solid #999999;
 }
-.treeline li li:before, .treeline > li:not(:only-child):before
-{
-	content: "";
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 1.1em;
-	height: .7em;
-	border-bottom:1px solid #ccc;
+
+div#scrtext {
+    padding: 0px 10px 0px 22px;
 }
-.treeline li:last-child:before
-{
-	width: calc(1.1em - 1px);
-	border-left: 1px solid #ccc;
+
+div#bannerrow1 {
 }
-.treeline .drop
-{
-	position: absolute;
-	left: -6px;
-	top: 3px;
-	width: 10px;
-	height: 10px;
-	line-height: 1em;
-	text-align: center;
-	text-transform: uppercase;
-	background: #FFFFFF;
-	color: #000000;
-	font-size: 78%;
-	font-weight: bold;
-	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	border: 1px solid #000000;
+
+div#titlerow {
+    padding: 0px 10px 0px 22px;
 }
-.treeline li:last-child > .drop
-{
-	margin-left: 1px;
+
+h1, h2, h3, h4 {
+    font-family: Georgia, Verdana, Arial, Helvetica, sans-serif;
+    margin-bottom: .4em;
+    margin-top: 1em;
+    font-weight: bold;
 }
-.treeline .drop + ul
-{
-	display: none;
+
+h1 {
+    font-size: 120%;
+    margin-top: 0em;
 }
-.treeline .dropM + ul
-{
-	display: block;
+
+div#scrollyes h1 {
+    font-size: 150%;
 }
+
+h2 {
+    font-size: 130%;
+}
+
+h3 {
+    font-size: 22px;
+}
+
+h4 {
+    font-size: 100%;
+}
+
+.dtH1, .dtH2, .dtH3, .dtH4 {
+    margin-left: -18px;
+    font-weight: normal;
+}
+
+.dtH1 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.dtH2 {
+    font-size: 16px;
+    font-style: italic;
+    color: #0041b4;
+    font-weight: bold;
+}
+
+.dtH3 {
+    font-size: 22px;
+    font-style: italic;
+    color: #0041b4;
+    font-weight: bold;
+}
+
+.dtH4 {
+    font-size: 16px;
+    font-style: italic;
+    color: #0041b4;
+    font-weight: bold;
+}
+
+div#titlerow h1 {
+    margin: 5px 0px 0px 60px;
+    white-space: nowrap;
+}
+
+table.bannerparthead, table.bannertitle {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    width: 100%;
+    border-collapse: collapse;
+    border-style: solid;
+    border-width: 0px;
+    background-color: #99ccff;
+    font-size: 100%;
+}
+
+    table.bannerparthead td {
+        margin: 0px 0px 0px 0px;
+        padding: 2px 0px 0px 4px;
+        vertical-align: middle;
+        border-width: 0px;
+        border-style: solid;
+        border-color: #999999;
+        background: transparent;
+        font-style: italic;
+        font-weight: normal;
+    }
+
+        table.bannerparthead td.product {
+            text-align: right;
+            padding: 2px 5px 0px 5px;
+        }
+
+    table.bannertitle td {
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 3px;
+        vertical-align: middle;
+        border-width: 0px 0px 1px 0px;
+        border-style: solid;
+        border-color: #999999;
+        background: transparent;
+        font-weight: bold;
+    }
+
+td.button1 {
+    width: 14px;
+    cursor: pointer;
+}
+
+p {
+    margin: .5em 0em .5em 0em;
+}
+
+blockquote.dtBlock {
+    margin: .5em 1.5em .5em 1.5em;
+}
+
+div#dtHoverText {
+    color: #000066;
+}
+
+.normal {
+    margin: .5em 0em .5em 0em;
+}
+
+.fineprint {
+    font-size: 90%;
+}
+
+.indent {
+    margin: .5em 1.5em .5em 1.5em;
+}
+
+.topicstatus {
+    display: block;
+    color: red;
+}
+
+p.label {
+    margin-top: 1em;
+}
+
+p.labelproc {
+    margin-top: 1em;
+    color: #000066;
+}
+
+div.tablediv {
+    width: 100%;
+    margin-top: -.4em;
+}
+
+ol div.tablediv, ul div.tablediv, ol div.HxLinkTable, ul div.HxLinkTable {
+    margin-top: 0em;
+}
+
+table.dtTABLE {
+    width: 100%;
+    margin-top: .6em;
+    margin-bottom: .3em;
+    border-width: 1px 1px 0px 0px;
+    border-style: solid;
+    border-color: #999999;
+    background-color: #999999;
+    font-size: 100%;
+}
+
+    table.dtTABLE th, table.dtTABLE td {
+        border-style: solid;
+        border-width: 0px 0px 1px 1px;
+        border-style: solid;
+        border-color: #999999;
+        padding: 4px 6px;
+        text-align: left;
+        background-color: #f5f5f5;
+    }
+
+    table.dtTABLE th {
+        background: #cccccc;
+        vertical-align: bottom;
+    }
+
+    table.dtTABLE td {
+        vertical-align: top;
+    }
+
+    table.dtTABLE a {
+        text-decoration: none;
+    }
+
+div.HxLinkTable {
+    width: auto;
+    margin-top: -.4em;
+    visibility: visible;
+}
+
+ol div.HxLinkTable, ul div.HxLinkTable {
+    margin-top: 0em;
+}
+
+table.HxLinkTable {
+    width: auto;
+    margin-top: 1.5em;
+    margin-bottom: .3em;
+    margin-left: -1em;
+    border-width: 1px 1px 0px 0px;
+    border-style: solid;
+    border-color: #999999;
+    font-size: 100%;
+    behavior: url(hxlinktable.htc);
+}
+
+    table.HxLinkTable th, table.HxLinkTable td {
+        border-style: solid;
+        border-width: 0px 0px 1px 1px;
+        border-style: solid;
+        border-color: #999999;
+        padding: 4px 6px;
+        text-align: left;
+    }
+
+    table.HxLinkTable th {
+        background: #cccccc;
+        vertical-align: bottom;
+    }
+
+    table.HxLinkTable td {
+        background: #ffffff;
+        vertical-align: top;
+    }
+
+pre.code {
+    background-color: lightgray;
+    padding: 4px 6px 4px 6px;
+    border-left: 5px solid #999999;
+}
+
+pre, div.syntax {
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+pre, code, .code, div.syntax {
+    font: 100% Monospace, Courier New, Courier;
+    color: #000066;
+}
+
+    pre b, code b {
+        letter-spacing: .1em;
+    }
+
+    pre.syntax, div.syntax {
+        background: #cccccc;
+        padding: 4px 8px;
+        cursor: text;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        color: #000000;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #999999;
+        font-weight: bolder;
+        letter-spacing: .1em;
+    }
+
+.syntax span.lang {
+    margin: 0px;
+    font-weight: normal;
+}
+
+.syntax span.meta {
+    margin: 0px;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.syntax a {
+    margin: 0px;
+    font-weight: normal;
+}
+
+.syntax div {
+    padding-left: 24px;
+    text-indent: -24px;
+}
+
+.syntax .attribute {
+    font-weight: normal;
+}
+
+div.footer {
+    font-style: italic;
+}
+
+    div.footer hr {
+        color: #999999;
+        height: 1px;
+    }
+
+ol, ul {
+    margin: .5em 0em 0em 4em;
+}
+
+li {
+    margin-bottom: .5em;
+}
+
+ul p, ol p, dl p {
+    margin-left: 0em;
+}
+
+    ul p.label, ol p.label {
+        margin-top: .5em;
+    }
+
+dl {
+    margin-top: 0em;
+    padding-left: 1px;
+}
+
+dd {
+    margin-bottom: 0em;
+    margin-left: 1.5em;
+}
+
+dt {
+    margin-top: .5em;
+}
+
+a:link {
+    color: #0000ff;
+}
+
+a:visited {
+    color: #0000ff;
+}
+
+a:hover {
+    color: #3366ff;
+}
+
+img {
+    border: none;
+}
+
+    img.shot {
+        border: 1px solid #000000 !important;
+        box-shadow: 0 0 4px 4px rgba(0,0,0,0.2);
+        margin: 20px !important;
+    }
+
+table.dtTABLE td img {
+    border: none;
+    vertical-align: top;
+    margin-right: 2px;
+}
+
+.missing {
+    color: Red;
+    font-weight: bold;
+}
+
+div.Hierarchy {
+    margin: 0.5em,0.0em,0.5em,1.0em;
+}
+
+summary {
+    cursor: pointer;
+    color: #ff0000;
+}
+
+    summary:hover {
+        color: #ff3200;
+    }
+
+div#expandcollapse {
+    display: flex;
+    padding: 10px 0px 10px 20px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #f5f5f5;
+}
+
+div#expand {
+    display: inline-block;
+    cursor: pointer;
+}
+
+div#collapse {
+    display: inline-block;
+    cursor: pointer;
+}
+
+div#expand:hover {
+    color: #ff3200;
+}
+
+div#collapse:hover {
+    color: #ff3200;
+}
+
+div#separator {
+    display: inline-block;
+}
+
+summary.menu {
+    color: #000000;
+    margin: 5px 0px 5px 20px;
+}
+
+    summary.menu a {
+        color: #000000;
+    }
+
+summary:hover {
+    color: #ff3200;
+}
+
+p.konstr {
+    margin: 5px 0px 5px 60px;
+}
+
+    p.konstr a {
+        color: #000000;
+    }
+
+p.enum a {
+    color: #000000;
+}
+
+p.enum {
+    margin: 5px 0px 5px 20px;
+}
+
+.treeline, .treeline ul, .treeline li {
+    margin: 0px;
+    padding: 0px;
+    line-height: 1.2em;
+    list-style: none;
+}
+
+    .treeline ul {
+        margin: 0px 0px 0px 15px;
+    }
+
+    .treeline > li:not(:only-child), .treeline li li {
+        position: relative;
+        padding: 3px 0px 0px 20px;
+    }
+
+    .treeline li:not(:last-child) {
+        border-left: 1px solid #ccc;
+    }
+
+    .treeline li li:before, .treeline > li:not(:only-child):before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 1.1em;
+        height: .7em;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .treeline li:last-child:before {
+        width: calc(1.1em - 1px);
+        border-left: 1px solid #ccc;
+    }
+
+    .treeline .drop {
+        position: absolute;
+        left: -6px;
+        top: 3px;
+        width: 10px;
+        height: 10px;
+        line-height: 1em;
+        text-align: center;
+        text-transform: uppercase;
+        background: #FFFFFF;
+        color: #000000;
+        font-size: 78%;
+        font-weight: bold;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        border: 1px solid #000000;
+    }
+
+    .treeline li:last-child > .drop {
+        margin-left: 1px;
+    }
+
+    .treeline .drop + ul {
+        display: none;
+    }
+
+    .treeline .dropM + ul {
+        display: block;
+    }

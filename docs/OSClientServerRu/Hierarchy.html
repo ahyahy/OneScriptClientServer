@@ -1,70 +1,74 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>Hierarchy</TITLE>
-<META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
-<LINK rel="stylesheet" type="text/css" href="mainstyle.css"></HEAD>
+<HTML>
+<HEAD>
+    <TITLE>Hierarchy</TITLE>
+    <META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
+    <LINK rel="stylesheet" type="text/css" href="mainstyle.css">
+</HEAD>
 <BODY id=bodyID class=dtBODY topMargin=0>
-<OBJECT id=obj_cook style="DISPLAY: none"
-classid=clsid:59CC0C20-679B-11D2-88BD-0800361A1803></OBJECT>
-<DIV id=nsbanner>
-	<DIV id=bannerrow1>
-		<TABLE class=bannerparthead cellSpacing=0>
-		<TBODY>
-		<TR id=hdr>
-		<TD class=runninghead></TD>
-		<TD class=product></TD></TR></TBODY></TABLE>
-	</DIV>
-	<DIV id=TitleRow>
-		<H1 class=dtH1>Иерархия&nbsp;пространства&nbsp;имен</H1>
-	</DIV>
-</DIV>
-<DIV id=nstext valign="bottom">
-<P></P>
-<div id="expandcollapse">
-	<div id="expand" onclick="expand()">развернуть</div>
-	<div id="separator">&nbsp;|&nbsp;</div>
-	<div id="collapse" onclick="collapse()">свернуть</div>
-</div>
-<details>
-	<summary class="menu"><A>Перечисления</A></summary>
-	<p class="konstr"><A href="OSClientServer.ClientMode.html">РежимКлиента (ClientMode)</A></p>
-	<p class="konstr"><A href="OSClientServer.CommunicationStates.html">СостояниеСоединения (CommunicationStates)</A></p>
-</details>
-<p class="enum"><A href="OSClientServer.TcpClient.html">TCPКлиент (TcpClient)</A></p>
-<p class="enum"><A href="OSClientServer.TcpEndPoint.html">TCPКонечнаяТочка (TcpEndPoint)</A></p>
-<p class="enum"><A href="OSClientServer.TcpServer.html">TCPСервер (TcpServer)</A></p>
-<details>
-	<summary class="menu"><A href="OSClientServer.EventArgs.html">АргументыСобытия (EventArgs)</A></summary>
-	<p class="konstr"><A href="OSClientServer.DoAtClientArgs.html">ВыполнитьНаКлиентеАрг (DoAtClientArgs)</A></p>
-	<p class="konstr"><A href="OSClientServer.DoAtServerArgs.html">ВыполнитьНаСервереАрг (DoAtServerArgs)</A></p>
-	<p class="konstr"><A href="OSClientServer.ServiceClientEventArgs.html">ПриложениеКлиентАрг (ServiceClientEventArgs)</A></p>
-	<p class="konstr"><A href="OSClientServer.ServerClientEventArgs.html">СерверКлиентАрг (ServerClientEventArgs)</A></p>
-	<p class="konstr"><A href="OSClientServer.MessageEventArgs.html">СообщениеАрг (MessageEventArgs)</A></p>
-</details>
-<p class="enum"><A href="OSClientServer.Action.html">Действие (Action)</A></p>
-<p class="enum"><A href="OSClientServer.ClientInfo.html">ИнформацияКлиента (ClientInfo)</A></p>
-<p class="enum"><A href="OSClientServer.OneScriptClientServer.html">КлиентСерверДляОдноСкрипта (OneScriptClientServer)</A></p>
-<p class="enum"><A href="OSClientServer.ServiceClient.html">ПриложениеКлиент (ServiceClient)</A></p>
-<p class="enum"><A href="OSClientServer.ServiceApplication.html">ПриложениеСервис (ServiceApplication)</A></p>
-<p class="enum"><A href="OSClientServer.ServiceApplicationClient.html">ПриложениеСервисКлиент (ServiceApplicationClient)</A></p>
-<p class="enum"><A href="OSClientServer.ServerClient.html">СерверКлиент (ServerClient)</A></p>
-<p class="enum"><A href="OSClientServer.ByteMessage.html">СообщениеБайты (ByteMessage)</A></p>
-<p class="enum"><A href="OSClientServer.BoolMessage.html">СообщениеБулево (BoolMessage)</A></p>
-<p class="enum"><A href="OSClientServer.DateTimeMessage.html">СообщениеДата (DateTimeMessage)</A></p>
-<p class="enum"><A href="OSClientServer.TextMessage.html">СообщениеТекст (TextMessage)</A></p>
-<p class="enum"><A href="OSClientServer.NumberMessage.html">СообщениеЧисло (NumberMessage)</A></p>
-<H4 class=dtH4>Смотрите также</H4>
-<P><A href="OSClientServer.html">Библиотека&nbsp;OneScriptClientServer</A></P>
-</DIV>
-<script type="text/javascript">
-	function expand(){
-		document.querySelectorAll('details').forEach(detail => {
-			detail.open = true;
-		});
-	}
-	function collapse(){
-		document.querySelectorAll('details').forEach(detail => {
-			detail.open = false;
-		});
-	}
-</script>
-</BODY></HTML>
+    <DIV id=nsbanner>
+        <DIV id=bannerrow1>
+            <TABLE class=bannerparthead cellSpacing=0>
+                <TBODY>
+                    <TR id=hdr>
+                        <TD class=runninghead></TD>
+                        <TD class=product></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+        </DIV>
+        <DIV id=TitleRow>
+            <H1 class=dtH1>Иерархия&nbsp;пространства&nbsp;имен</H1>
+        </DIV>
+    </DIV>
+    <DIV id=nstext valign="bottom">
+        <div id="expandcollapse">
+            <div id="expand" onclick="expand()">развернуть</div>
+            <div id="separator">&nbsp;|&nbsp;</div>
+            <div id="collapse" onclick="collapse()">свернуть</div>
+        </div>
+        <details>
+            <summary class="menu"><A>Перечисления</A></summary>
+            <p class="konstr"><A href="OSClientServer.ClientMode.html">РежимКлиента (ClientMode)</A></p>
+            <p class="konstr"><A href="OSClientServer.CommunicationStates.html">СостояниеСоединения (CommunicationStates)</A></p>
+        </details>
+        <p class="enum"><A href="OSClientServer.TcpClient.html">TCPКлиент (TcpClient)</A></p>
+        <p class="enum"><A href="OSClientServer.TcpEndPoint.html">TCPКонечнаяТочка (TcpEndPoint)</A></p>
+        <p class="enum"><A href="OSClientServer.TcpServer.html">TCPСервер (TcpServer)</A></p>
+        <details>
+            <summary class="menu"><A href="OSClientServer.EventArgs.html">АргументыСобытия (EventArgs)</A></summary>
+            <p class="konstr"><A href="OSClientServer.DoAtClientArgs.html">ВыполнитьНаКлиентеАрг (DoAtClientArgs)</A></p>
+            <p class="konstr"><A href="OSClientServer.DoAtServerArgs.html">ВыполнитьНаСервереАрг (DoAtServerArgs)</A></p>
+            <p class="konstr"><A href="OSClientServer.ServiceClientEventArgs.html">ПриложениеКлиентАрг (ServiceClientEventArgs)</A></p>
+            <p class="konstr"><A href="OSClientServer.ServerClientEventArgs.html">СерверКлиентАрг (ServerClientEventArgs)</A></p>
+            <p class="konstr"><A href="OSClientServer.MessageEventArgs.html">СообщениеАрг (MessageEventArgs)</A></p>
+        </details>
+        <p class="enum"><A href="OSClientServer.Action.html">Действие (Action)</A></p>
+        <p class="enum"><A href="OSClientServer.ClientInfo.html">ИнформацияКлиента (ClientInfo)</A></p>
+        <p class="enum"><A href="OSClientServer.OneScriptClientServer.html">КлиентСерверДляОдноСкрипта (OneScriptClientServer)</A></p>
+        <p class="enum"><A href="OSClientServer.ServiceClient.html">ПриложениеКлиент (ServiceClient)</A></p>
+        <p class="enum"><A href="OSClientServer.ServiceApplication.html">ПриложениеСервис (ServiceApplication)</A></p>
+        <p class="enum"><A href="OSClientServer.ServiceApplicationClient.html">ПриложениеСервисКлиент (ServiceApplicationClient)</A></p>
+        <p class="enum"><A href="OSClientServer.ServerClient.html">СерверКлиент (ServerClient)</A></p>
+        <p class="enum"><A href="OSClientServer.ByteMessage.html">СообщениеБайты (ByteMessage)</A></p>
+        <p class="enum"><A href="OSClientServer.BoolMessage.html">СообщениеБулево (BoolMessage)</A></p>
+        <p class="enum"><A href="OSClientServer.DateTimeMessage.html">СообщениеДата (DateTimeMessage)</A></p>
+        <p class="enum"><A href="OSClientServer.TextMessage.html">СообщениеТекст (TextMessage)</A></p>
+        <p class="enum"><A href="OSClientServer.NumberMessage.html">СообщениеЧисло (NumberMessage)</A></p>
+        <H4 class=dtH4>Смотрите также</H4>
+        <P><A href="OSClientServer.html">Библиотека&nbsp;OneScriptClientServer</A></P>
+    </DIV>
+    <script type="text/javascript">
+        function expand() {
+            document.querySelectorAll('details').forEach(detail => {
+                detail.open = true;
+            });
+        }
+        function collapse() {
+            document.querySelectorAll('details').forEach(detail => {
+                detail.open = false;
+            });
+        }
+    </script>
+</BODY>
+</HTML>

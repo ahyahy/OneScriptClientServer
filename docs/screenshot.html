@@ -1,73 +1,72 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
-	<HEAD>
-		<TITLE>Скриншоты</TITLE>
-		<META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
-		<LINK rel="stylesheet" type="text/css" href="styleoscs.css">
-	</HEAD>
-<BODY>
-<header>
-	<section>
-		<div>
-			<div id="logo"><big><big><big>Клиент-сервер<br><small><small>для сценарного языка</small></small> OneScript </big></big></big></div>
-		</div>
-		<div style="direction: rtl; overflow:hidden; padding: 8px 0px 0px 0px; margin-top:-7px;">
-			<input type="checkbox" id="toggle"></input>
-			<label id="menu3" for="toggle" class="hamburger-icon">Меню<div></div><div></div><div></div></label>
-			<nav id="buttons">
-				<a href="index.html">Главная</a>
-				<a href="screenshot.html">Скриншоты</a>
-				<a href="howworks.html">Как это работает</a>
-				<a href="doc.html">Документация</a>
-				<a href="down.html">Скачать</a>
-				<a href="kont.html">Контакты</a>
-			</nav>
-		</div>
-	</section>
-</header>
-<P></P>
+<HEAD>
+    <TITLE>Скриншоты</TITLE>
+    <META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
+    <LINK rel="stylesheet" type="text/css" href="styleoscs.css">
+</HEAD>
 <body>
-<section>
-	<p>Для примера снимки экрана.</p>
-	<figure>
-		<img id="myImg01" src="Pic1.jpg" alt="Сервер">
-		<div id="myModal01" class="modal">
-			<span id="close01" class="close">×</span>
-			<img id="img01" class="modal-content">
-			<div id="caption">Сервер</div>
-		</div>
-		<img id="myImg02" src="Pic2.jpg" alt="Клиент">
-		<div id="myModal02" class="modal">
-			<span id="close02" class="close">×</span>
-			<img id="img02" class="modal-content">
-			<div id="caption">Клиент</div>
-		</div>
-	</figure>
-	<p></p>
-</section>
-<script>
-var img01 = document.getElementById('myImg01');
-var modal01 = document.getElementById('myModal01');
-var modalImg01 = document.getElementById("img01");
-img01.onclick = function(){
-    modal01.style.display = "block";
-    modalImg01.src = img01.src;
-}
-var span01 = document.getElementById("close01");
-span01.onclick = function(){ 
-    modal01.style.display = "none";
-}
+    <header>
+        <section>
+            <div>
+                <div id="logo"><big><big><big>Клиент-сервер<br><small><small>для сценарного языка</small></small> OneScript </big></big></big></div>
+            </div>
+            <div style="direction: rtl; overflow:hidden; padding: 8px 0px 0px 0px; margin-top:-7px;">
+                <input type="checkbox" id="toggle"></input>
+                <label id="menu3" for="toggle" class="hamburger-icon">Меню<div></div><div></div><div></div></label>
+                <nav id="buttons">
+                    <a href="index.html">Главная</a>
+                    <a href="screenshot.html">Скриншоты</a>
+                    <a href="howworks.html">Как это работает</a>
+                    <a href="doc.html">Документация</a>
+                    <a href="down.html">Скачать</a>
+                    <a href="kont.html">Контакты</a>
+                </nav>
+            </div>
+        </section>
+    </header>
+    <section>
+        <p>Для примера снимки экрана.</p>
+        <figure>
+            <img id="myImg01" src="Pic1.jpg" alt="Сервер">
+            <div id="myModal01" class="modal">
+                <span id="close01" class="close">×</span>
+                <img id="img01" class="modal-content">
+                <div id="caption">Сервер</div>
+            </div>
+            <img id="myImg02" src="Pic2.jpg" alt="Клиент">
+            <div id="myModal02" class="modal">
+                <span id="close02" class="close">×</span>
+                <img id="img02" class="modal-content">
+                <div id="caption">Клиент</div>
+            </div>
+        </figure>
+        <p></p>
+    </section>
+    <script>
+        var img01 = document.getElementById('myImg01');
+        var modal01 = document.getElementById('myModal01');
+        var modalImg01 = document.getElementById("img01");
+        img01.onclick = function () {
+            modal01.style.display = "block";
+            modalImg01.src = img01.src;
+        }
+        var span01 = document.getElementById("close01");
+        span01.onclick = function () {
+            modal01.style.display = "none";
+        }
 
-var img02 = document.getElementById('myImg02');
-var modal02 = document.getElementById('myModal02');
-var modalImg02 = document.getElementById("img02");
-img02.onclick = function(){
-    modal02.style.display = "block";
-    modalImg02.src = img02.src;
-}
-var span02 = document.getElementById("close02");
-span02.onclick = function(){ 
-    modal02.style.display = "none";
-}
-</script>
-</body></html>
+        var img02 = document.getElementById('myImg02');
+        var modal02 = document.getElementById('myModal02');
+        var modalImg02 = document.getElementById("img02");
+        img02.onclick = function () {
+            modal02.style.display = "block";
+            modalImg02.src = img02.src;
+        }
+        var span02 = document.getElementById("close02");
+        span02.onclick = function () {
+            modal02.style.display = "none";
+        }
+    </script>
+</body>
+</HTML>
