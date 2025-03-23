@@ -3,10 +3,14 @@ body {
     padding: 0px 0px 0px 0px;
     color: #000000;
     font-family: Georgia, Verdana, Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 16px !important;
     width: 100%;
     background-color: #f5f5f5;
     word-break: break-all;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 iframe {
@@ -113,9 +117,9 @@ p.enum {
 }
 
     .hamburger-icon1 div {
-        width: 25px;
-        height: 3px;
-        margin: 3px 0px;
+        width: 40px;
+        height: 5px;
+        margin: 4px 0px;
         background-color: black;
     }
 
@@ -176,10 +180,6 @@ div.divleft {
         text-decoration: none;
     }
 
-input#toggle {
-    display: none;
-}
-
 div.divmodal {
     display: none;
     position: fixed;
@@ -192,6 +192,21 @@ div.divmodal {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+a#mobil {
+    background-image: url('icons8max.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 40px;
+    background-color: #ebebeb;
+    color: #ebebeb;
+}
+
+    a#mobil:hover {
+        cursor: pointer;
+        background-color: #c8c8c8;
+        color: #c8c8c8;
+    }
+
 input#toggle1:checked ~ div.divmodal {
     display: block;
 }
@@ -203,16 +218,11 @@ input#toggle1:checked ~ div.divleft {
     background-color: #ebebeb;
     padding: 0px;
     margin-right: 15px;
-    z-index: 1100;
+    z-index: 1000;
     border: 1px solid #000000;
     height: 82%;
     width: 60%;
     overflow-y: scroll;
-    font-size: 250%;
-}
-
-input#toggle1:checked ~ body {
-    font-size: 250%;
 }
 
 div#nsbanner {
@@ -237,8 +247,17 @@ div#TitleRow {
 
 #div2 {
     display: inline-block;
-    margin: -7px 0px 10px 20px;
-    padding: 0px 0px 2px 3px;
+    margin: -7px 0px 10px 5px;
+    padding: 10px 0px 10px 3px;
+    background-color: #c8c8c8;
+    border-radius: 4px;
+    border: 1px solid #000000;
+}
+
+#div22 {
+    display: none;
+    margin: -3px 10px 10px 20px;
+    padding: 0px 0px 2px 10px;
     background-color: #c8c8c8;
     border-radius: 4px;
     border: 1px solid #000000;
@@ -254,8 +273,8 @@ div#menu1 {
     margin: 0px 0px 0px 0px;
 }
 
-label#menu3 {
-    margin: -10px 25px 0px 0px;
+label#label1 {
+    margin: -8px 10px -10px -5px;
 }
 
 section.menuFrame {
@@ -294,7 +313,7 @@ nav {
         color: #002e5b;
         font-size: 16px;
         display: inline-block;
-        margin: 5px;
+        margin: 0px 5px 5px 5px;
         line-height: 40px;
         border-radius: 10px;
         border: 1px solid rgba(200,200,200);
@@ -310,8 +329,8 @@ nav {
     display: inline-block;
 }
 
-nav#buttons {
-    margin-top: -9px;
+nav {
+    margin-top: -3px;
 }
 
 header {
@@ -349,74 +368,27 @@ nav a:hover {
     border-radius: 10px;
 }
 
-input[type=checkbox], label {
+input[type=checkbox]#toggle {
     display: none;
 }
-/* @media only screen and (max-width: 920px) { */
 
-/* /* ============== */ */
-/* body */
-/* { */
-/* font-size: 250%; */
-/* } */
-/* div.divleft	{ */
-/* display:none; */
-/* } */
-/* div#nsbanner{ */
-/* display:inline-block; */
-/* } */
-/* div.frameright { */
-/* display:inline-block; */
-/* margin-left: 0px; */
-/* margin-right: 2px; */
-/* width: 100%; */
-/* border: 1px solid black; */
-/* border-right: 2px solid black; */
-/* padding: 0px 4px 0px 0px; */
-/* } */
-/* div.cont1 { */
-/* display:block; */
-/* height: 86%; */
-/* width: 97%; */
-/* max-width:1100px; */
-/* margin:0px auto; */
-/* }	 */
-/* .hamburger-icon { */
-/* margin-right:15px; */
-/* } */
-/* .hamburger-icon div { */
-/* width:25px; */
-/* height:3px; */
-/* margin:3px 0px; */
-/* background-color:black; */
-/* } */
-/* label { */
-/* float:right; */
-/* padding:8px 0px; */
-/* display:inline-block; */
-/* cursor:pointer; */
-/* } */
-/* input[type=checkbox]:checked ~ nav { */
-/* display:inline-block; */
-/* } */
-/* nav { */
-/* display:none; */
-/* position:absolute; */
-/* right:0px; */
-/* top:55px; */
-/* padding:0px; */
-/* margin-right:15px; */
-/* z-index: 1000; */
-/* } */
-/* nav a { */
-/* float:none; */
-/* font-size:15px; */
-/* padding:0px 5px 0px 5px; */
-/* display:block;  */
-/* border: 2px solid rgba(200,200,200); */
-/* background-color:#ebebeb; */
-/* } */
-/* } */
+input[type=checkbox]#toggle1 {
+    display: none;
+}
+
+input[type=checkbox]#toggle2 {
+    display: none;
+}
+
+    input[type=checkbox]#toggle2:checked + div.divleft {
+        display: none;
+    }
+
+
+label#label1 {
+    display: none;
+}
+
 figcaption {
     font-family: 'Open Sans', sans-serif;
     color: #999999;

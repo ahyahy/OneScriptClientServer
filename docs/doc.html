@@ -4,6 +4,7 @@
     <TITLE>Документация</TITLE>
     <META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
     <LINK rel="stylesheet" type="text/css" href="styleoscs.css">
+	<script defer src="mobil.js"></script>
 </HEAD>
 <body>
     <header>
@@ -12,67 +13,29 @@
                 <div id="logo"><big><big><big>Клиент-сервер<br><small><small>для сценарного языка</small></small> OneScript </big></big></big></div>
             </div>
             <div style="direction: rtl; overflow:hidden; padding: 8px 0px 0px 0px; margin-top:-7px;">
-                <input type="checkbox" id="toggle"></input>
-                <label id="menu3" for="toggle" class="hamburger-icon">Меню<div></div><div></div><div></div></label>
-                <nav id="buttons">
-                    <a href="index.html">Главная</a>
-                    <a href="screenshot.html">Скриншоты</a>
-                    <a href="howworks.html">Как это работает</a>
-                    <a href="doc.html">Документация</a>
-                    <a href="down.html">Скачать</a>
-                    <a href="kont.html">Контакты</a>
+                <DIV id=div22>
+                    <input type="checkbox" id="toggle">
+                    <label id="label1" class="hamburger-icon" onclick="label1click()"><div></div><div></div><div></div></label>
+                </DIV>
+                <nav>
+                    <a onclick="navclick(event)" href="index.html">Главная</a>
+                    <a onclick="navclick(event)" href="screenshot.html">Скриншоты</a>
+                    <a onclick="navclick(event)" href="howworks.html">Как это работает</a>
+                    <a onclick="navclick(event)" href="doc.html">Документация</a>
+                    <a onclick="navclick(event)" href="down.html">Скачать</a>
+                    <a onclick="navclick(event)" href="kont.html">Контакты</a>
+                    <input type="checkbox" id="toggle2">
+                    <a id="mobil" onclick="mobilClick()">`</a>
                 </nav>
             </div>
         </section>
     </header>
     <div class="cont1">
-        <script>
-            function disableScroll() {
-                let el = document.getElementById('toggle1');
-                el.checked = !el.checked;
-                if (!el.checked) {
-                    let el = document.getElementById('divleftid');
-                    let el2 = document.getElementById('div2');
-                    el.style.top = '' + el2.getClientRects()[0].bottom + 'px';
-                    document.body.style.overflow = 'hidden';
-                }
-                else {
-                    document.body.style.overflow = 'visible';
-                }
-            }
-            function divleftClick(e) {
-                let el = document.getElementById('toggle1');
-                if (e.target.nodeName == 'A') {
-                    let el3 = document.getElementById('titlepage');
-                    el3.innerText = e.target.innerText;
-                    el.checked = false;
-                }
-            }
-            function divleftClick(e) {
-                let el = document.getElementById('toggle1');
-                if (e.target.nodeName == 'A') {
-                    let el3 = document.getElementById('titlepage');
-                    el3.innerText = e.target.innerText;
-                    el.checked = false;
-                }
-            }
-            function expand() {
-                document.querySelectorAll('details').forEach(detail => {
-                    detail.open = true;
-                });
-            }
-            function collapse() {
-                document.querySelectorAll('details').forEach(detail => {
-                    detail.open = false;
-                });
-            }
-        </script>
         <!-- Секция переключателя -->
-        <input type="checkbox" id="toggle1"></input>
+        <input type="checkbox" id="toggle1">
         <!-- Блок для затемнения справки -->
         <div class="divmodal"></div>
         <!-- Сама справка -->
-
         <div class="divleft" id="divleftid" onclick="divleftClick(event)">
             <div id="expandcollapse">
                 <div id="expand" onclick="expand()">развернуть</div>
@@ -361,14 +324,13 @@
             </details>
         </div>
         <!-- Конец секции переключателя -->
-
         <DIV id=nsbanner>
             <DIV id=TitleRow>
                 <!-- Секция меню -->
                 <section class="menuFrame">
                     <DIV id=div2 onclick="disableScroll()">
-                        <div id="menu1">Меню</div>
-                        <label class="hamburger-icon1"><div></div><div></div><div></div></label>
+                        <div id="menu1"></div>
+                        <label id="label2" for="toggle1" class="hamburger-icon1" onclick="label2click()"><div></div><div></div><div></div></label>
                     </DIV>
                     <DIV id=div3>
                         <H1 class=dtH1 id="titlepage">OneScriptClientServer (классы, перечисления)</H1>
@@ -377,9 +339,8 @@
                 <!-- Конец секции меню -->
             </DIV>
         </DIV>
-
         <div class="frameright">
-            <iframe name="right" src="OSClientServerRu/OSClientServer.html"></iframe>
+            <iframe name="right" id="iframeid" src="OSClientServerRu/OSClientServer.html"></iframe>
         </div>
     </div>
 </body>

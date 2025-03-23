@@ -3,10 +3,14 @@ body {
     padding: 0px 0px 0px 0px;
     color: #000000;
     font-family: Georgia, Verdana, Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 16px !important;
     width: 100%;
     background-color: #f5f5f5;
     word-break: break-all;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
     body a {
@@ -67,24 +71,25 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-    font-size: 120%;
     margin-top: 0em;
-}
-
-div#scrollyes h1 {
-    font-size: 150%;
-}
-
-h2 {
+    /* font-size: 120%; */
     font-size: 130%;
 }
 
+div#scrollyes h1 {
+    /* font-size: 150%; */
+}
+
+h2 {
+    /* font-size: 130%; */
+}
+
 h3 {
-    font-size: 22px;
+    /* font-size: 120%; */
 }
 
 h4 {
-    font-size: 100%;
+    /* font-size: 100%; */
 }
 
 .dtH1, .dtH2, .dtH3, .dtH4 {
@@ -93,26 +98,22 @@ h4 {
 }
 
 .dtH1 {
-    font-size: 20px;
     font-weight: bold;
 }
 
 .dtH2 {
-    font-size: 16px;
     font-style: italic;
     color: #0041b4;
     font-weight: bold;
 }
 
 .dtH3 {
-    font-size: 22px;
     font-style: italic;
     color: #0041b4;
     font-weight: bold;
 }
 
 .dtH4 {
-    font-size: 16px;
     font-style: italic;
     color: #0041b4;
     font-weight: bold;
@@ -134,7 +135,6 @@ table.bannerparthead, table.bannertitle {
     border-style: solid;
     border-width: 0px;
     background-color: #99ccff;
-    font-size: 100%;
 }
 
     table.bannerparthead td {
@@ -187,7 +187,7 @@ div#dtHoverText {
 }
 
 .fineprint {
-    font-size: 90%;
+    /* font-size: 90%; */
 }
 
 .indent {
@@ -269,7 +269,6 @@ table.HxLinkTable {
     border-width: 1px 1px 0px 0px;
     border-style: solid;
     border-color: #999999;
-    font-size: 100%;
     behavior: url(hxlinktable.htc);
 }
 
@@ -542,7 +541,6 @@ p.enum {
         text-transform: uppercase;
         background: #FFFFFF;
         color: #000000;
-        font-size: 78%;
         font-weight: bold;
         cursor: pointer;
         -webkit-user-select: none;
