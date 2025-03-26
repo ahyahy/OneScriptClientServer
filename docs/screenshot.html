@@ -3,7 +3,7 @@
 <HEAD>
     <TITLE>Скриншоты</TITLE>
     <META content="text/html; charset=Windows-1252" http-equiv="Content-Type">
-    <LINK rel="stylesheet" type="text/css" href="styleoscs.css">
+    <LINK rel="stylesheet" type="text/css" href="styleos.css">
 	<script defer src="mobil.js"></script>
 </HEAD>
 <body>
@@ -33,45 +33,33 @@
     <section>
         <p>Для примера снимки экрана.</p>
         <figure>
-            <img id="myImg01" src="Pic1.jpg" alt="Сервер">
-            <div id="myModal01" class="modal">
-                <span id="close01" class="close">×</span>
-                <img id="img01" class="modal-content">
-                <div id="caption">Сервер</div>
-            </div>
-            <img id="myImg02" src="Pic2.jpg" alt="Клиент">
-            <div id="myModal02" class="modal">
-                <span id="close02" class="close">×</span>
-                <img id="img02" class="modal-content">
-                <div id="caption">Клиент</div>
-            </div>
+			<div style="display: flex; flex-wrap: wrap;">
+				<div style="flex-direction: row;">
+					<div style="flex-direction: column;">
+						<img id="myImg01" src="Pic1.jpg" alt="Сервер" onclick="clickimg(event)">
+						<div id="myModal01" class="modal">
+							<span id="close01" class="close">×</span>
+							<img id="img01" class="modal-content">
+							<div id="caption">Сервер</div>
+						</div>
+					</div>
+					<div style="flex-direction: column;">Сервер</div>
+				</div>
+				<p></p>
+				<div style="flex-direction: row;">
+					<div style="flex-direction: column;">
+						<img id="myImg02" src="Pic2.jpg" alt="Клиент" onclick="clickimg(event)">
+						<div id="myModal02" class="modal">
+							<span id="close02" class="close">×</span>
+							<img id="img02" class="modal-content">
+							<div id="caption">Клиент</div>
+						</div>
+					</div>
+					<div style="flex-direction: column;">Клиент</div>
+				</div>
+			</div>
         </figure>
         <p></p>
     </section>
-    <script>
-        var img01 = document.getElementById('myImg01');
-        var modal01 = document.getElementById('myModal01');
-        var modalImg01 = document.getElementById("img01");
-        img01.onclick = function () {
-            modal01.style.display = "block";
-            modalImg01.src = img01.src;
-        }
-        var span01 = document.getElementById("close01");
-        span01.onclick = function () {
-            modal01.style.display = "none";
-        }
-
-        var img02 = document.getElementById('myImg02');
-        var modal02 = document.getElementById('myModal02');
-        var modalImg02 = document.getElementById("img02");
-        img02.onclick = function () {
-            modal02.style.display = "block";
-            modalImg02.src = img02.src;
-        }
-        var span02 = document.getElementById("close02");
-        span02.onclick = function () {
-            modal02.style.display = "none";
-        }
-    </script>
 </body>
 </HTML>

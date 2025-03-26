@@ -381,3 +381,18 @@ if (localStorage["keybt0hutbo"] == 'true') {
 	el77.checked = !el77.checked;
 	mobilClick();
 }
+
+function clickimg(e) {
+	var img01 = e.target;
+	let tail = img01.id.replace("myImg", "");
+	var modal01 = document.getElementById('myModal' + tail);
+	var modalImg01 = document.getElementById('img' + tail);
+
+	modal01.style.display = "block";
+	modalImg01.src = img01.src;
+
+	var span01 = document.getElementById('close' + tail);
+	span01.onclick = function () {
+		modal01.style.display = "none";
+	}
+}
